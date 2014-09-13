@@ -1,0 +1,21 @@
+
+<div id="container">
+	<div id="main1">
+		<ul id="tiles">
+			<li on-finish-render="ngrepeatfinish" ng-repeat="number in ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21']">
+				<a href="images/t-flat{{number}}.jpg" rel="lightbox"
+					class="cboxElement"> <img ng-src="images/flat{{number}}.jpg">
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<link rel="stylesheet" href="css/colorbox.css">
+<script src="js/jquery.imagesloaded.js"></script>
+<!-- include colorbox -->
+<script src="js/jquery.colorbox-min.js"></script>
+<!-- Include the plug-in -->
+<script src="js/jquery.wookmark.js"></script>
+
+
