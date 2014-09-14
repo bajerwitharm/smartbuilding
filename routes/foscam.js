@@ -479,10 +479,19 @@ app.talk2 = function( props ) {
 // ready
 module.exports = app
 module.exports.recordCamera = function(req, res) {
-	exec(
-			"ffmpeg -i 'http://192.168.1.51:81/videostream.asf?user=admin&pwd='  -acodec copy -vcodec copy  -r 5 -t 42 /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi",
-			function puts(error, stdout, stderr){
-			});
+	exec("ffmpeg", [
+        	'-i', "http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass,	
+  		'-acodec', "libvorbis",
+		'-vcodec', "libx264",
+		'-preset', "slow", 
+		'-r', "5",
+		'-t', "42",
+		'-f', "avi",
+		"/home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi"
+		],
+		function puts(error, stdout, stderr){
+		}
+	);
 	res.send('done');
 }
 
@@ -492,7 +501,7 @@ module.exports.getLiveCamera = function(req, res) {
 	if (numberOfClients==0)
 	{
 		ffmpeg = spawn("ffmpeg", [
-           '-i', "http://192.168.1.51:81/videostream.asf?user=admin&pwd=",
+           '-i', "http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass,
            '-f','webm',
            '-vcodec','libvpx',
            '-acodec','libvorbis',
@@ -506,7 +515,14 @@ module.exports.getLiveCamera = function(req, res) {
         'Transfer-Encoding': 'chunked'
        , 'Content-Type': 'video/webm'
 	});
-	req.on('end', function (code) {
+	req.on('close', function (code) {
+		numberOfClients--;
+		if (numberOfClients==0)
+		{
+			ffmpeg.kill();
+		}
+	});
+	req.setTimeout(20000, function (code) {
 		numberOfClients--;
 		if (numberOfClients==0)
 		{
