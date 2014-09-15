@@ -479,19 +479,10 @@ app.talk2 = function( props ) {
 // ready
 module.exports = app
 module.exports.recordCamera = function(req, res) {
-	exec("ffmpeg", [
-        	'-i', "http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass,	
-  		'-acodec', "libvorbis",
-		'-vcodec', "libx264",
-		'-preset', "slow", 
-		'-r', "5",
-		'-t', "42",
-		'-f', "avi",
-		"/home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi"
-		],
-		function puts(error, stdout, stderr){
-		}
-	);
+	exec(
+			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi",
+			function puts(error, stdout, stderr){
+			});
 	res.send('done');
 }
 
