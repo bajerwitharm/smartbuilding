@@ -38,6 +38,47 @@ module.exports.insertNewLogEntry = function (row,callback) {
     });
 };
 
+module.exports.insertNewUser = function (row,callback) {
+	var messageparts = row.msg.split(" ");
+	var name = messageparts[4];
+	var mac = messageparts[3];
+	var ip = messageparts[2];
+	var bridge = messageparts[1].slice(-8,-1);
+	
+	var query = format(readQuery("InsertNewUser"), 
+			row.timestamp, 
+			name, 
+			mac,
+			ip,
+			bridge
+			);
+	console.log(query);
+	sqliteDbContext.serialize(function() {
+		return sqliteDbContext.run(query,callback);
+    });
+};
+
+module.exports.insertNewConnection = function (row,callback) {
+//	var regex = new RegExp(".{6}.{2,9}\:.{2}.{1,20}\/.{36}[^\s]*.*\s*\)");
+//	var array = regex.exec(row.msg);
+	var message = row.msg;
+    var result = message.substring(6,message.indexOf(":"));
+    var account = message.substring(message.indexOf("[")+1,message.indexOf("/"));
+    var ap = message.substring(message.indexOf("client")+7,message.indexOf(" port"));
+    var mac = message.substring(message.indexOf("cli ")+4,message.indexOf(")"));
+	var query = format(readQuery("InsertNewConnection"), 
+			row.timestamp, 
+			result, 
+			account,
+			ap,
+			mac
+			);
+	console.log(query);
+	sqliteDbContext.serialize(function() {
+		return sqliteDbContext.run(query,callback);
+    });
+};
+
 module.exports.insertNewQuery = function (row,callback) {
 	var messageparts = row.msg.split(" ");
 	var query = format(readQuery("InsertNewQuery"), 

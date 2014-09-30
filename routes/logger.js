@@ -1,9 +1,16 @@
 var database;
 
 var parseLogEntry = function(logentry) {
-	if (logentry.program == "dnsmasq")
-	{
+	switch(logentry.program) {
+	case "dnsmasq":
 		database.insertNewQuery(logentry);
+		break;
+	case "dnsmasq-dhcp":
+		database.insertNewUser(logentry);
+		break;
+	case "radiusd":
+		database.insertNewConnection(logentry);
+		break;		
 	}
 }
     
@@ -16,14 +23,18 @@ module.exports.initLogger = function(db) {
         	//datagram=datagram+slice;
         //});
         stream.addListener("data", function (slice) {
-        	var logentries = JSON.parse("["+slice.slice(0,-1)+"]")
-            for (var logentry in logentries) {
-              logentry = logentries[logentry];
-              if (logentry.length == 0) {
-                continue;
-              }
-             database.insertNewLogEntry(logentry,parseLogEntry(logentry));
-            }
+        	datagram = datagram + slice;
+        	if (slice.length<3472){
+        		var logentries = JSON.parse("["+slice.slice(0,-1)+"]")
+                for (var logentry in logentries) {
+                  logentry = logentries[logentry];
+                  if (logentry.length == 0) {
+                    continue;
+                  }
+                 database.insertNewLogEntry(logentry,parseLogEntry(logentry));	        		
+                };
+                datagram = "";
+        	}        	
         });
       }); 
     server.listen(514, '0.0.0.0');
