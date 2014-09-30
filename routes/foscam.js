@@ -480,7 +480,7 @@ app.talk2 = function( props ) {
 module.exports = app
 module.exports.recordCamera = function(req, res) {
 	exec(
-			"ffmpeg -i 'http://192.168.1.51:81/videostream.asf?user=admin&pwd='  -acodec copy -vcodec copy  -r 5 -t 42 /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi",
+			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi",
 			function puts(error, stdout, stderr){
 			});
 	res.send('done');
@@ -492,7 +492,7 @@ module.exports.getLiveCamera = function(req, res) {
 	if (numberOfClients==0)
 	{
 		ffmpeg = spawn("ffmpeg", [
-           '-i', "http://192.168.1.51:81/videostream.asf?user=admin&pwd=",
+           '-i', "http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass,
            '-f','webm',
            '-vcodec','libvpx',
            '-acodec','libvorbis',
