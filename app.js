@@ -10,6 +10,8 @@ var express = require('express')
   , path = require('path');
 
 var ipcamera = require('./routes/foscam.js');
+var database = require('./data/database.js');
+var logParser = require('./routes/logger.js');
 
 var app = express();
 
@@ -38,3 +40,6 @@ app.get('/getLiveCamera', ipcamera.getLiveCamera);
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+database.createDatabase();
+logParser.initLogger(database);

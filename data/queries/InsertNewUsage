@@ -1,0 +1,1 @@
+INSERT INTO usage VALUES SELECT datetime('now'),"{1}",{2}+COALESCE(t2.data_in,0),{3}+COALESCE(t2.data_out,0) FROM usage t2 WHERE t2.mac="{1}";

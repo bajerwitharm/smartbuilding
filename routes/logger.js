@@ -1,26 +1,31 @@
-module.exports.initLogger = function() {
-	var server = net.createServer(function (stream) {
+var database;
+
+var parseLogEntry = function(logentry) {
+	if (logentry.program == "dnsmasq")
+	{
+		database.insertNewQuery(logentry);
+	}
+}
+    
+module.exports.initLogger = function(db) {
+	database=db;
+	var datagram;
+	var server = require('net').createServer(function (stream) {
         stream.setEncoding('utf8');
-        stream.addListener("data", function (datagram) {
-            var datas = datagram.split("\n");
-            for (var data in datas) {
-              data = datas[data];
-              if (data.length == 0) {
+ //       stream.addListener("data", function (slice) {
+        	//datagram=datagram+slice;
+        //});
+        stream.addListener("data", function (slice) {
+        	var logentries = JSON.parse("["+slice.slice(0,-1)+"]")
+            for (var logentry in logentries) {
+              logentry = logentries[logentry];
+              if (logentry.length == 0) {
                 continue;
               }
-              write_message(data);
-              sockets = sio.sockets.sockets;
-              for (var id in sockets) {
-                var socket = sockets[id];
-                socket.get('regex', function (err, regex) {
-                    if (!regex || data.search(regex) != -1) {
-                      socket.emit('logs', [data]);
-                    }
-                  });
-                    }
+             database.insertNewLogEntry(logentry,parseLogEntry(logentry));
             }
-          });
+        });
       }); 
     server.listen(514, '0.0.0.0');
 }
-    
+

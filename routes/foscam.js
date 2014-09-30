@@ -506,7 +506,14 @@ module.exports.getLiveCamera = function(req, res) {
         'Transfer-Encoding': 'chunked'
        , 'Content-Type': 'video/webm'
 	});
-	req.on('end', function (code) {
+	req.on('close', function (code) {
+		numberOfClients--;
+		if (numberOfClients==0)
+		{
+			ffmpeg.kill();
+		}
+	});
+	req.setTimeout(20000, function (code) {
 		numberOfClients--;
 		if (numberOfClients==0)
 		{

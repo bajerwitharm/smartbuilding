@@ -1,0 +1,1 @@
+INSERT INTO users (timestamp, mac, name, ip, bridge) VALUES('{1}','{2}','{3}','{4}','{5}') WHERE NOT EXISTS(SELECT 1 FROM users WHERE mac='{2}' AND name='{3}' AND ip='{4}' AND bridge='{5}'); 

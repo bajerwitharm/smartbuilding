@@ -1,0 +1,1 @@
+INSERT INTO queries(timestamp,url,ip) VALUES ('{1}','{2}','{3}');
