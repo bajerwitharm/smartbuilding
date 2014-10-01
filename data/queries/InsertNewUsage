@@ -1,1 +1,2 @@
-INSERT INTO usage VALUES SELECT datetime('now'),"{1}",{2}+COALESCE(t2.data_in,0),{3}+COALESCE(t2.data_out,0) FROM usage t2 WHERE t2.mac="{1}";
+INSERT INTO usage(timestamp, mac, data_in, data_out) SELECT datetime('now'),'{1}', t1.data_in+'{2}', t1.data_out+'{3}' FROM usage t1 WHERE EXISTS (SELECT 1 FROM usage WHERE mac = '{1}'); 
+INSERT INTO usage(timestamp, mac, data_in, data_out) SELECT datetime('now'),'{1}','{2}','{3}' WHERE NOT EXISTS (SELECT 1 FROM usage WHERE mac = '{1}');

@@ -10,19 +10,38 @@ module.exports.createDatabase = function () {
 	var query = readQuery("CreateDatabase")
     console.log(query);
 	sqliteDbContext.serialize(function() {
+		sqliteDbContext.exec(query);
+	});
+};
+
+module.exports.startTransaction = function () {
+	var query = readQuery("StartTransaction")
+    console.log(query);
+	sqliteDbContext.serialize(function() {
 		sqliteDbContext.run(query);
 	});
 };
 
-module.exports.insertNewUsage = function (row,callback) {
-	var query = format(readQuery("InsertNewUsage"), 
-			row.mac, 
-			row.data_in, 
-			row.data_out
-			);
+module.exports.endTransaction = function () {
+	var query = readQuery("EndTransaction")
+    console.log(query);
 	sqliteDbContext.serialize(function() {
-		return sqliteDbContext.run(query,callback);
-    });
+		sqliteDbContext.run(query);
+	});
+};
+
+module.exports.insertNewUsage = function (rows,callback) {
+	for (row in rows) {
+		var query = format(readQuery("InsertNewUsage"), 
+				rows[row].mac, 
+				rows[row].data_in, 
+				rows[row].data_out
+				);
+		console.log(query);
+		sqliteDbContext.serialize(function() {
+			return sqliteDbContext.exec(query,callback);
+	    });		
+	}	
 };
 
 module.exports.insertNewLogEntry = function (row,callback) {
@@ -43,7 +62,7 @@ module.exports.insertNewUser = function (row,callback) {
 	var name = messageparts[4];
 	var mac = messageparts[3];
 	var ip = messageparts[2];
-	var bridge = messageparts[1].slice(-8,-1);
+	var bridge = messageparts[1].slice(-9,-1);
 	
 	var query = format(readQuery("InsertNewUser"), 
 			row.timestamp, 
@@ -53,9 +72,7 @@ module.exports.insertNewUser = function (row,callback) {
 			bridge
 			);
 	console.log(query);
-	sqliteDbContext.serialize(function() {
-		return sqliteDbContext.run(query,callback);
-    });
+
 };
 
 module.exports.insertNewConnection = function (row,callback) {
@@ -96,10 +113,14 @@ function readQuery(queryName) {
     return fs.readFileSync("./data/queries/"+queryName, 'utf-8');
 };
 
+function escapeRegExp(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+};
+
 function format(str){
     for(var i = 0; i < arguments.length; i++) {
-        var markerToBeReplaced = '{' + (i) + '}';
-        str = str.replace(markerToBeReplaced, arguments[i]);
+        var markerToBeReplaced = escapeRegExp('{' + (i) + '}');
+        str = str.replace(new RegExp(markerToBeReplaced, 'g'), arguments[i]);
     }
     return str;
 }

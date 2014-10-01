@@ -1,1 +1,1 @@
-INSERT INTO users (timestamp, result, account, ap, mac) VALUES('{1}','{2}','{3}','{4}','{5}'); 
+INSERT INTO connections(timestamp, result, account, ap, mac) VALUES('{1}','{2}','{3}','{4}','{5}');

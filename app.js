@@ -12,6 +12,7 @@ var express = require('express')
 var ipcamera = require('./routes/foscam.js');
 var database = require('./data/database.js');
 var logParser = require('./routes/logger.js');
+var bandwidthMonitor = require('./routes/bandwidth_monitor.js');
 
 var app = express();
 
@@ -43,3 +44,4 @@ http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
 
 database.createDatabase();
 logParser.initLogger(database);
+bandwidthMonitor.initBandwidthMonitor(database);

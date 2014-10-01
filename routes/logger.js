@@ -10,7 +10,10 @@ var parseLogEntry = function(logentry) {
 		break;
 	case "radiusd":
 		database.insertNewConnection(logentry);
-		break;		
+		break;	
+	default:
+		database.insertNewLogEntry(logentry);
+		break;
 	}
 }
     
@@ -25,14 +28,17 @@ module.exports.initLogger = function(db) {
         stream.addListener("data", function (slice) {
         	datagram = datagram + slice;
         	if (slice.length<3472){
-        		var logentries = JSON.parse("["+slice.slice(0,-1)+"]")
+        		var logentries = JSON.parse("["+slice.slice(0,-1)+"]");
+        		database.startTransaction();
                 for (var logentry in logentries) {
                   logentry = logentries[logentry];
                   if (logentry.length == 0) {
                     continue;
                   }
-                 database.insertNewLogEntry(logentry,parseLogEntry(logentry));	        		
+                  parseLogEntry(logentry);
+                 	        		
                 };
+                database.endTransaction();
                 datagram = "";
         	}        	
         });
