@@ -6,42 +6,44 @@ module.exports.getDbContext = function () {
     return sqliteDbContext;
 };
 
-module.exports.createDatabase = function () {
+module.exports.createDatabase = function (callback) {
 	var query = readQuery("CreateDatabase")
     console.log(query);
 	sqliteDbContext.serialize(function() {
-		sqliteDbContext.exec(query);
+		sqliteDbContext.exec(query,callback);
 	});
 };
 
-module.exports.startTransaction = function () {
+module.exports.startTransaction = function (callback) {
 	var query = readQuery("StartTransaction")
     console.log(query);
 	sqliteDbContext.serialize(function() {
-		sqliteDbContext.run(query);
+		sqliteDbContext.exec(query,callback);
 	});
 };
 
-module.exports.endTransaction = function () {
+module.exports.endTransaction = function (callback) {
 	var query = readQuery("EndTransaction")
     console.log(query);
 	sqliteDbContext.serialize(function() {
-		sqliteDbContext.run(query);
+		sqliteDbContext.exec(query,callback);
 	});
 };
 
 module.exports.insertNewUsage = function (rows,callback) {
+	var queries = "";
 	for (row in rows) {
 		var query = format(readQuery("InsertNewUsage"), 
 				rows[row].mac, 
 				rows[row].data_in, 
 				rows[row].data_out
 				);
-		console.log(query);
-		sqliteDbContext.serialize(function() {
-			return sqliteDbContext.exec(query,callback);
-	    });		
-	}	
+		queries=queries+query;
+	}
+	console.log(queries);	
+	sqliteDbContext.serialize(function() {
+		return sqliteDbContext.exec(queries,callback);
+    });	
 };
 
 module.exports.insertNewLogEntry = function (row,callback) {

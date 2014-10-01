@@ -29,7 +29,6 @@ module.exports.initLogger = function(db) {
         	datagram = datagram + slice;
         	if (slice.length<3472){
         		var logentries = JSON.parse("["+slice.slice(0,-1)+"]");
-        		database.startTransaction();
                 for (var logentry in logentries) {
                   logentry = logentries[logentry];
                   if (logentry.length == 0) {
@@ -38,7 +37,6 @@ module.exports.initLogger = function(db) {
                   parseLogEntry(logentry);
                  	        		
                 };
-                database.endTransaction();
                 datagram = "";
         	}        	
         });

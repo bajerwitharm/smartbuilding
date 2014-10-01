@@ -8,6 +8,6 @@ module.exports.initBandwidthMonitor = function(db) {
 		restClient.get('http://192.168.1.1/cgi-bin/usage', function(data) {
 			database.insertNewUsage(data);
 		})
-    }, 900000);
+    }, 10000);
 }
 
