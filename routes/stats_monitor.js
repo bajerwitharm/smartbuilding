@@ -17,7 +17,7 @@ module.exports.initStatsMonitor = function(db, ip) {
 		    database.insertNewStats(stats);
 		});
 	});
-    }, 60000);
+    }, 50000);
 }
 
 /*
