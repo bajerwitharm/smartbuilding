@@ -77,7 +77,7 @@ module.exports.insertNewConnection = function(row, callback) {
     var ap = message.substring(message.indexOf("client") + 7, message
 	    .indexOf(" port"));
     var mac = message.substring(message.indexOf("cli ") + 4, message
-	    .indexOf(")"));
+	    .indexOf(")")).replace('-',":").toLowerCase();
     var query = format(readQuery("InsertNewConnection"), row.timestamp, result,
 	    account, ap, mac);
     //console.log(query);
