@@ -1,1 +1,1 @@
-INSERT OR IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES('{1}','{2}','upper({3})','{4}','{5}');
+INSERT OR IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES('{1}','{2}',lower('{3}'),'{4}','{5}');
