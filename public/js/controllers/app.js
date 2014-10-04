@@ -2,16 +2,19 @@ var salwatorska_app = angular.module('salwatorska_app', [ 'ngRoute', 'ngResource
 
 salwatorska_app.config([ '$routeProvider', function($routeProvider) {
 
-	$routeProvider.when('/partials/main', {
+	$routeProvider.when('/main', {
 		templateUrl : '/partials/main/main.html',
 		controller : 'mainController'
-	}).when('/partials/vwalk', {
+	}).when('/vwalk', {
 		templateUrl : 'partials/vwalk/vwalk.html',
 		controller : 'vwalkController'
-	}).when('/partials/camera', {
+	}).when('/camera', {
 		templateUrl : 'partials/camera/camera.html',
 		controller : 'cameraController'
+	}).when('/users_connections', {
+		templateUrl : 'partials/users_connections/users_connections.html',
+		controller : 'usersConnectionsController'
 	}).otherwise({
-		redirectTo : '/partials/main'
+		redirectTo : '/main'
 	});
 } ]);

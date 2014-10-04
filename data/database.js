@@ -8,7 +8,7 @@ module.exports.getDbContext = function() {
 
 module.exports.createDatabase = function(callback) {
     var query = readQuery("CreateDatabase")
-    console.log(query);
+   // console.log(query);
     sqliteDbContext.serialize(function() {
 	sqliteDbContext.exec(query, callback);
     });
@@ -16,7 +16,7 @@ module.exports.createDatabase = function(callback) {
 
 module.exports.startTransaction = function(callback) {
     var query = readQuery("StartTransaction")
-    console.log(query);
+    //console.log(query);
     sqliteDbContext.serialize(function() {
 	sqliteDbContext.exec(query, callback);
     });
@@ -24,7 +24,7 @@ module.exports.startTransaction = function(callback) {
 
 module.exports.endTransaction = function(callback) {
     var query = readQuery("EndTransaction")
-    console.log(query);
+    //console.log(query);
     sqliteDbContext.serialize(function() {
 	sqliteDbContext.exec(query, callback);
     });
@@ -37,7 +37,7 @@ module.exports.insertNewUsage = function(rows, callback) {
 		rows[row].data_in, rows[row].data_out);
 	queries = queries + query;
     }
-    console.log(queries);
+    //console.log(queries);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.exec(queries, callback);
     });
@@ -46,7 +46,7 @@ module.exports.insertNewUsage = function(rows, callback) {
 module.exports.insertNewLogEntry = function(row, callback) {
     var query = format(readQuery("InsertNewLogEntry"), row.timestamp, row.host,
 	    row.program, row.msg);
-    console.log(query);
+    //console.log(query);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.run(query, callback);
     });
@@ -61,7 +61,7 @@ module.exports.insertNewUser = function(row, callback) {
 
     var query = format(readQuery("InsertNewUser"), row.timestamp, name, mac,
 	    ip, bridge);
-    console.log(query);
+    //console.log(query);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.exec(query, callback);
     });
@@ -73,14 +73,14 @@ module.exports.insertNewConnection = function(row, callback) {
     var message = row.msg;
     var result = message.substring(6, message.indexOf(":"));
     var account = message.substring(message.indexOf("[") + 1, message
-	    .indexOf("/"));
+	    .indexOf("/<"));
     var ap = message.substring(message.indexOf("client") + 7, message
 	    .indexOf(" port"));
     var mac = message.substring(message.indexOf("cli ") + 4, message
 	    .indexOf(")"));
     var query = format(readQuery("InsertNewConnection"), row.timestamp, result,
 	    account, ap, mac);
-    console.log(query);
+    //console.log(query);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.run(query, callback);
     });
@@ -90,7 +90,7 @@ module.exports.insertNewQuery = function(row, callback) {
     var messageparts = row.msg.split(" ");
     var query = format(readQuery("InsertNewQuery"), row.timestamp,
 	    messageparts[1], messageparts[3]);
-    console.log(query);
+    //console.log(query);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.run(query, callback);
     });
@@ -99,15 +99,15 @@ module.exports.insertNewQuery = function(row, callback) {
 module.exports.insertNewStats = function(stats, callback) {
     var queries = "";
     for (second in stats.traffic) {
-	var query = format(readQuery("InsertNewStats"), stats.traffic[second][0], // timestamp
-	"main@salwatorska6", // router name
+	var query = format(readQuery("InsertNewStats"), stats.load[second][0], // timestamp
+	"0", // router name
 	stats.traffic[second][1],// rx bytes
 	stats.traffic[second][2],// rx packets
 	stats.traffic[second][3],// tx bytes
 	stats.traffic[second][4],// tx packets
 	stats.load[second][1]// 1 minute load
 	);
-	console.log(query);
+	//console.log(query);
 	queries = queries + query;
     }
     sqliteDbContext.serialize(function() {

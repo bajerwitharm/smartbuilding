@@ -45,5 +45,5 @@ http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
 
 database.createDatabase();
 logParser.initLogger(database);
-bandwidthMonitor.initBandwidthMonitor(database);
-statsMonitor.initStatsMonitor(database,"192.168.1.1");
+//bandwidthMonitor.initBandwidthMonitor(database);
+//statsMonitor.initStatsMonitor(database,"192.168.1.1");
