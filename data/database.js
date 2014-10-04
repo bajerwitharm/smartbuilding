@@ -115,6 +115,13 @@ module.exports.insertNewStats = function(stats, callback) {
     });
 };
 
+module.exports.getUsersInfo = function (callback) {
+	var query = readQuery("GetUsersInfo");
+	sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	});
+};
+
 function readQuery(queryName) {
     return fs.readFileSync("./data/queries/" + queryName, 'utf-8');
 };

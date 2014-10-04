@@ -10,7 +10,8 @@ var express = require('express')
   , path = require('path');
 
 var ipcamera = require('./routes/foscam.js');
-var database = require('./data/database.js');
+var sqliteDbContext = require('./data/database.js');
+var database = require('./routes/database.js');
 var logParser = require('./routes/logger.js');
 var bandwidthMonitor = require('./routes/bandwidth_monitor.js');
 var statsMonitor = require('./routes/stats_monitor.js');
@@ -38,12 +39,13 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/recordCamera', ipcamera.recordCamera);
 app.get('/getLiveCamera', ipcamera.getLiveCamera);
+app.get('/getUsersInfo', database.getUsersInfo);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-database.createDatabase();
+sqliteDbContext.createDatabase();
 logParser.initLogger(database);
 //bandwidthMonitor.initBandwidthMonitor(database);
 //statsMonitor.initStatsMonitor(database,"192.168.1.1");
