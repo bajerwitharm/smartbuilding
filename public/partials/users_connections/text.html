@@ -8,26 +8,26 @@
 					<div class="clear"></div>
 				</div>
 			</div>
-					<div class="clear"></div>
+			<div class="clear"></div>
 			<div class="project-list2">
 				<table>
 					<tr>
-						<th>Pierwszy zalogowanie</th>
-						<th>Ostatnie zalogowanie</th>
 						<th>Host</th>
-						<th>MAC</th>
 						<th>Login sieci</th>
 						<th>Dane ściągnięte</th>
 						<th>Dane wysłane</th>
+						<th>MAC</th>
+						<th>Pierwszy zalogowanie</th>
+						<th>Ostatnie zalogowanie</th>
 					</tr>
 					<tr data-ng-repeat="singleUser in usersInfo">
-						<td>{{singleUser.firstseen}}</td>
-						<td>{{singleUser.lastseen}}</td>
 						<td>{{singleUser.name}}</td>
-						<td>{{singleUser.mac}}</td>
 						<td>{{singleUser.accounts}}</td>
-						<td>{{singleUser.data_in}}</td>
-						<td>{{singleUser.data_out}}</td>
+						<td>{{singleUser.data_in | bytes}}</td>
+						<td>{{singleUser.data_out | bytes}}</td>
+						<td>{{singleUser.mac}}</td>
+						<td>{{singleUser.firstseen | asDate | date:'dd-MMM-yy HH:mm:ss'}}</td>
+						<td>{{singleUser.lastseen | asDate | date:'dd-MMM-yy HH:mm:ss'}}</td>
 					</tr>
 				</table>
 			</div>
@@ -45,9 +45,11 @@
 				</div>
 			</div>
 			<div class="project-list">
-			<nvd3-bar-graph chart-id="horizontal" data="barChart" duration="350" width="100%" height="600" horizontal="true" responsive="true"></nvd3-bar-graph>
-			
-				   
+				<nvd3-bar-graph tooltips="true" chart-id="horizontal"
+					data="barChart" showValues="true" duration="350" width="100%"
+					height="700" horizontal="true" responsive="true" style="margin:400"></nvd3-bar-graph>
+
+
 				<div class="clear"></div>
 			</div>
 		</div>

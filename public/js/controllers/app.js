@@ -1,5 +1,5 @@
 var salwatorska_app = angular.module('salwatorska_app', [ 'ngRoute',
-	'ngResource', 'ng-nvd3', 'salwatorskaControllers', 'onFinishRender' ]);
+	'ngResource', 'ng-nvd3', 'salwatorskaControllers', 'onFinishRender','filters' ]);
 
 salwatorska_app.config([ '$routeProvider', function($routeProvider) {
 

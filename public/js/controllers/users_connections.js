@@ -9,11 +9,11 @@ salwatorskaControllers.controller('usersConnectionsController', [ '$scope',
 			console.log(entry);
 			$scope.barChart[0].values.push({
 			    label : entry.name,
-			    value : entry.data_in
+			    value : entry.data_in/1048576
 			});
 			$scope.barChart[1].values.push({
 			    label : entry.name,
-			    value : entry.data_out
+			    value : entry.data_out/1048576
 			});
 		    });
 

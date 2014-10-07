@@ -152,19 +152,19 @@ svg {
   user-select: none;
   /* Trying to get SVG to act like a greedy block in all browsers */
   display: block;
-  width:100%;
+  width:85%;
   height:100%;
+  padding-left:18%;
 }
 
 
 svg text {
   font: normal 10px Arial;
   fill: white;
-
 }
 
 svg .title {
- font: bold 14px Arial;
+ font: normal 14px Arial;
 }
 
 .nvd3 .nv-background {
@@ -227,7 +227,6 @@ svg .title {
 .nvd3 .nv-axis.nv-x path.domain {
   stroke-opacity: 0;
 }
-
 .nvd3 .nv-axis line {
   fill: none;
   stroke: #e5e5e5;
