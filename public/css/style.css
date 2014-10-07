@@ -1358,6 +1358,20 @@ span a:hover {
 	margin: 2px;
 }
 
+.project-list2 th {
+	
+	background: #FFEA00;
+	padding: 5px;
+	margin: 2px;
+}
+
+.project-list2 td {
+
+	padding: 5px;
+	margin: 2px;
+	color: #FFF;
+}
+
 .project-list2 li a {
 	color: #000;
 	text-transform: uppercase;
