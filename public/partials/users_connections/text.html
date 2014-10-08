@@ -12,15 +12,16 @@
 			<div class="project-list2">
 				<table>
 					<tr>
-						<th>Host</th>
-						<th>Login sieci</th>
-						<th>Dane ściągnięte</th>
-						<th>Dane wysłane</th>
-						<th>MAC</th>
-						<th>Pierwszy zalogowanie</th>
-						<th>Ostatnie zalogowanie</th>
+						<th><a href="" ng-click="prepareFilteredData('name',reverse=!reverse);">Host</a></th>
+						<th><a href="" ng-click="prepareFilteredData('accounts',reverse=!reverse);">Login sieci</a></th>
+						<th><a href="" ng-click="prepareFilteredData('data_in',reverse=!reverse);">Dane ściągnięte</a></th>
+						<th><a href="" ng-click="prepareFilteredData('data_out',reverse=!reverse);">Dane wysłane</a></th>
+						<th><a href="" ng-click="prepareFilteredData('data_mac',reverse=!reverse);">MAC</a></th>
+						<th><a href="" ng-click="prepareFilteredData('firstseen',reverse=!reverse);">Pierwszy zalogowanie</a></th>
+						<th><a href="" ng-click="prepareFilteredData('lastseen',reverse=!reverse);">Ostatnie zalogowanie</th>
+						<th><a href="" ng-click="prepareFilteredData('connections',reverse=!reverse);">Ilośc zalogowań</th>
 					</tr>
-					<tr data-ng-repeat="singleUser in usersInfo">
+					<tr data-ng-repeat="singleUser in filteredUsersInfo">
 						<td>{{singleUser.name}}</td>
 						<td>{{singleUser.accounts}}</td>
 						<td>{{singleUser.data_in | bytes}}</td>
@@ -28,6 +29,7 @@
 						<td>{{singleUser.mac}}</td>
 						<td>{{singleUser.firstseen | asDate | date:'dd-MMM-yy HH:mm:ss'}}</td>
 						<td>{{singleUser.lastseen | asDate | date:'dd-MMM-yy HH:mm:ss'}}</td>
+						<td>{{singleUser.connections}}</td>
 					</tr>
 				</table>
 			</div>
@@ -37,9 +39,8 @@
 		<div class="project-sidebar">
 			<div class="project-list">
 				<div class="search_box">
-					<form>
-						<input type="text" value="Search...." onfocus="this.value = '';"
-							onblur="if (this.value == '') {this.value = 'Search';}">
+					<form name="searchForm" ng-submit="prepareFilteredData()">
+						<input type="text" value="Search...." ng-model="filterText">
 						<input type="submit" value="">
 					</form>
 				</div>

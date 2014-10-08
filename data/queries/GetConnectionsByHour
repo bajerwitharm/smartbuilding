@@ -1,0 +1,1 @@
+select count(*) AS connections, name, account, (strftime('%H',connections.timestamp)+2)%24 as hour from connections join users using(mac) where result='OK' group by hour, mac;
