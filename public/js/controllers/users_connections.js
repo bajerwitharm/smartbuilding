@@ -12,14 +12,20 @@ salwatorskaControllers.controller('usersConnectionsController', [
 		databaseProvider.getUsersInfo().success(function(data) {
 		    $scope.usersInfo = data;
 		    $scope.prepareFilteredData();
-		    $scope.filterText = '';
 		}).error(function() {
 		});
 	    };
 
+	    $scope.filterForm = {
+		filterText : ''
+	    };
+
 	    $scope.prepareFilteredData = function(predicate, reverse) {
-		$scope.filteredUsersInfo = listFilter(orderByFilter($scope.usersInfo,
-			predicate, reverse),$scope.filterText);
+		 $scope.filteredUsersInfo =
+		 listFilter(orderByFilter($scope.usersInfo,
+		 predicate, reverse),$scope.filterForm.filterText );
+		//$scope.filteredUsersInfo = listFilter($scope.usersInfo,
+		//	$scope.filterForm.filterText);
 		$scope.barChart = [ {
 		    "key" : "Dane ściągnięte",
 		    "color" : "#FFEA00",
