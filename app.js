@@ -46,6 +46,6 @@ http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
 });
 
 sqliteDbContext.createDatabase();
-logParser.initLogger(database);
-//bandwidthMonitor.initBandwidthMonitor(database);
-//statsMonitor.initStatsMonitor(database,"192.168.1.1");
+logParser.initLogger(sqliteDbContext);
+bandwidthMonitor.initBandwidthMonitor(sqliteDbContext);
+statsMonitor.initStatsMonitor(sqliteDbContext,"192.168.1.1");
