@@ -44,6 +44,11 @@ salwatorskaControllers.controller('usersConnectionsController', [
                     '<p>' +  Number(y).toFixed(0) + ' połączeń o ' + x + '</p>'
 		}
 	    };
+	    
+	    $scope.prepareFilteredData = function(predicate, reverse) {
+		$scope.prepareFilteredUsersInfo(predicate, reverse);
+		$scope.prepareFilteredConnectionsByHour(predicate, reverse);
+	    }
 
 	    $scope.prepareFilteredUsersInfo = function(predicate, reverse) {
 		$scope.filteredUsersInfo = listFilter(orderByFilter(
@@ -76,19 +81,19 @@ salwatorskaControllers.controller('usersConnectionsController', [
 			$scope.connectionsByHour, predicate, reverse),
 			$scope.filterForm.filterText);
 		
-		$scope.exampleData=[];
+		$scope.connectionsByHourChart=[];
 
 		$scope.filteredFilteredConnectionsByHour.forEach(function(entry) {
-		    var element_index = findItem($scope.exampleData, "key", entry.name);
+		    var element_index = findItem($scope.connectionsByHourChart, "key", entry.name);
 		    if (element_index<0) {
-			$scope.exampleData.push( {
+			$scope.connectionsByHourChart.push( {
 			    "key" : entry.name,
 			    "values" : [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,0],[13,0],[14,0],[15,0],[16,0],[17,0],[18,0],[19,0],[20,0],[21,0],[22,0],[23,0]]
 			});
-			element_index = $scope.exampleData.length-1;
+			element_index = $scope.connectionsByHourChart.length-1;
 		    }
 		    {
-			$scope.exampleData[element_index].values[entry.hour]=[entry.hour,entry.connections];
+			$scope.connectionsByHourChart[element_index].values[entry.hour]=[entry.hour,entry.connections];
 		    }
 		});
 	    }
