@@ -62,29 +62,51 @@
 					</tr>
 				</table>
 			</div>
-
-		</div>
-
-		<div class="project-sidebar">
-			<div class="project-list">
-				<div class="search_box">
-					<form name="searchForm" ng-submit="prepareFilteredData()">
-						<input type="text" value="Search...."
-							ng-model="filterForm.filterText"> <input type="submit"
-							value=''>
-					</form>
+			<br>
+			<div class="clear"></div>
+			<div class="blog-left">
+				<div class="blog-bg">
+					<h4>Użytkownicy sieci</h4>
+					<span class="author">od 2014-10-10 do 2014-11-11</span>
+					<div class="clear"></div>
 				</div>
 			</div>
-			<div class="project-list">
-				<nvd3-bar-graph tooltips="true" chart-id="horizontal"
-					data="barChart" showValues="true" duration="350" width="100%"
-					height="700" horizontal="true" responsive="true" style="margin:400"></nvd3-bar-graph>
+			<div class="clear"></div>
+			<div class="project-list2">
+				<nvd3-multi-bar-chart data="exampleData" id="exampleId"
+				 showXAxis="true" showYAxis="true" tooltips="true"
+					interactive="true" useInteractiveGuideline="true" stacked="true"
+					toolTipContent="toolTipContentFunction()"
+					xAxisTickFormat="xAxisTickFormat()"> <svg
+					style="padding-left: 0; width: 100%;  height:30em"></svg> </nvd3-multi-bar-chart>
 
-
-				<div class="clear"></div>
 			</div>
 		</div>
-		<div class="clear"></div>
+
+
+
 	</div>
+
+	<div class="project-sidebar">
+		<div class="project-list">
+			<div class="search_box">
+				<form name="searchForm" ng-submit="prepareFilteredData()">
+					<input type="text" value="Search...."
+						ng-model="filterForm.filterText"> <input type="submit"
+						value=''>
+				</form>
+			</div>
+		</div>
+		<div class="project-list">
+			<nvd3-bar-graph tooltips="true" chart-id="horizontal" data="barChart"
+				showValues="true" duration="350" width="100%" height="700"
+				horizontal="true" responsive="true" style="margin:400"></nvd3-bar-graph>
+
+
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
 
 </div>

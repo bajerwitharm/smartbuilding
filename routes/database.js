@@ -6,3 +6,10 @@ module.exports.getUsersInfo = function(req, res){
 		res.send(data);		
 	});
 };
+
+module.exports.getConnectionsByHour = function(req, res){
+	sqliteDbContext.getConnectionsByHour(function(data)
+	{
+		res.send(data);		
+	});
+};

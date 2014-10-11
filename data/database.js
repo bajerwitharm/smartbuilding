@@ -122,6 +122,13 @@ module.exports.getUsersInfo = function (callback) {
 	});
 };
 
+module.exports.getConnectionsByHour = function (callback) {
+	var query = readQuery("GetConnectionsByHour");
+	sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	});
+};
+
 function readQuery(queryName) {
     return fs.readFileSync("./data/queries/" + queryName, 'utf-8');
 };

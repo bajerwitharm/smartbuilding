@@ -5,5 +5,10 @@ salwatorska_app.factory('databaseProvider', function($resource, $http) {
 		responseType : "json"
 	    });
 	},
+	getConnectionsByHour : function() {
+	    return $http.get("/getConnectionsByHour", {
+		responseType : "json"
+	    });
+	},
     };
 });
