@@ -22,14 +22,21 @@ salwatorskaControllers.controller('usersConnectionsController', [
 		}).error(function() {
 		});
 	    };
+	    $scope.getUsageByHour = function() {
+		databaseProvider.getUsageByHour().success(function(data) {
+		    $scope.usageByHour = data;
+		    $scope.prepareFilteredUsageByHour();
+		}).error(function() {
+		});
+	    };
 
 	    $scope.filterForm = {
 		filterText : ''
 	    };
 	    
 	    $scope.filteredUsersInfo = [];   
-	    $scope.filteredFilteredConnectionsByHour = [];
-	    
+	    $scope.filteredConnectionsByHour = [];
+	    $scope.filteredUsageByHour = [];
 	    
 	  
 	    $scope.xAxisTickFormat = function() {
@@ -48,6 +55,7 @@ salwatorskaControllers.controller('usersConnectionsController', [
 	    $scope.prepareFilteredData = function(predicate, reverse) {
 		$scope.prepareFilteredUsersInfo(predicate, reverse);
 		$scope.prepareFilteredConnectionsByHour(predicate, reverse);
+		$scope.prepareFilteredUsageByHour(predicate, reverse);
 	    }
 
 	    $scope.prepareFilteredUsersInfo = function(predicate, reverse) {
@@ -77,13 +85,13 @@ salwatorskaControllers.controller('usersConnectionsController', [
 	    }
 	    
 	    $scope.prepareFilteredConnectionsByHour = function(predicate, reverse) {
-		$scope.filteredFilteredConnectionsByHour = listFilter(orderByFilter(
+		$scope.filteredConnectionsByHour = listFilter(orderByFilter(
 			$scope.connectionsByHour, predicate, reverse),
 			$scope.filterForm.filterText);
 		
 		$scope.connectionsByHourChart=[];
 
-		$scope.filteredFilteredConnectionsByHour.forEach(function(entry) {
+		$scope.filteredConnectionsByHour.forEach(function(entry) {
 		    var element_index = findItem($scope.connectionsByHourChart, "key", entry.name);
 		    if (element_index<0) {
 			$scope.connectionsByHourChart.push( {
@@ -97,11 +105,32 @@ salwatorskaControllers.controller('usersConnectionsController', [
 		    }
 		});
 	    }
+	    
+	    $scope.prepareFilteredUsageByHour = function(predicate, reverse) {
+		$scope.filteredUsageByHour = listFilter($scope.usageByHour,$scope.filterForm.filterText);
+		
+		$scope.usageByHourChart=[];
+
+		$scope.filteredUsageByHour.forEach(function(entry) {
+		    var element_index = findItem($scope.usageByHourChart, "key", entry.mac);
+		    if (element_index<0) {
+			$scope.usageByHourChart.push( {
+			    "key" : entry.mac,
+			    "values" : [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],[09,0],[10,0],[11,0],[12,0],[13,0],[14,0],[15,0],[16,0],[17,0],[18,0],[19,0],[20,0],[21,0],[22,0],[23,0]]
+			});
+			element_index = $scope.usageByHourChart.length-1;
+		    }
+		    {
+			$scope.usageByHourChart[element_index].values[Number(entry.hour)]=[Number(entry.hour),entry.data_in];
+		    }
+		});
+	    }
 
 	    $scope.predicate = 'data_in';
 
 	    $scope.getUsersInfo();
 	    $scope.getConnectionsByHour();
+	    $scope.getUsageByHour();
 	    
 	    function findItem(arr, key, value) {
 		    for (var i = 0; i < arr.length; i++) {

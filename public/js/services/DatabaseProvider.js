@@ -10,5 +10,10 @@ salwatorska_app.factory('databaseProvider', function($resource, $http) {
 		responseType : "json"
 	    });
 	},
+	getUsageByHour : function() {
+	    return $http.get("/getUsageByHour", {
+		responseType : "json"
+	    });
+	},
     };
 });

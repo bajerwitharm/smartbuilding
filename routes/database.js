@@ -13,3 +13,10 @@ module.exports.getConnectionsByHour = function(req, res){
 		res.send(data);		
 	});
 };
+
+module.exports.getUsageByHour = function(req, res){
+	sqliteDbContext.getUsageByHour(function(data)
+	{
+		res.send(data);		
+	});
+};

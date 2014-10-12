@@ -41,6 +41,7 @@ app.get('/recordCamera', ipcamera.recordCamera);
 app.get('/getLiveCamera', ipcamera.getLiveCamera);
 app.get('/getUsersInfo', database.getUsersInfo);
 app.get('/getConnectionsByHour', database.getConnectionsByHour);
+app.get('/getUsageByHour', database.getUsageByHour);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));
