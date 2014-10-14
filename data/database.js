@@ -37,7 +37,7 @@ module.exports.insertNewUsage = function(rows, callback) {
 		rows[row].data_in, rows[row].data_out);
 	queries = queries + query;
     }
-    //console.log(queries);
+    console.log(queries);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.exec(queries, callback);
     });
