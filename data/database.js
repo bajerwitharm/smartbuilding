@@ -130,9 +130,12 @@ module.exports.getConnectionsByHour = function (callback) {
 };
 
 module.exports.getUsageByHour = function (callback) {
-	var query = readQuery("GetUsageByHour");
-	sqliteDbContext.all(query, function(err, rows) {
+	var query = readQuery("InsertNewUsagePerHour");
+	sqliteDbContext.exec(query, function(err, rows) {
+	    query = readQuery("GetUsageByHour");
+	    sqliteDbContext.all(query, function(err, rows) {
 		callback(rows);
+	    });
 	});
 };
 

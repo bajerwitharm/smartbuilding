@@ -1,2 +1,1 @@
-INSERT INTO usage(timestamp, user_id, data_in, data_out) SELECT datetime('now'),(select id from users where mac='{1}' order by id desc limit 1), t1.data_in+'{2}', t1.data_out+'{3}' FROM usage t1 WHERE user_id in (select id from users where mac='{1}') ORDER BY id DESC LIMIT 1; 
-INSERT INTO usage(timestamp, user_id, data_in, data_out) SELECT datetime('now'),(select id from users where mac='{1}' order by id desc limit 1),'{2}','{3}' WHERE NOT EXISTS (SELECT 1 FROM usage WHERE user_id in (select id from users where mac='{1}'));
+INSERT INTO usage(timestamp, user_id, data_in, data_out) SELECT datetime('now'),(select id from users where mac='{1}' order by id desc limit 1), '{2}','{3}' FROM usage t1;
