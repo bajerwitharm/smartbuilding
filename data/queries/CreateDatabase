@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS connections (id INTEGER primary key autoincrement,tim
 CREATE TABLE IF NOT EXISTS queries (id INTEGER primary key autoincrement, timestamp DATETIME, ip TEXT, url TEXT, FOREIGN KEY(ip) REFERENCES connections(ip));
 CREATE TABLE IF NOT EXISTS logs (id INTEGER primary key autoincrement, timestamp DATETIME, host TEXT, program TEXT, msg TEXT);
 CREATE TABLE IF NOT EXISTS stats (id INTEGER primary key autoincrement, timestamp DATETIME, router INTEGER, rx_bytes INTEGER, rx_packets INTEGER, tx_bytes INTEGER, tx_packets INTEGER,load INTEGER, UNIQUE(timestamp,router));
-CREATE TEMP TABLE usage_by_hour (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS usage_by_hour (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 END TRANSACTION; 
