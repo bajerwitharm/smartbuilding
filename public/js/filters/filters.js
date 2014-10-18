@@ -2,7 +2,7 @@
     "use strict";
 
     angular.module('filters', []).filter(
-	    'bytes',
+	    'bytesFilter',
 	    [ function() {
 		return function(bytes, precision) {
 		    if (bytes === 0) {
@@ -36,7 +36,7 @@
 	return function(input) {
 	    return new Date(input);
 	}
-    }).filter('listfilter', [ function() {
+    }).filter('listFilter', [ function() {
 	return function(items, searchText) {
 	    var filtered = [];
 

@@ -1,85 +1,8 @@
 <div class="main">
 	<div class="project-wrapper">
 		<div class="project">
-			<div class="blog-left">
-				<div class="blog-bg">
-					<h4>Użytkownicy sieci</h4>
-					<span class="author">od 2014-10-10 do 2014-11-11</span>
-					<div class="clear"></div>
-				</div>
-			</div>
-			<div class="clear"></div>
-			<div class="project-list2">
-				<table>
-					<tr>
-						<th><a href="">Lp.</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('name',reverse=!reverse);">Host</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('accounts',reverse=!reverse);">Login
-								sieci</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('data_in',reverse=!reverse);">Dane
-								ściągnięte</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('data_out',reverse=!reverse);">Dane
-								wysłane</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('data_mac',reverse=!reverse);">MAC</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('firstseen',reverse=!reverse);">Pierwszy
-								zalogowanie</a></th>
-						<th><a href=""
-							ng-click="prepareFilteredData('lastseen',reverse=!reverse);">Ostatnie
-								zalogowanie</th>
-						<th><a href=""
-							ng-click="prepareFilteredData('connections',reverse=!reverse);">Ilośc
-								zalogowań</th>
-					</tr>
-					<tr data-ng-repeat="singleUser in filteredUsersInfo">
-						<td>{{$index+1}}</td>
-						<td>{{singleUser.name}}</td>
-						<td>{{singleUser.accounts}}</td>
-						<td>{{singleUser.data_in | bytes}}</td>
-						<td>{{singleUser.data_out | bytes}}</td>
-						<td>{{singleUser.mac}}</td>
-						<td>{{singleUser.firstseen | asDate | date:'dd-MMM-yy HH:mm:ss'}}</td>
-						<td>{{singleUser.lastseen | asDate | date:'dd-MMM-yy HH:mm:ss'}}</td>
-						<td>{{singleUser.connections}}</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>{{filteredUsersInfo | sumOfValue:'data_in' | bytes}}</td>
-						<td>{{filteredUsersInfo | sumOfValue:'data_out' | bytes}}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>{{filteredUsersInfo | sumOfValue:'connections'}}</td>
-					</tr>
-				</table>
-			</div>
-			<br>
-			<div class="clear"></div>
-			<div class="blog-left">
-				<div class="blog-bg">
-					<h4>Użytkownicy sieci</h4>
-					<span class="author">od 2014-10-10 do 2014-11-11</span>
-					<div class="clear"></div>
-				</div>
-			</div>
-			<div class="clear"></div>
-			<div class="project-list2">
-				<nvd3-multi-bar-chart data="connectionsByHourChart" id="connectionsByHourId"
-				 showXAxis="true" showYAxis="true" tooltips="true"
-					interactive="true" useInteractiveGuideline="true" stacked="true"
-					toolTipContent="toolTipContentFunction()"
-					xAxisTickFormat="xAxisTickFormat()"> <svg
-					style="padding-left: 0; width: 100%;  height:30em"></svg> </nvd3-multi-bar-chart>
-
-			</div>
-						<br>
+			<div ng-include="'partials/users_connections/users_info.html'"></div>
+			<div ng-include="'partials/users_connections/connections.html'"></div>
 			<div class="clear"></div>
 			<div class="blog-left">
 				<div class="blog-bg">
@@ -91,11 +14,14 @@
 			<div class="clear"></div>
 			<div class="project-list2">
 				<nvd3-multi-bar-chart data="usageByHourChart" id="usageByHourId"
-				 showXAxis="true" showYAxis="true" tooltips="true"
+					showXAxis="true" showYAxis="true" tooltips="true"
 					interactive="true" useInteractiveGuideline="true" stacked="true"
 					toolTipContent="toolTipContentFunction()"
 					xAxisTickFormat="xAxisTickFormat()"> <svg
-					style="padding-left: 0; width: 100%;  height:30em"></svg> </nvd3-multi-bar-chart>
+					style="padding-left: 0; width: 100%; height: 30em"></svg> </nvd3-multi-bar-chart>
+
+
+
 
 			</div>
 		</div>
@@ -115,10 +41,10 @@
 			</div>
 		</div>
 		<div class="project-list">
-			<nvd3-bar-graph tooltips="true" chart-id="horizontal" data="barChart"
-				showValues="true" duration="350" width="100%" height="700"
-				horizontal="true" responsive="true" style="margin:400"></nvd3-bar-graph>
-
+			<nvd3-multi-bar-horizontal-chart data="barChart" id="exampleId"
+				showXAxis="true" style="margin:400"
+				showValues="true" valueFormat="valueFormatFunction()" showLegend="true">
+			<svg width="100%" height="70em" ></svg> </nvd3-multi-bar-horizontal-chart>
 
 			<div class="clear"></div>
 		</div>
