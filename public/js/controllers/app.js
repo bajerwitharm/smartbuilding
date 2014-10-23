@@ -13,8 +13,8 @@ salwatorska_app.config([ '$routeProvider', function($routeProvider) {
 	templateUrl : 'partials/camera/camera.html',
 	controller : 'cameraController'
     }).when('/users_connections', {
-	templateUrl : 'partials/users_connections/users_connections.html',
-	controller : 'usersConnectionsController'
+	templateUrl : 'partials/network/users_connections.html',
+	controller : 'networkUsageController'
     }).otherwise({
 	redirectTo : '/main'
     });

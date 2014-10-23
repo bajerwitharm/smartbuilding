@@ -1,6 +1,7 @@
 var database;
 
 var parseLogEntry = function(logentry) {
+    try {
 	switch(logentry.program) {
 	case "dnsmasq":
 		database.insertNewQuery(logentry);
@@ -15,6 +16,10 @@ var parseLogEntry = function(logentry) {
 		database.insertNewLogEntry(logentry);
 		break;
 	}
+    }
+    catch(err) {
+
+    }
 }
     
 module.exports.initLogger = function(db) {

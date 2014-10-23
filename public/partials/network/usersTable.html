@@ -7,31 +7,31 @@
 	</div>
 </div>
 <div class="clear"></div>
-<div class="project-list2">
+<div class="project-list2" ng-controller="networkUsersTableController">
 	<table>
 		<tr>
 			<th><a href="">Lp.</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('name',reverse=!reverse);">Host</a></th>
+				ng-click="prepareFilteredUsersInfo('name',reverse=!reverse);">Host</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('accounts',reverse=!reverse);">Login
+				ng-click="prepareFilteredUsersInfo('accounts',reverse=!reverse);">Login
 					sieci</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('data_in',reverse=!reverse);">Dane
+				ng-click="prepareFilteredUsersInfo('data_in',reverse=!reverse);">Dane
 					ściągnięte</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('data_out',reverse=!reverse);">Dane
+				ng-click="prepareFilteredUsersInfo('data_out',reverse=!reverse);">Dane
 					wysłane</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('data_mac',reverse=!reverse);">MAC</a></th>
+				ng-click="prepareFilteredUsersInfo('data_mac',reverse=!reverse);">MAC</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('firstseen',reverse=!reverse);">Pierwszy
+				ng-click="prepareFilteredUsersInfo('firstseen',reverse=!reverse);">Pierwszy
 					zalogowanie</a></th>
 			<th><a href=""
-				ng-click="prepareFilteredData('lastseen',reverse=!reverse);">Ostatnie
+				ng-click="prepareFilteredUsersInfo('lastseen',reverse=!reverse);">Ostatnie
 					zalogowanie</th>
 			<th><a href=""
-				ng-click="prepareFilteredData('connections',reverse=!reverse);">Ilośc
+				ng-click="prepareFilteredUsersInfo('connections',reverse=!reverse);">Ilośc
 					zalogowań</th>
 		</tr>
 		<tr data-ng-repeat="singleUser in filteredUsersInfo">

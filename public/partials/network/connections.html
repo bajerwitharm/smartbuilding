@@ -8,12 +8,12 @@
 	</div>
 </div>
 <div class="clear"></div>
-<div class="project-list2">
+<div class="project-list2" ng-controller="networkUsageConnectionsChartController">
 	<nvd3-multi-bar-chart data="connectionsByHourChart"
 		id="connectionsByHourId" showXAxis="true" showYAxis="true"
 		tooltips="true" interactive="true" useInteractiveGuideline="true"
 		stacked="true" toolTipContent="toolTipContentFunction()"
-		xAxisTickFormat="xAxisTickFormat()"> <svg
+		xAxisTickFormat="xAxisTickFormat()" yAxisTickFormat="yAxisTickFormat()"> <svg
 		style="padding-left: 0; width: 100%; height: 30em"></svg> </nvd3-multi-bar-chart>
 
 </div>

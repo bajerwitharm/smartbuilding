@@ -1,8 +1,8 @@
-<div class="main">
+<div class="main" ng-controller="networkUsageController">
 	<div class="project-wrapper">
 		<div class="project">
-			<div ng-include="'partials/users_connections/users_info.html'"></div>
-			<div ng-include="'partials/users_connections/connections.html'"></div>
+			<div ng-include="'partials/network/usersTable.html'"></div>
+			<div ng-include="'partials/network/connections.html'"></div>
 			<div class="clear"></div>
 			<div class="blog-left">
 				<div class="blog-bg">
@@ -12,17 +12,13 @@
 				</div>
 			</div>
 			<div class="clear"></div>
-			<div class="project-list2">
+			<div class="project-list2" ng-controller="networkUsageByChartController">
 				<nvd3-multi-bar-chart data="usageByHourChart" id="usageByHourId"
 					showXAxis="true" showYAxis="true" tooltips="true"
 					interactive="true" useInteractiveGuideline="true" stacked="true"
 					toolTipContent="toolTipContentFunction()"
-					xAxisTickFormat="xAxisTickFormat()"> <svg
+					xAxisTickFormat="xAxisTickFormat()" yAxisTickFormat="yAxisTickFormat()"> <svg
 					style="padding-left: 0; width: 100%; height: 30em"></svg> </nvd3-multi-bar-chart>
-
-
-
-
 			</div>
 		</div>
 
@@ -33,7 +29,7 @@
 	<div class="project-sidebar">
 		<div class="project-list">
 			<div class="search_box">
-				<form name="searchForm" ng-submit="prepareFilteredData()">
+				<form name="searchForm" ng-submit="prepareFilteredData(predicate,reverse)">
 					<input type="text" value="Search...."
 						ng-model="filterForm.filterText"> <input type="submit"
 						value=''>
@@ -41,9 +37,9 @@
 			</div>
 		</div>
 		<div class="project-list">
-			<nvd3-multi-bar-horizontal-chart data="barChart" id="exampleId"
+			<nvd3-multi-bar-horizontal-chart data="usageChart" id="usageChartId" ng-controller="networkUsageSummaryChartController"
 				showXAxis="true" style="margin:400"
-				showValues="true" valueFormat="valueFormatFunction()" showLegend="true">
+				showValues="true" valueFormat="usageChartValueFormat()" showLegend="true">
 			<svg width="100%" height="70em" ></svg> </nvd3-multi-bar-horizontal-chart>
 
 			<div class="clear"></div>
