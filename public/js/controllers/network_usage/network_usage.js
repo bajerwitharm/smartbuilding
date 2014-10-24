@@ -8,7 +8,6 @@ salwatorskaControllers.controller('networkUsageController', [
 		databaseProvider) {
 	    $rootScope.filteredUsersInfo = [];
 	    $rootScope.filterForm = {
-		filterText : ''
 	    };
 	    
 	    $rootScope.findItem = function(arr, key, value) {
@@ -25,6 +24,7 @@ salwatorskaControllers.controller('networkUsageController', [
 		$rootScope.filterForm = $scope.filterForm;
 		$rootScope.$broadcast('networkUsersRefreshFilter');
 	    }
-	    
+
+	    $scope.prepareFilteredData = $rootScope.prepareFilteredData;
 
 	} ]);
