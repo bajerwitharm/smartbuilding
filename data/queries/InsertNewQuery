@@ -1,1 +1,1 @@
-INSERT INTO queries(timestamp,url,ip) VALUES ('{1}','{2}','{3}');
+INSERT INTO queries(timestamp,url,ip) VALUES ('{1}','{2}','(select id from users where ip=\"{3}\" order by id dest limit 1)');
