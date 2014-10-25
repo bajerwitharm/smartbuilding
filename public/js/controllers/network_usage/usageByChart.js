@@ -18,12 +18,25 @@ salwatorskaControllers
 				    [ 14, 0 ], [ 15, 0 ], [ 16, 0 ], [ 17, 0 ],
 				    [ 18, 0 ], [ 19, 0 ], [ 20, 0 ], [ 21, 0 ],
 				    [ 22, 0 ], [ 23, 0 ] ];
+			    
+			    var getUsageBy = function() {
+				getUsageByWeekday();
+			    }
 
 			    var getUsageByHour = function() {
 				databaseProvider.getUsageByHour().success(
 					function(data) {
 					    usageByHour = data;
 					    prepareUsageByHourChart();
+					}).error(function() {
+				});
+			    }
+			    
+			    var getUsageByWeekday = function() {
+				databaseProvider.getUsageByWeekday().success(
+					function(data) {
+					    usageByWeekday = data;
+					    prepareUsageByWeekdayChart();
 					}).error(function() {
 				});
 			    }
@@ -65,6 +78,35 @@ salwatorskaControllers
 					});
 			    }
 
+			    var prepareUsageByWeekdayChart = function() {
+				$scope.usageByChart = [];
+				$rootScope.filteredUsersInfo.forEach(function(
+					entry) {
+				    $scope.usageByChart
+					    .push({
+						"key" : entry.name,
+						"values" : [ [ 0, 0 ],
+							[ 1, 0 ], [ 2, 0 ],
+							[ 3, 0 ], [ 4, 0 ],
+							[ 5, 0 ], [ 6, 0 ]]
+					    });
+				});
+
+				usageByWeekday
+					.forEach(function(entry) {
+					    var element_index = $rootScope
+						    .findItem(
+							    $rootScope.filteredUsersInfo,
+							    "name", entry.name);
+					    if (element_index >= 0) {
+						$scope.usageByChart[element_index].values[Number(entry.weekday)] = [
+							Number(entry.hour),
+							entry.data_in ];
+					    }
+					});
+			    }
+
+			    
 			    $scope.xAxisTickFormat = function() {
 				return function(d) {
 				    return d;
@@ -86,6 +128,6 @@ salwatorskaControllers
 			    };
 
 			    $scope.$on('networkUsersGetAllDataAgain',
-				    getUsageByHour);
+				    getUsageBy);
 
 			} ]);

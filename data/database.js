@@ -129,10 +129,27 @@ module.exports.getConnectionsByHour = function (callback) {
 	});
 };
 
+module.exports.getConnectionsByWeekday = function (callback) {
+	var query = readQuery("GetConnectionsByWeekday");
+	sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	});
+};
+
 module.exports.getUsageByHour = function (callback) {
 	var query = readQuery("InsertNewUsagePerHour");
 	sqliteDbContext.exec(query, function(err, rows) {
 	    query = readQuery("GetUsageByHour");
+	    sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	    });
+	});
+};
+
+module.exports.getUsageByWeekday = function (callback) {
+	var query = readQuery("InsertNewUsagePerWeekday");
+	sqliteDbContext.exec(query, function(err, rows) {
+	    query = readQuery("GetUsageByWeekday");
 	    sqliteDbContext.all(query, function(err, rows) {
 		callback(rows);
 	    });

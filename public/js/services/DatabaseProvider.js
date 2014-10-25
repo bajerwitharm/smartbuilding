@@ -10,8 +10,18 @@ salwatorska_app.factory('databaseProvider', function($resource, $http) {
 		responseType : "json"
 	    });
 	},
+	getConnectionsByDay : function() {
+	    return $http.get("/getConnectionsByWeekday", {
+		responseType : "json"
+	    });
+	},
 	getUsageByHour : function() {
 	    return $http.get("/getUsageByHour", {
+		responseType : "json"
+	    });
+	},
+	getUsageByWeekday : function() {
+	    return $http.get("/getUsageByWeekday", {
 		responseType : "json"
 	    });
 	},

@@ -14,8 +14,22 @@ module.exports.getConnectionsByHour = function(req, res){
 	});
 };
 
+module.exports.getConnectionsByWeekday = function(req, res){
+	sqliteDbContext.getConnectionsByWeekday(function(data)
+	{
+		res.send(data);		
+	});
+};
+
 module.exports.getUsageByHour = function(req, res){
 	sqliteDbContext.getUsageByHour(function(data)
+	{
+		res.send(data);		
+	});
+};
+
+module.exports.getUsageByWeekday = function(req, res){
+	sqliteDbContext.getUsageByWeekday(function(data)
 	{
 		res.send(data);		
 	});
