@@ -7,4 +7,6 @@ CREATE TABLE IF NOT EXISTS logs (id INTEGER primary key autoincrement, timestamp
 CREATE TABLE IF NOT EXISTS stats (id INTEGER primary key autoincrement, timestamp DATETIME, router INTEGER, rx_bytes INTEGER, rx_packets INTEGER, tx_bytes INTEGER, tx_packets INTEGER,load INTEGER, UNIQUE(timestamp,router));
 CREATE TEMP TABLE IF NOT EXISTS usage_by_hour (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TEMP TABLE IF NOT EXISTS usage_by_weekday (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TEMP TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TEMP TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 END TRANSACTION; 

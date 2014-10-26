@@ -23,6 +23,15 @@
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni
 				tygodnia</a></li>
 		<li ng-if="selectedView=='weekdays'" style=""><a>Dni tygodnia</a></li>
+		<li ng-if="selectedView!='monthdays'"
+			ng-click="changeSelectedView('monthdays')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni
+				miesiąca</a></li>
+		<li ng-if="selectedView=='monthdays'" style=""><a>Dni miesiąca</a></li>
+				<li ng-if="selectedView!='months'"
+			ng-click="changeSelectedView('months')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Miesiące</a></li>
+		<li ng-if="selectedView=='months'" style=""><a>Miesiące</a></li>
 		<div class="clear"></div>
 
 	</ul>

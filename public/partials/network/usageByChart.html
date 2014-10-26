@@ -9,10 +9,12 @@
 </div>
 <div class="clear"></div>
 
-<div class="project-list2" ng-controller="networkUsageByChartController" ng-init="selectedView = 'hours'">
+<div class="project-list2" ng-controller="networkUsageByChartController"
+	ng-init="selectedView = 'hours'">
 	<h4>Widok:</h4>
 	<ul>
-		<li ng-if="selectedView!='hours'" ng-click="changeSelectedView('hours')"
+		<li ng-if="selectedView!='hours'"
+			ng-click="changeSelectedView('hours')"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Godziny</a></li>
 		<li ng-if="selectedView=='hours'" style=""><a>Godziny</a></li>
 		<li ng-if="selectedView!='weekdays'"
@@ -20,7 +22,19 @@
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni
 				tygodnia</a></li>
 		<li ng-if="selectedView=='weekdays'" style=""><a>Dni tygodnia</a></li>
+		<li ng-if="selectedView!='monthdays'"
+			ng-click="changeSelectedView('monthdays')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni
+				miesiąca</a></li>
+		<li ng-if="selectedView=='monthdays'" style=""><a>Dni
+				miesiąca</a></li>
+
+		<li ng-if="selectedView!='months'"
+			ng-click="changeSelectedView('months')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Miesiące</a></li>
+		<li ng-if="selectedView=='months'" style=""><a>Miesiące</a></li>
 		<div class="clear"></div>
+
 
 	</ul>
 	<nvd3-multi-bar-chart data="usageByChart" id="usageByHourId"

@@ -1,0 +1,1 @@
+select strftime('%d',usage_by_monthday.timestamp) as monthday,users.mac as mac, name, sum(data_in) as data_in,sum(data_out) as data_out,(select account from connections where user_id=users.id) as account from usage_by_monthday join users on usage_by_monthday.user_id=users.id group by monthday,usage_by_monthday.user_id;

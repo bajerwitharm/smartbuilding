@@ -135,6 +135,24 @@ module.exports.getConnectionsByWeekday = function(callback) {
     });
 };
 
+module.exports.getConnectionsByMonthday = function(callback) {
+    var query = readQuery("GetConnectionsByMonthday");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.all(query, function(err, rows) {
+	    callback(rows);
+	});
+    });
+};
+
+module.exports.getConnectionsByMonth = function(callback) {
+    var query = readQuery("GetConnectionsByMonth");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.all(query, function(err, rows) {
+	    callback(rows);
+	});
+    });
+};
+
 module.exports.getUsageByHour = function(callback) {
     var query = readQuery("InsertNewUsagePerHour");
     sqliteDbContext.serialize(function() {
@@ -152,6 +170,30 @@ module.exports.getUsageByWeekday = function(callback) {
     sqliteDbContext.serialize(function() {
 	sqliteDbContext.exec(query, function(err, rows) {
 	    query = readQuery("GetUsageByWeekday");
+	    sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	    });
+	});
+    });
+};
+
+module.exports.getUsageByMonthday = function(callback) {
+    var query = readQuery("InsertNewUsagePerMonthday");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.exec(query, function(err, rows) {
+	    query = readQuery("GetUsageByMonthday");
+	    sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	    });
+	});
+    });
+};
+
+module.exports.getUsageByMonth = function(callback) {
+    var query = readQuery("InsertNewUsagePerMonth");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.exec(query, function(err, rows) {
+	    query = readQuery("GetUsageByMonth");
 	    sqliteDbContext.all(query, function(err, rows) {
 		callback(rows);
 	    });

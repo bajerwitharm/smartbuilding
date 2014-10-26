@@ -45,8 +45,12 @@ app.get('/getLiveCamera2', ipcamera2.getLiveCamera);
 app.get('/getUsersInfo', database.getUsersInfo);
 app.get('/getConnectionsByHour', database.getConnectionsByHour);
 app.get('/getConnectionsByWeekday', database.getConnectionsByWeekday);
+app.get('/getConnectionsByMonthday', database.getConnectionsByMonthday);
+app.get('/getConnectionsByMonth', database.getConnectionsByMonth);
 app.get('/getUsageByHour', database.getUsageByHour);
 app.get('/getUsageByWeekday', database.getUsageByWeekday);
+app.get('/getUsageByMonthday', database.getUsageByMonthday);
+app.get('/getUsageByMonth', database.getUsageByMonth);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));

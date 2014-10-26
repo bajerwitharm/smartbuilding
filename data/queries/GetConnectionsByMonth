@@ -1,0 +1,1 @@
+select count(*) AS connections, name, account, (strftime('%m',connections.timestamp)) as month from users left join connections on connections.user_id=users.id where result='OK' group by month, mac order by connections desc;
