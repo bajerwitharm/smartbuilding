@@ -1358,6 +1358,10 @@ span a:hover {
 	margin: 2px;
 }
 
+.project-list2 h4 {
+	display: inline;
+}
+
 .project-list2 th {
 	background: #FFEA00;
 	padding: 5px;

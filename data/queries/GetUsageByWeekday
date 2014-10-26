@@ -1,0 +1,1 @@
+select strftime('%w',usage_by_weekday.timestamp) as weekday,users.mac as mac, name, sum(data_in) as data_in,sum(data_out) as data_out,(select account from connections where user_id=users.id) as account from usage_by_weekday join users on usage_by_weekday.user_id=users.id group by weekday,usage_by_weekday.user_id;

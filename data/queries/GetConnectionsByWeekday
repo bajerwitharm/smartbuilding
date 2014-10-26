@@ -1,0 +1,1 @@
+select count(*) AS connections, name, account, (strftime('%w',connections.timestamp)) as weekday from users left join connections on connections.user_id=users.id where result='OK' group by weekday, mac order by connections desc;

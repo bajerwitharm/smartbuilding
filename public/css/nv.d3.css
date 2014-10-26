@@ -146,13 +146,12 @@ svg text {
 	fill: white;
 }
 
-
 nvd3-multi-bar-chart svg .nv-x text {
-		transform: rotate(-90deg);
-		-webkit-transform: rotate(-90deg);
-		-moz-transform: rotate(-90deg);
-		-o-transform: rotate(-90deg);
-	}
+	transform: translate(10px, 25px) rotate(90deg);
+	-webkit-transform: translate(10px, 25px) rotate(90deg);
+	-moz-transform: translate(10px, 25px) rotate(90deg);
+	-o-transform: translate(10px, 25px) rotate(90deg);
+}
 
 svg .title {
 	font: normal 14px Arial;
