@@ -34,6 +34,12 @@ salwatorskaControllers.controller('networkUsageSummaryChartController',
 			    return $filter('bytesFilter')(d);
 			}
 		    }
+		    
+		    $scope.toolTipContentFunction = function(){
+			return function(key, x, y, e, graph) {
+		    	return '<h1>' + key + '</h1>' + '<p>' +  $filter('bytesFilter')(y.replace(/,/g,'')) + ' przez urządzenie ' + x +'<h1>Użyte hasła:</h1><p>' +  $rootScope.filteredUsersInfo[e.pointIndex].accounts+'</p>'
+			}
+		}
 
 		    $rootScope.$on('networkUsersGetAllDataAgain',
 			    prepareUsageSummaryChart);
