@@ -153,6 +153,15 @@ module.exports.getConnectionsByMonth = function(callback) {
     });
 };
 
+module.exports.getConnectionsByAP = function(callback) {
+    var query = readQuery("GetConnectionsByAP");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.all(query, function(err, rows) {
+	    callback(rows);
+	});
+    });
+};
+
 module.exports.getUsageByHour = function(callback) {
     var query = readQuery("InsertNewUsagePerHour");
     sqliteDbContext.serialize(function() {
@@ -194,6 +203,18 @@ module.exports.getUsageByMonth = function(callback) {
     sqliteDbContext.serialize(function() {
 	sqliteDbContext.exec(query, function(err, rows) {
 	    query = readQuery("GetUsageByMonth");
+	    sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	    });
+	});
+    });
+};
+
+module.exports.getUsageByAP = function(callback) {
+    var query = readQuery("InsertNewUsagePerAP");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.exec(query, function(err, rows) {
+	    query = readQuery("GetUsageByAP");
 	    sqliteDbContext.all(query, function(err, rows) {
 		callback(rows);
 	    });

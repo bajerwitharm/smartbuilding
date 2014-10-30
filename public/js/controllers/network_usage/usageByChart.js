@@ -58,6 +58,9 @@ salwatorskaControllers
 				$scope.usageByChart = [];
 				$rootScope.filteredUsersInfo.forEach(function(
 					entry) {
+				    if (!entry.name) {
+					entry.name = entry.account;
+				    }
 				    $scope.usageByChart
 					    .push({
 						"key" : entry.name,
@@ -79,6 +82,9 @@ salwatorskaControllers
 
 				usageByHour
 					.forEach(function(entry) {
+					    if (entry.name==null) {
+						entry.name = entry.account;
+					    }
 					    var element_index = $rootScope
 						    .findItem(
 							    $rootScope.filteredUsersInfo,
@@ -95,6 +101,9 @@ salwatorskaControllers
 				$scope.usageByChart = [];
 				$rootScope.filteredUsersInfo.forEach(function(
 					entry) {
+				    if (!entry.name) {
+					entry.name = entry.account;
+				    }
 				    $scope.usageByChart
 					    .push({
 						"key" : entry.name,
@@ -123,6 +132,9 @@ salwatorskaControllers
 				$scope.usageByChart = [];
 				$rootScope.filteredUsersInfo.forEach(function(
 					entry) {
+				    if (!entry.name) {
+					entry.name = entry.account;
+				    }
 				    $scope.usageByChart
 					    .push({
 						"key" : entry.name,
@@ -147,6 +159,9 @@ salwatorskaControllers
 
 				usageByMonthday
 					.forEach(function(entry) {
+					    if (!entry.name) {
+						entry.name = entry.account;
+					    }
 					    var element_index = $rootScope
 						    .findItem(
 							    $rootScope.filteredUsersInfo,
@@ -163,6 +178,9 @@ salwatorskaControllers
 				$scope.usageByChart = [];
 				$rootScope.filteredUsersInfo.forEach(function(
 					entry) {
+				    if (!entry.name) {
+					entry.name = entry.account;
+				    }
 				    $scope.usageByChart
 					    .push({
 						"key" : entry.name,
@@ -178,6 +196,9 @@ salwatorskaControllers
 
 				usageByMonth
 					.forEach(function(entry) {
+					    if (!entry.name) {
+						entry.name = entry.account;
+					    }
 					    var element_index = $rootScope
 						    .findItem(
 							    $rootScope.filteredUsersInfo,

@@ -136,8 +136,12 @@ svg {
 	user-select: none;
 	/* Trying to get SVG to act like a greedy block in all browsers */
 	display: block;
-	width: 85%;
 	height: 100%;
+	width: 100%;
+}
+
+nvd3-multi-bar-horizontal-chart svg {
+	width: 85%;
 	padding-left: 18%;
 }
 

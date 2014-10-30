@@ -35,6 +35,13 @@ module.exports.getConnectionsByMonth = function(req, res){
 	});
 };
 
+module.exports.getConnectionsByAP = function(req, res){
+	sqliteDbContext.getConnectionsByAP(function(data)
+	{
+		res.send(data);		
+	});
+};
+
 module.exports.getUsageByHour = function(req, res){
 	sqliteDbContext.getUsageByHour(function(data)
 	{
@@ -58,6 +65,13 @@ module.exports.getUsageByMonthday = function(req, res){
 
 module.exports.getUsageByMonth = function(req, res){
 	sqliteDbContext.getUsageByMonth(function(data)
+	{
+		res.send(data);		
+	});
+};
+
+module.exports.getUsageByAP = function(req, res){
+	sqliteDbContext.getUsageByAP(function(data)
 	{
 		res.send(data);		
 	});

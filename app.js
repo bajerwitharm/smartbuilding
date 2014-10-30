@@ -47,10 +47,12 @@ app.get('/getConnectionsByHour', database.getConnectionsByHour);
 app.get('/getConnectionsByWeekday', database.getConnectionsByWeekday);
 app.get('/getConnectionsByMonthday', database.getConnectionsByMonthday);
 app.get('/getConnectionsByMonth', database.getConnectionsByMonth);
+app.get('/getConnectionsByAP', database.getConnectionsByAP);
 app.get('/getUsageByHour', database.getUsageByHour);
 app.get('/getUsageByWeekday', database.getUsageByWeekday);
 app.get('/getUsageByMonthday', database.getUsageByMonthday);
 app.get('/getUsageByMonth', database.getUsageByMonth);
+app.get('/getUsageByAP', database.getUsageByAP);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));
@@ -59,4 +61,4 @@ http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
 sqliteDbContext.createDatabase();
 logParser.initLogger(sqliteDbContext);
 bandwidthMonitor.initBandwidthMonitor(sqliteDbContext);
-statsMonitor.initStatsMonitor(sqliteDbContext,"192.168.1.1");
+//statsMonitor.initStatsMonitor(sqliteDbContext,"192.168.1.1");

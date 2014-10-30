@@ -25,6 +25,11 @@ salwatorska_app.factory('databaseProvider', function($resource, $http) {
 		responseType : "json"
 	    });
 	},
+	getConnectionsByAP : function() {
+	    return $http.get("/getConnectionsByAP", {
+		responseType : "json"
+	    });
+	},
 	getUsageByHour : function() {
 	    return $http.get("/getUsageByHour", {
 		responseType : "json"
@@ -42,6 +47,11 @@ salwatorska_app.factory('databaseProvider', function($resource, $http) {
 	},
 	getUsageByMonth : function() {
 	    return $http.get("/getUsageByMonth", {
+		responseType : "json"
+	    });
+	},
+	getUsageByAP : function() {
+	    return $http.get("/getUsageByAP", {
 		responseType : "json"
 	    });
 	},
