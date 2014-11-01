@@ -17,8 +17,8 @@ Licence: MIT Open Source licence http://www.opensource.org/licenses/mit-license.
       this.display_width = $("#" + this.display_in_element).width();
       this.display_height = $("#" + this.display_in_element).height();
       this.r = Raphael(this.display_in_element, this.display_width, this.display_height);
-      this.left_margin = 5;
-      this.right_margin = 5;
+      this.left_margin = 45;
+      this.right_margin = 55;
       this.y_space = 12;
       this.threshold_for_drawing = 0;
       this.box_width = 50;
@@ -343,18 +343,18 @@ Licence: MIT Open Source licence http://www.opensource.org/licenses/mit-license.
     FlowLine.prototype.draw = function(r) {
       this.outer_line = r.path(this.path()).attr({
         'stroke-width': this.size,
-        'stroke': this.colour
+        'stroke': this.innerColor()
       });
       this.inner_line = r.path(this.path()).attr({
         'stroke-width': this.innerWidth(),
-        'stroke': this.innerColor()
+        'stroke': this.colour
       });
       r.set().push(this.inner_line, this.outer_line).hover(this.hover_start, this.hover_stop);
-      this.left_label = r.text(this.ox + 1, this.oy - (this.size / 2) - 5, this.labelText()).attr({
-        'text-anchor': 'start'
-      });
-      this.right_label = r.text(this.dx - 1, this.dy - (this.size / 2) - 5, this.labelText()).attr({
+      this.left_label = r.text(this.ox - 12, this.oy - (this.size / 2), this.labelText()).attr({
         'text-anchor': 'end'
+      });
+      this.right_label = r.text(this.dx + 12, this.dy - (this.size / 2), this.labelText()).attr({
+        'text-anchor': 'start'
       });
       this.left_label.hide();
       return this.right_label.hide();
@@ -476,7 +476,7 @@ Licence: MIT Open Source licence http://www.opensource.org/licenses/mit-license.
       this.hover_end = __bind(this.hover_end, this);
       this.hover_start = __bind(this.hover_start, this);
       this.label_text = this.sankey.convert_box_description_labels_callback(name);
-      this.line_colour = "orange";
+      this.line_colour = "#aaaaaa";
       this.left_lines = [];
       this.right_lines = [];
       this.x = 0;
@@ -642,7 +642,7 @@ Licence: MIT Open Source licence http://www.opensource.org/licenses/mit-license.
       box_width = this.sankey.box_width;
       this.box = r.rect(this.x, this.y, box_width, this.size()).attr({
         'fill': "#FFEA00",
-        "stroke": "#D4CBF2"
+        "stroke": "#FFEA00"
       });
       this.label = r.text(this.labelPositionX(), this.labelPositionY(), this.descriptionLabelText()).attr(this.labelAttributes());
       if (this.bubbleValue != null) {

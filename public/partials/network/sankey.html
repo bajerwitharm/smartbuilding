@@ -1,15 +1,17 @@
 <div ng-controller="networkUsageSankeyController">
 	<h4>Punkty dostępowe</h4>
 	<ul>
+		<li ng-if="selectedView!='usage'"
+			ng-click="changeSelectedView('usage')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Użycie</a></li>
+		<li ng-if="selectedView=='usage'" style=""><a>Użycie</a></li>
 		<li ng-if="selectedView!='connections'"
 			ng-click="changeSelectedView('connections')"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Połączenia</a></li>
 		<li ng-if="selectedView=='connections'" style=""><a>Połączenia</a></li>
-		<li ng-if="selectedView!='band'" ng-click="changeSelectedView('band')"
-			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Użycie</a></li>
-		<li ng-if="selectedView=='band'" style=""><a>Użycie</a></li>
+
 		<div class="clear"></div>
 	</ul>
 	<BR>
-	<div id="sankey" style="margin:0px; height:500px"></div>
+	<div id="sankey" style="margin: -20px; height: 600px"></div>
 </div>
