@@ -16,46 +16,38 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 	    var connectionsBy;
 
 	    var prepareConnectionsByAPChart = function() {
+		var sankey = new Sankey();
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'From');
-		data.addColumn('string', 'To');
-		data.addColumn('number', 'Weight');
+		var users = [];
+		var data = [];
+		$rootScope.filteredUsersInfo.forEach(function(entry) {
+		    users.push(entry.name);
+		});
+	//	sankey.right_margin = 160;
+	//	sankey.left_margin = 150;
+		sankey.box_width = 10;
+		sankey.stack(0, users);
+		sankey.stack(1, [ "main@salwatorska6", "parter1@salwatorska6",
+			"parter2@salwatorska6" ]);
+
 		connectionsBy.forEach(function(entry) {
-		    data.addRow([ entry.name, entry.ap,
-			    Number(entry.connections) / 1000 ]);
+		    if (users.indexOf(entry.name) >= 0) {
+			data.push([ entry.name, entry.connections / 30,
+				entry.ap ])
+		    }
+
 		});
 
-		// Set chart options
-		var options = {
-		    // width : 100%,
-		    height : 1000,
-		    sankey: {
-			      node: {
-			        label: {
-			          fontName: 'Times-Roman',
-			          fontSize: 12,
-			          color: '#000',
-			          bold: true,
-			          italic: false
-			        },
-			        labelPadding: 6, // Horizontal distance between the label and the node.
-			        nodePadding: 10, // Vertical distance between nodes.
-			        width: 6         // Thickness of the node.
-			      }
-			    }
-		};
 
-		// Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.Sankey(document
-			.getElementById('sankey_basic'));
-		chart.draw(data, options);
+		sankey.setData(data);
+		sankey.draw();
 	    }
-	    
+
 	    getConnectionsByAP();
-	    
+
 	    $scope.changeSelectedView = function(view) {
 		$scope.selectedView = view;
 	    }
-	    
-	    $scope.selectedView='connections';
+
+	    $scope.selectedView = 'connections';
 	} ]);
