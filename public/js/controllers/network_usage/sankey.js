@@ -22,8 +22,10 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 
 	    var getByAP = function() {
 		$("#sankey").empty();
-		if ($scope.selectedView=='connections') getConnectionsByAP();
-		if ($scope.selectedView=='usage') getUsageByAP();
+		if ($scope.selectedView == 'connections')
+		    getConnectionsByAP();
+		if ($scope.selectedView == 'usage')
+		    getUsageByAP();
 	    };
 
 	    var byAP;
@@ -33,7 +35,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		var data = [];
 		var sankey = new Sankey();
 		$rootScope.filteredUsersInfo.forEach(function(entry) {
-		    users.push(entry.name);
+		    users.push(entry.user_id);
 		});
 		sankey.box_width = 10;
 		sankey.stack(0, users);
@@ -45,11 +47,25 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		};
 
 		byAP.forEach(function(entry) {
-		    if (users.indexOf(entry.name) >= 0) {
-			data.push([ entry.name, entry.connections, entry.ap ])
+		    if (users.indexOf(entry.user_id) >= 0) {
+			data.push([ entry.user_id, entry.connections, entry.ap ])
 		    }
 
 		});
+
+		sankey.convert_box_description_labels_callback = function(
+			user_id) {
+		    var found = $.grep($rootScope.filteredUsersInfo, function(e) {
+			return e.user_id == user_id;
+		    });
+		    if (found[0]!=null) {
+			return found[0].name;
+		    }
+		    else
+		    {
+			return user_id;
+		    }
+		};
 
 		sankey.setData(data);
 		sankey.draw();
@@ -60,7 +76,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		var data = [];
 		sankey = new Sankey();
 		$rootScope.filteredUsersInfo.forEach(function(entry) {
-		    users.push(entry.name);
+		    users.push(entry.user_id);
 		});
 		sankey.box_width = 10;
 		sankey.stack(0, users);
@@ -80,10 +96,22 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		};
 
 		byAP.forEach(function(entry) {
-		    if (users.indexOf(entry.name) >= 0) {
-			data.push([ entry.name, entry.usage, entry.ap ])
+		    if (users.indexOf(entry.user_id) >= 0) {
+			data.push([ entry.user_id, entry.usage, entry.ap ])
 		    }
 		});
+
+		sankey.convert_box_description_labels_callback = function(
+			user_id) {
+		    var found = $.grep($rootScope.filteredUsersInfo, function(e) {
+			return e.user_id == user_id;
+		    });
+		    if (found[0]!=null) return found[0].name;
+		    else
+		    {
+			return user_id;
+		    }
+		};
 
 		sankey.setData(data);
 		sankey.draw();

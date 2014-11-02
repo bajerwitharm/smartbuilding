@@ -17,12 +17,12 @@ Licence: MIT Open Source licence http://www.opensource.org/licenses/mit-license.
       this.display_width = $("#" + this.display_in_element).width();
       this.display_height = $("#" + this.display_in_element).height();
       this.r = Raphael(this.display_in_element, this.display_width, this.display_height);
-      this.left_margin = 45;
-      this.right_margin = 55;
+      this.left_margin = 50;
+      this.right_margin = 60;
       this.y_space = 12;
       this.threshold_for_drawing = 0;
       this.box_width = 50;
-      this.flow_edge_width = 2;
+      this.flow_edge_width = 3;
       this.flow_curve = 0.25;
       this.boxes = {};
       this.box_array = [];

@@ -1,1 +1,1 @@
-select name,ap,sum(data_in)+sum(data_out) as usage from usage_by_ap join users on users.id=user_id group by user_id,ap;
+select user_id,ap,sum(data_in)+sum(data_out) as usage from usage_by_ap group by user_id,ap;
