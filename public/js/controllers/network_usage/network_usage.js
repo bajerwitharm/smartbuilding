@@ -7,8 +7,9 @@ salwatorskaControllers.controller('networkUsageController', [
 	function($scope, $rootScope, $filter, orderByFilter,
 		databaseProvider) {
 	    $rootScope.filteredUsersInfo = [];
-	    $rootScope.filterForm = {
+	    $rootScope.filterForm = {    
 	    };
+	    $rootScope.filterForm.filterText="";
 	    
 	    $rootScope.findItem = function(arr, key, value) {
 		for (var i = 0; i < arr.length; i++) {

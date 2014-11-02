@@ -17,14 +17,24 @@ salwatorskaControllers.controller('networkUsersTableController', [
 	    };
 
 	    $scope.prepareFilteredUsersInfo = function(predicate, reverse) {
-		$rootScope.filteredUsersInfo = $filter('filter')(orderByFilter(usersInfo, predicate, reverse),
-			$rootScope.filterForm.filterText);
+		var allAndFilters = $rootScope.filterForm.filterText.split("&");
+		var toFilter = orderByFilter(usersInfo, predicate, reverse);
+		allAndFilters.forEach(function(singleAndTextFilter) {
+		    var allOrFilters = singleAndTextFilter.split("|");
+		    var filtered = [];
+		    allOrFilters.forEach(function(singleTextFilter) {
+			filtered=filtered.concat($filter('filter')(toFilter,singleTextFilter));
+			});
+		    toFilter = filtered;
+		});
+		$rootScope.filteredUsersInfo = toFilter;
 
 		$rootScope.$broadcast('networkUsersGetAllDataAgain');
 	    };
 
-	    $rootScope.$on('networkUsersRefreshFilter',function() {
-		$scope.prepareFilteredUsersInfo($scope.predicate,$scope.reverse);
+	    $rootScope.$on('networkUsersRefreshFilter', function() {
+		$scope.prepareFilteredUsersInfo($scope.predicate,
+			$scope.reverse);
 	    });
 
 	    getUsersInfo();
