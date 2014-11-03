@@ -10,5 +10,5 @@ CREATE TEMP TABLE IF NOT EXISTS usage_by_weekday (id INTEGER primary key autoinc
 CREATE TEMP TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TEMP TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TEMP TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, ap TEXT, FOREIGN KEY(user_id) REFERENCES users(id));
-
+CREATE TEMP TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key autoincrement, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME);
 END TRANSACTION; 
