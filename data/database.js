@@ -222,6 +222,18 @@ module.exports.getUsageByAP = function(callback) {
     });
 };
 
+module.exports.getConnectionsInTime = function(callback) {
+    var query = readQuery("InsertNewConnectionsInTime");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.exec(query, function(err, rows) {
+	    query = readQuery("GetConnectionsInTime");
+	    sqliteDbContext.all(query, function(err, rows) {
+		callback(rows);
+	    });
+	});
+    });
+};
+
 function readQuery(queryName) {
     return fs.readFileSync("./data/queries/" + queryName, 'utf-8');
 };

@@ -48,6 +48,7 @@ app.get('/getConnectionsByWeekday', database.getConnectionsByWeekday);
 app.get('/getConnectionsByMonthday', database.getConnectionsByMonthday);
 app.get('/getConnectionsByMonth', database.getConnectionsByMonth);
 app.get('/getConnectionsByAP', database.getConnectionsByAP);
+app.get('/getConnectionsInTime', database.getConnectionsInTime);
 app.get('/getUsageByHour', database.getUsageByHour);
 app.get('/getUsageByWeekday', database.getUsageByWeekday);
 app.get('/getUsageByMonthday', database.getUsageByMonthday);

@@ -42,6 +42,13 @@ module.exports.getConnectionsByAP = function(req, res){
 	});
 };
 
+module.exports.getConnectionsInTime = function(req, res){
+	sqliteDbContext.getConnectionsInTime(function(data)
+	{
+		res.send(data);		
+	});
+};
+
 module.exports.getUsageByHour = function(req, res){
 	sqliteDbContext.getUsageByHour(function(data)
 	{

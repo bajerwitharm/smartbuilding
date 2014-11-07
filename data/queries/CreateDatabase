@@ -11,4 +11,6 @@ CREATE TEMP TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key autoin
 CREATE TEMP TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TEMP TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key autoincrement, timestamp DATETIME, user_id INTEGER, data_in INTEGER, data_out INTEGER, ap TEXT, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TEMP TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key autoincrement, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME);
+delete from connections where id in (select id from connections t1 where exists(select 1 from connections where t1.id-1=id and t1.user_id=user_id and t1.result=result and t1.ap=ap and t1.account=account));
+delete from queries where id in (select id from queries t1 where exists(select 1 from queries where t1.id-1=id and t1.url=url));
 END TRANSACTION; 

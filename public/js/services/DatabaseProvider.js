@@ -30,6 +30,11 @@ salwatorska_app.factory('databaseProvider', function($resource, $http) {
 		responseType : "json"
 	    });
 	},
+	getConnectionsInTime : function() {
+	    return $http.get("/getConnectionsInTime", {
+		responseType : "json"
+	    });
+	},
 	getUsageByHour : function() {
 	    return $http.get("/getUsageByHour", {
 		responseType : "json"

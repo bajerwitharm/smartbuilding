@@ -20,7 +20,11 @@ salwatorskaControllers.controller('networkUsageSummaryChartController',
 
 			$rootScope.filteredUsersInfo.forEach(function(entry) {
 			    if (entry.name == '') {
-				entry.name = entry.accounts.split(',')[0];
+				if (entry.accounts!=null) {
+				    entry.name = entry.accounts.split(',')[0];
+				} else {
+				    entry.name = '';
+				}
 			    }
 			    $scope.usageChart[0].values.push([ entry.name,
 				    entry.data_in ]);
