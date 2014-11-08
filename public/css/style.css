@@ -6,6 +6,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 */
 /* reset */
 
+.panel_gantt {
+
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-color:#424147;
+}
+
 .container-content {
     margin: 10px;
 }

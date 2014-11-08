@@ -9,7 +9,7 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
             fromDate: undefined,
             toDate: undefined,
             showLabelsColumn: true,
-            currentDate: 'line',
+            currentDate: 'none',
             currentDateValue : new Date(2013, 9, 23, 11, 20, 0),
             draw: false,
             readOnly: false,
@@ -40,7 +40,7 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
                     targets: ['weekend']
                 }
             },
-            timeFramesNonWorkingMode: 'visible',
+            timeFramesNonWorkingMode: 'hidden',
             columnMagnet: '5 minutes'
         };
 

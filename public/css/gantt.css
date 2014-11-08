@@ -19,6 +19,7 @@
 .gantt-labels {
     float: left;
     border-right: 1px solid #dddddd;
+
 }
 
 .gantt-labels-header {
@@ -32,6 +33,7 @@
 .gantt-header {
     overflow: hidden;
     border-top: 1px solid #dddddd;
+    background: #FFEA00;
 }
 
 .gantt-header-row, .gantt-labels-header-row {
