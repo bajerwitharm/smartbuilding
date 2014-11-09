@@ -18,12 +18,14 @@
 
 .gantt-labels {
     float: left;
-    border-right: 1px solid #dddddd;
-
+    border-right: 1px solid #424147;
+	background-color:#424147;
+	color: #FFF;
+	min-width: 180px !important;
 }
 
 .gantt-labels-header {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #FFF;
 }
 
 .gantt-labels-body {
@@ -32,7 +34,7 @@
 
 .gantt-header {
     overflow: hidden;
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid #424147;
     background: #FFEA00;
 }
 
@@ -45,12 +47,12 @@
 }
 
 .gantt-header-row-bottom {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #424147;
 }
 
 .gantt-header-row .gantt-column-header {
     position: absolute;
-    border-right: 1px solid #dddddd;
+    border-right: 1px solid #424147;
 }
 
 .gantt-labels-row span, .gantt-labels-header-row span, .gantt-header-row .gantt-column-header {
@@ -139,6 +141,10 @@
 
 .gantt-foreground-col-current-date {
     background-color: rgba(255, 0, 0, 0.3);
+}
+
+.gantt-labels .gantt-background-row-alt {
+    background-color: #424147;;
 }
 
 .gantt-background-row-alt {

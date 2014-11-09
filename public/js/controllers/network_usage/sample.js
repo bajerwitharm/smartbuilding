@@ -10,7 +10,8 @@
 angular.module('salwatorska_app')
     .service('Sample', function Sample() {
         return {
-            getSampleData: function() {
+
+            getSampleData2: function() {
                 return {
                     'data1': [
                         // Order is optional. If not specified it will be assigned automatically

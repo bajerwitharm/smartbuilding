@@ -1,16 +1,16 @@
-salwatorskaControllers.controller('networkUsageGanttChartController', function($scope, $timeout, Sample, moment, GANTT_EVENTS) {
+salwatorskaControllers.controller('networkUsageGanttChartController', function($scope, $rootScope, $timeout, Sample, moment, databaseProvider, GANTT_EVENTS) {
         $scope.options = {
             mode: 'custom',
-            scale: 'day',
+            scale: 'hour',
             maxHeight: false,
-            width: false,
+            width: true,
             autoExpand: 'none',
             taskOutOfRange: 'truncate',
             fromDate: undefined,
             toDate: undefined,
             showLabelsColumn: true,
             currentDate: 'none',
-            currentDateValue : new Date(2013, 9, 23, 11, 20, 0),
+            currentDateValue : new Date(2014, 11, 9, 11, 20, 0),
             draw: false,
             readOnly: false,
             filterTask: undefined,
@@ -43,6 +43,8 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
             timeFramesNonWorkingMode: 'hidden',
             columnMagnet: '5 minutes'
         };
+        
+        $scope.connectionsInTimeChart = [];
 
         $scope.$watch('fromDate+toDate', function() {
             $scope.options.fromDate = $scope.fromDate;
@@ -62,20 +64,18 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         });
 
         $scope.$on(GANTT_EVENTS.READY, function() {
-            $scope.addSamples();
             $timeout(function() {
                 $scope.scrollToDate($scope.options.currentDateValue);
             }, 0, true);
         });
 
-        $scope.addSamples = function() {
-            $scope.loadTimespans(Sample.getSampleTimespans().timespan1);
-            $scope.loadData(Sample.getSampleData().data1);
-        };
+        
 
         $scope.removeSomeSamples = function() {
             $scope.removeData([
-                {'id': 'c65c2672-445d-4297-a7f2-30de241b3145'}, // Remove all Kickoff meetings
+                {'id': 'c65c2672-445d-4297-a7f2-30de241b3145'}, // Remove all
+								// Kickoff
+								// meetings
                 {'id': '2f85dbeb-0845-404e-934e-218bf39750c0', 'tasks': [
                     {'id': 'f55549b5-e449-4b0c-9f4b-8b33381f7d76'},
                     {'id': '5e997eb3-4311-46b1-a1b4-7e8663ea8b0b'},
@@ -90,6 +90,11 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         $scope.removeSamples = function() {
             $scope.clearData();
         };
+        
+	$scope.changeSelectedView = function(view) {
+	    $scope.options.scale = view;
+	    $scope.selectedView = view;
+	};
 
         var rowEvent = function(event, data) {
             if (!$scope.options.readOnly && $scope.options.draw) {
@@ -97,17 +102,20 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
                 if ((data.evt.target ? data.evt.target : data.evt.srcElement).className.indexOf('gantt-row') > -1) {
                     var startDate = data.date;
                     var endDate = moment(startDate);
-                    //endDate.setDate(endDate.getDate());
+                    // endDate.setDate(endDate.getDate());
                     var infoTask = {
                         id: Uuid.randomUuid(),  // Unique id of the task.
                         name: 'Drawn task', // Name shown on top of each task.
-                        from: startDate, // Date can be a String, Timestamp or Date object.
-                        to: endDate,// Date can be a String, Timestamp or Date object.
-                        color: '#AA8833' // Color of the task in HEX format (Optional).
+                        from: startDate, // Date can be a String, Timestamp
+					    // or Date object.
+                        to: endDate,// Date can be a String, Timestamp or Date
+				    // object.
+                        color: '#AA8833' // Color of the task in HEX format
+					    // (Optional).
                     };
                     var task = data.row.addTask(infoTask);
                     task.isCreating = true;
-                    $scope.$apply(function() {
+                    $scope.$apply(function(){
                         task.updatePosAndSize();
                         data.row.updateVisibleTasks();
                     });
@@ -117,10 +125,12 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
 
         var logScrollEvent = function(event, data) {
             if (angular.equals(data.direction, 'left')) {
-                // Raised if the user scrolled to the left side of the Gantt. Use this event to load more data.
+                // Raised if the user scrolled to the left side of the Gantt.
+		// Use this event to load more data.
                 console.log('Scroll event: Left ' + data.left);
             } else if (angular.equals(data.direction, 'right')) {
-                // Raised if the user scrolled to the right side of the Gantt. Use this event to load more data.
+                // Raised if the user scrolled to the right side of the Gantt.
+		// Use this event to load more data.
                 console.log('Scroll event: Right');
             }
         };
@@ -149,7 +159,55 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
             }
             console.log('$scope.$on: ' + event.name + ': ' + output);
         };
+        
+        
 
+	    
+            var getSampleTimespans = function() {
+                return {
+                    'timespan1': [
+
+                    ]
+                };
+            };
+	    
+            var getUuid = function() {
+                return {
+                    s4: function() {
+                        return Math.floor((1 + Math.random()) * 0x10000)
+                            .toString(16)
+                            .substring(1);
+                    },
+                    randomUuid: function() {
+                        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+                            this.s4() + '-' + this.s4() + this.s4() + this.s4();
+                    }
+                };
+            };
+            
+            var prepareConnectionsInTimeChart = function() {
+		databaseProvider.getConnectionsInTime()
+		.success(function(data) {
+		    connectionsInTime = data;
+		    connectionsInTime.forEach(function(entry) {
+			    var element_index = $rootScope
+				    .findItem(
+					    $rootScope.filteredUsersInfo,
+					    "user_id", entry.user_id);
+			    if (element_index >= 0) {
+				if ($scope.connectionsInTimeChart[element_index]==null) {
+				    $scope.connectionsInTimeChart[element_index] = {'id':getUuid().randomUuid(),'name':$rootScope.filteredUsersInfo[element_index].name,'order': element_index,'tasks':[]}; 
+				};
+				$scope.connectionsInTimeChart[element_index].tasks.push({'id':getUuid().randomUuid(),'name':'','color': '#ffea00','from':entry.start_timestamp,'to':entry.end_timestamp});
+			    };
+		    });
+		    $scope.loadData($scope.connectionsInTimeChart);
+		    $scope.loadTimespans(getSampleTimespans().timespan1);
+		});
+            };
+                
+
+                  
         $scope.$on(GANTT_EVENTS.TASK_CLICKED, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_DBL_CLICKED, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_CONTEXTMENU, logTaskEvent);
@@ -157,10 +215,10 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         $scope.$on(GANTT_EVENTS.TASK_CHANGED, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_REMOVED, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_MOVE_BEGIN, logTaskEvent);
-        //$scope.$on(GANTT_EVENTS.TASK_MOVE, logTaskEvent);
+        // $scope.$on(GANTT_EVENTS.TASK_MOVE, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_MOVE_END, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_RESIZE_BEGIN, logTaskEvent);
-        //$scope.$on(GANTT_EVENTS.TASK_RESIZE, logTaskEvent);
+        // $scope.$on(GANTT_EVENTS.TASK_RESIZE, logTaskEvent);
         $scope.$on(GANTT_EVENTS.TASK_RESIZE_END, logTaskEvent);
 
         $scope.$on(GANTT_EVENTS.COLUMN_CLICKED, logTaskEvent);
@@ -207,4 +265,7 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         $scope.$on(GANTT_EVENTS.TASKS_FILTERED, function(event, data) {
             console.log('$scope.$on: ' + event.name + ': ' + data.filteredTasks.length + '/' + data.tasks.length + ' tasks displayed.');
         });
-    });
+        
+	$scope.$on('networkUsersGetAllDataAgain',prepareConnectionsInTimeChart);
+
+});

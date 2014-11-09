@@ -10,8 +10,18 @@
 <div class="clear"></div>
 
 <div class="project-list2"
-	ng-controller="networkUsageGanttChartController">
+	ng-controller="networkUsageGanttChartController" ng-init="selectedView = 'hour'">
+	<h4>Widok:</h4>
+	<ul>
+		<li ng-if="selectedView!='hour'" ng-click="changeSelectedView('hour')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Godziny</a></li>
+		<li ng-if="selectedView=='hour'" style=""><a>Godziny</a></li>
+		<li ng-if="selectedView!='day'" ng-click="changeSelectedView('day')"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni</a></li>
+		<li ng-if="selectedView=='day'" style=""><a>Dni</a></li>
+		<div class="clear"></div>
 
+	</ul>
 
 	<div class="panel_gantt">
 
