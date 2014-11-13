@@ -9,7 +9,6 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		databaseProvider.getConnectionsByAP().success(function(data) {
 		    byAP = data;
 		    prepareConnectionsByAPChart();
-
 		});
 	    };
 
@@ -40,7 +39,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		sankey.box_width = 10;
 		sankey.stack(0, users);
 		sankey.stack(1, [ "main@salwatorska6", "parter1@salwatorska6",
-			"parter2@salwatorska6","pietro2_1@salwatorska.pl" ]);
+			"parter2@salwatorska6","pietro2_1@salwatorska6" ]);
 
 		sankey.convert_flow_values_callback = function(flow) {
 		    return flow / 30; // Pixels per TWh
@@ -74,17 +73,18 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 	    var prepareUsageByAPChart = function() {
 		var users = [];
 		var data = [];
+		var sumOfUsage;
 		sankey = new Sankey();
 		$rootScope.filteredUsersInfo.forEach(function(entry) {
-		    users.push(entry.user_id);
+		    users.push(entry.user_id);	    
 		});
 		sankey.box_width = 10;
 		sankey.stack(0, users);
 		sankey.stack(1, [ "main@salwatorska6", "parter1@salwatorska6",
-			"parter2@salwatorska6","pietro2_1@salwatorska.pl" ]);
+			"parter2@salwatorska6","pietro2_1@salwatorska6" ]);
 
 		sankey.convert_flow_values_callback = function(flow) {
-		    return flow / 1000000; // Pixels per TWh
+		    return flow / (sumOfUsage/150); // Pixels per TWh
 		};
 
 		sankey.convert_box_value_labels_callback = function(flow) {
@@ -95,9 +95,11 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		    return $filter('bytesFilter')(flow);
 		};
 
+		sumOfUsage = 0;
 		byAP.forEach(function(entry) {
 		    if (users.indexOf(entry.user_id) >= 0) {
-			data.push([ entry.user_id, entry.usage, entry.ap ])
+			data.push([ entry.user_id, entry.usage, entry.ap ]);
+			sumOfUsage += entry.usage;
 		    }
 		});
 

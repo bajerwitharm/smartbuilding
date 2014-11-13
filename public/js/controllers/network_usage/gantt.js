@@ -1,5 +1,5 @@
-salwatorskaControllers.controller('networkUsageGanttChartController', function($scope, $rootScope, $timeout, Sample, moment, databaseProvider, GANTT_EVENTS) {
-        $scope.options = {
+salwatorskaControllers.controller('networkUsageGanttChartController', function($scope, $rootScope, $timeout, Sample, moment, databaseProvider, GANTT_EVENTS) { 
+    $scope.options = {
             mode: 'custom',
             scale: 'hour',
             maxHeight: false,
@@ -10,9 +10,9 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
             toDate: undefined,
             showLabelsColumn: true,
             currentDate: 'none',
-            currentDateValue : new Date(2014, 11, 9, 11, 20, 0),
+            currentDateValue : new Date(),
             draw: false,
-            readOnly: false,
+            readOnly: true,
             filterTask: undefined,
             filterRow: undefined,
             timeFrames:
@@ -46,11 +46,6 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         
         $scope.connectionsInTimeChart = [];
 
-        $scope.$watch('fromDate+toDate', function() {
-            $scope.options.fromDate = $scope.fromDate;
-            $scope.options.toDate = $scope.toDate;
-        });
-
         $scope.$watch('options.scale', function(newValue, oldValue) {
             if (!angular.equals(newValue, oldValue)) {
                 if (newValue === 'quarter') {
@@ -65,75 +60,15 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
 
         $scope.$on(GANTT_EVENTS.READY, function() {
             $timeout(function() {
-                $scope.scrollToDate($scope.options.currentDateValue);
+                $scope.scrollToDate(new Date());
             }, 0, true);
         });
 
-        
-
-        $scope.removeSomeSamples = function() {
-            $scope.removeData([
-                {'id': 'c65c2672-445d-4297-a7f2-30de241b3145'}, // Remove all
-								// Kickoff
-								// meetings
-                {'id': '2f85dbeb-0845-404e-934e-218bf39750c0', 'tasks': [
-                    {'id': 'f55549b5-e449-4b0c-9f4b-8b33381f7d76'},
-                    {'id': '5e997eb3-4311-46b1-a1b4-7e8663ea8b0b'},
-                    {'id': '6fdfd775-7b22-42ec-a12c-21a64c9e7a9e'}
-                ]}, // Remove some Milestones
-                {'id': 'cfb29cd5-1737-4027-9778-bb3058fbed9c', 'tasks': [
-                    {'id': '57638ba3-dfff-476d-ab9a-30fda1e44b50'}
-                ]} // Remove order basket from Sprint 2
-            ]);
-        };
-
-        $scope.removeSamples = function() {
-            $scope.clearData();
-        };
         
 	$scope.changeSelectedView = function(view) {
 	    $scope.options.scale = view;
 	    $scope.selectedView = view;
 	};
-
-        var rowEvent = function(event, data) {
-            if (!$scope.options.readOnly && $scope.options.draw) {
-                // Example to draw task inside row
-                if ((data.evt.target ? data.evt.target : data.evt.srcElement).className.indexOf('gantt-row') > -1) {
-                    var startDate = data.date;
-                    var endDate = moment(startDate);
-                    // endDate.setDate(endDate.getDate());
-                    var infoTask = {
-                        id: Uuid.randomUuid(),  // Unique id of the task.
-                        name: 'Drawn task', // Name shown on top of each task.
-                        from: startDate, // Date can be a String, Timestamp
-					    // or Date object.
-                        to: endDate,// Date can be a String, Timestamp or Date
-				    // object.
-                        color: '#AA8833' // Color of the task in HEX format
-					    // (Optional).
-                    };
-                    var task = data.row.addTask(infoTask);
-                    task.isCreating = true;
-                    $scope.$apply(function(){
-                        task.updatePosAndSize();
-                        data.row.updateVisibleTasks();
-                    });
-                }
-            }
-        };
-
-        var logScrollEvent = function(event, data) {
-            if (angular.equals(data.direction, 'left')) {
-                // Raised if the user scrolled to the left side of the Gantt.
-		// Use this event to load more data.
-                console.log('Scroll event: Left ' + data.left);
-            } else if (angular.equals(data.direction, 'right')) {
-                // Raised if the user scrolled to the right side of the Gantt.
-		// Use this event to load more data.
-                console.log('Scroll event: Right');
-            }
-        };
 
         var logTaskEvent = function(event, data) {
             // A task event has occured.
@@ -163,12 +98,8 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         
 
 	    
-            var getSampleTimespans = function() {
-                return {
-                    'timespan1': [
-
-                    ]
-                };
+            var getTimespan = function() {
+                return [];
             };
 	    
             var getUuid = function() {
@@ -186,10 +117,8 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
             };
             
             var prepareConnectionsInTimeChart = function() {
-		databaseProvider.getConnectionsInTime()
-		.success(function(data) {
-		    connectionsInTime = data;
-		    connectionsInTime.forEach(function(entry) {
+		    $scope.connectionsInTimeChart=[];
+		    $scope.connectionsInTime.forEach(function(entry) {
 			    var element_index = $rootScope
 				    .findItem(
 					    $rootScope.filteredUsersInfo,
@@ -201,10 +130,19 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
 				$scope.connectionsInTimeChart[element_index].tasks.push({'id':getUuid().randomUuid(),'name':'','color': '#ffea00','from':entry.start_timestamp,'to':entry.end_timestamp});
 			    };
 		    });
+		    $scope.clearData();
 		    $scope.loadData($scope.connectionsInTimeChart);
-		    $scope.loadTimespans(getSampleTimespans().timespan1);
-		});
+		    $scope.loadTimespans(getTimespan());
+		    $scope.scrollToDate(new Date());
             };
+            
+            var getConnectionsInTime = function() {
+		databaseProvider.getConnectionsInTime()
+		.success(function(data) {
+		    $scope.connectionsInTime = data;
+		    prepareConnectionsInTimeChart();
+		});
+            }
                 
 
                   
@@ -236,8 +174,6 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         $scope.$on(GANTT_EVENTS.ROW_ADDED, logTaskEvent);
         $scope.$on(GANTT_EVENTS.ROW_REMOVED, logTaskEvent);
 
-        $scope.$on(GANTT_EVENTS.ROW_MOUSEDOWN, rowEvent);
-
         $scope.$on(GANTT_EVENTS.ROW_LABEL_MOUSEDOWN, logTaskEvent);
         $scope.$on(GANTT_EVENTS.ROW_LABEL_MOUSEUP, logTaskEvent);
         $scope.$on(GANTT_EVENTS.ROW_LABEL_CLICKED, logTaskEvent);
@@ -256,8 +192,7 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         $scope.$on(GANTT_EVENTS.TIMESPAN_CHANGED, logTaskEvent);
 
         $scope.$on(GANTT_EVENTS.READY, logTaskEvent);
-        $scope.$on(GANTT_EVENTS.SCROLL, logScrollEvent);
-
+        
         $scope.$on(GANTT_EVENTS.ROWS_FILTERED, function(event, data) {
             console.log('$scope.$on: ' + event.name + ': ' + data.filteredRows.length + '/' +  data.rows.length + ' rows displayed.');
         });
@@ -267,5 +202,5 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
         });
         
 	$scope.$on('networkUsersGetAllDataAgain',prepareConnectionsInTimeChart);
-
+	getConnectionsInTime();
 });

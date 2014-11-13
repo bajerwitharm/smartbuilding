@@ -1,5 +1,6 @@
 .gantt {
     line-height: 1;
+    font-size: 14px;
 }
 
 .gantt-scrollable {
@@ -21,7 +22,7 @@
     border-right: 1px solid #424147;
 	background-color:#424147;
 	color: #FFF;
-	min-width: 180px !important;
+	width: 200px !important;
 }
 
 .gantt-labels-header {
@@ -67,11 +68,6 @@
     text-overflow: clip;
 }
 
-.gantt-labels-row span, .gantt-labels-header-row {
-    padding-left: 12px;
-    padding-right: 12px;
-}
-
 .gantt-labels-header-row {
     overflow: hidden;
     white-space: nowrap;
@@ -107,6 +103,7 @@
 .gantt-body-columns {
     position: absolute;
     height: 100%;
+    width: 10px;
 }
 
 .gantt-foreground-col, .gantt-foreground-col-weekend, .gantt-foreground-col-nonworkhour, .gantt-foreground-col-current-date {
@@ -327,4 +324,14 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+@media ( max-width :640px) {
+	.gantt {
+	    font-size: 10px;
+	}
+	
+	.gantt-labels {
+		width: 145px !important;
+	}
 }

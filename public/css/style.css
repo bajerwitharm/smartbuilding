@@ -6,6 +6,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 */
 /* reset */
 
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+nvd3-multi-bar-chart svg {
+	 height: 500px;
+}
+
 .panel_gantt {
 
   background-color: #fff;
@@ -1944,6 +1960,9 @@ h5.leave {
 	.span_1_of_2 {
 		width: 94%;
 	}
+	nvd3-multi-bar-chart svg {
+	 height: 300px;
+	}
 }
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 @media only screen and (max-width: 480px) {
@@ -1959,6 +1978,9 @@ h5.leave {
 	.span_1_of_2 {
 		width: 92%;
 		padding: 4%;
+	}
+	nvd3-multi-bar-chart svg {
+	 height: 250px;
 	}
 }
 
@@ -2695,7 +2717,7 @@ span.yellow1 a {
 		font-size: 11px;
 	}
 	.project-list2 {
-		padding: 20px;
+		padding: 10px;
 	}
 	.project-list {
 		padding: 20px;
@@ -2943,7 +2965,7 @@ span.yellow1 a {
 		font-size: 11px;
 	}
 	.project-list2 {
-		padding: 20px;
+		padding: 10px;
 	}
 	.project-list {
 		padding: 20px;
@@ -3190,7 +3212,7 @@ span.yellow1 a {
 		font-size: 11px;
 	}
 	.project-list2 {
-		padding: 10px;
+		padding: 5px;
 	}
 	.project-list {
 		padding: 20px;
@@ -3498,7 +3520,7 @@ span.yellow1 a {
 		font-size: 11px;
 	}
 	.project-list2 {
-		padding: 3px;
+		padding: 2px;
 	}
 	.project-list {
 		padding: 20px;
