@@ -1,7 +1,7 @@
 var salwatorska_app = angular.module('salwatorska_app', [ 'ngRoute',
-	'ngResource', 'ng-nvd3', 'nvd3ChartDirectives', 'salwatorskaControllers', 'onFinishRender', 'filters','gantt' ]);
+	'ngResource', 'ng-nvd3', 'nvd3ChartDirectives', 'salwatorskaControllers', 'onFinishRender', 'filters','gantt', 'angulartics', 'angulartics.google.analytics' ]);
 
-salwatorska_app.config([ '$routeProvider', function($routeProvider) {
+salwatorska_app.config([ '$routeProvider', function($routeProvider, $analyticsProvider) {
 
     $routeProvider.when('/main', {
 	templateUrl : '/partials/main/main.html',

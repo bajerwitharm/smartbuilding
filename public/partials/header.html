@@ -2,12 +2,12 @@
 <div class="header">
 	<div class="wrap">
 		<div class="logo">
-			<a href="/partials/main"><img src="images/logo.png" alt="" /></a>
+			<a href="#/main"><img src="images/logo.png" alt="" /></a>
 		</div>
 		<div class="cssmenu">
 			<ul>
-				<li class="active"><a ng-href="/partials/main">O nas</a></li>
-				<li><a ng-href="/partials/vwalk">Wirtualny spacer</a></li>
+				<li ng-class="{ 'active' : (selectedView=='main') }"><a ng-href="#/main">O nas</a></li>
+				<li ng-class="{ 'active' : (selectedView=='vwalk') }"><a ng-href="#/vwalk">Wirtualny spacer</a></li>
 			</ul>
 		</div>
 		<div class="clear"></div>

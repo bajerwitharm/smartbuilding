@@ -8,4 +8,5 @@ function($scope, $rootScope) {
 	        "wmode" : "Opaque"
 	    })
 	});
+	$rootScope.selectedView='vwalk';
 } ]);

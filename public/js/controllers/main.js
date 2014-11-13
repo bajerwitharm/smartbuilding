@@ -27,4 +27,5 @@ function($scope, $rootScope) {
 			});
 		})(jQuery);
 	});
+	$rootScope.selectedView='main';
 } ]);
