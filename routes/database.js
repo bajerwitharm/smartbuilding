@@ -49,6 +49,28 @@ module.exports.getConnectionsInTime = function(req, res){
 	});
 };
 
+
+module.exports.getConnectionsLast = function(req, res){
+	sqliteDbContext.getConnectionsLast(function(data)
+	{
+		res.send(data);		
+	});
+};
+
+module.exports.getUrlsLast = function(req, res){
+	sqliteDbContext.getUrlsLast(function(data)
+	{
+		res.send(data);		
+	});
+};
+
+module.exports.getOtherLogsLast = function(req, res){
+	sqliteDbContext.getOtherLogsLast(function(data)
+	{
+		res.send(data);		
+	});
+};
+
 module.exports.getUsageByHour = function(req, res){
 	sqliteDbContext.getUsageByHour(function(data)
 	{

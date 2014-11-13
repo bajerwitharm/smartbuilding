@@ -1,0 +1,1 @@
+select datetime(timestamp) as timestamp,host,program,msg from logs order by id desc limit 10;

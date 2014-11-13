@@ -1,0 +1,65 @@
+
+<h4>Zdarzenia</h4>
+
+<ul ng-controller="eventsTableController">
+	<li ng-if="selectedView!='connections'" ng-click="getConnectionsLast()"
+		style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Połączenia</a></li>
+	<li ng-click="getConnectionsLast()" ng-if="selectedView=='connections'"
+		style=""><a>Połączenia</a></li>
+	<li ng-if="selectedView!='urls'" ng-click="getUrlsLast()"
+		style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Adresy</a></li>
+	<li ng-if="selectedView=='urls'" ng-click="getUrlsLast()" style=""><a>Adresy</a></li>
+	<li ng-if="selectedView!='others'"
+		ng-click="getOtherLogsLast()"
+		style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Inne</a></li>
+	<li ng-click="getOtherLogsLast()" ng-if="selectedView=='others'" style=""><a>Inne</a></li>
+	<div class="clear"></div>
+	<table ng-if="selectedView=='connections'" style="font-size: 11px">
+		<tr>
+			<th></th>
+			<th>Time</th>
+			<th>Host</th>
+			<th>User</th>
+			<th>AP</th>
+		</tr>
+		<tr data-ng-repeat="singleConnection in connectionsLastTable">
+			<td><image ng-if="singleConnection.result == 'OK' "
+					src="/images/ok.png" /> <image
+					ng-if="singleConnection.result == 'incorrect' "
+					src="/images/fail.png" /></td>
+			<td>{{singleConnection.timestamp}}</td>
+			<td>{{singleConnection.host}}</td>
+			<td>{{singleConnection.account}}</td>
+			<td>{{singleConnection.ap}}</td>
+		</tr>
+	</table>
+
+	<table ng-if="selectedView=='urls'" style="font-size: 11px">
+		<tr>
+			<th>Time</th>
+			<th>Host</th>
+			<th>Adres</th>
+		</tr>
+		<tr data-ng-repeat="singleUrl in urlsLastTable">
+			<td>{{singleUrl.timestamp}}</td>
+			<td>{{singleUrl.host}}</td>
+			<td>{{singleUrl.url}}</td>
+		</tr>
+	</table>
+
+	<table ng-if="selectedView=='others'" style="font-size: 11px">
+		<tr>
+			<th>Time</th>
+			<th>Device</th>
+			<th>Source</th>
+			<th>Message</th>
+		</tr>
+		<tr data-ng-repeat="singleLog in otherLogsLastTable">
+			<td>{{singleLog.timestamp}}</td>
+			<td>{{singleLog.host}}</td>
+			<td>{{singleLog.program}}</td>
+			<td>{{singleLog.msg}}</td>
+		</tr>
+	</table>
+</ul>
+

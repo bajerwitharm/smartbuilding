@@ -234,6 +234,33 @@ module.exports.getConnectionsInTime = function(callback) {
     });
 };
 
+module.exports.getConnectionsLast = function(callback) {
+    var query = readQuery("GetConnectionsLast");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.all(query, function(err, rows) {
+	    callback(rows);
+	});
+    });
+};
+
+module.exports.getUrlsLast = function(callback) {
+    var query = readQuery("GetUrlsLast");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.all(query, function(err, rows) {
+	    callback(rows);
+	});
+    });
+};
+
+module.exports.getOtherLogsLast = function(callback) {
+    var query = readQuery("GetOtherLogsLast");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.all(query, function(err, rows) {
+	    callback(rows);
+	});
+    });
+};
+
 function readQuery(queryName) {
     return fs.readFileSync("./data/queries/" + queryName, 'utf-8');
 };
