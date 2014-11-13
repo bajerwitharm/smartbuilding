@@ -87,6 +87,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		    return flow / (sumOfUsage/150); // Pixels per TWh
 		};
 
+		
 		sankey.convert_box_value_labels_callback = function(flow) {
 		    return $filter('bytesFilter')(flow);
 		};
