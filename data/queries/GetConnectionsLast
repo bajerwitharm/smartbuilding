@@ -1,1 +1,1 @@
-select datetime(timestamp) as timestamp, result, account, ap, user_id from connections order by id desc limit 10;
+select datetime(timestamp) as timestamp, result, account, ap, user_id from connections {1} order by id desc limit 10;

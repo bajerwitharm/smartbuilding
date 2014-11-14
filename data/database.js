@@ -108,154 +108,201 @@ module.exports.insertNewStats = function(stats, callback) {
     });
 };
 
-module.exports.getUsersInfo = function(callback) {
-    var query = readQuery("GetUsersInfo");
+var prepareTimeCondition = function(query, junction, table) {
+    var condition = "";
+    if (table != null) {
+	table = junction + " " + table + '.';
+    } else {
+	table = junction;
+    }
+    if ((query.from != null) && (query.till != null)) {
+	condition = table + "timestamp between '" + query.from + "' and '"
+		+ query.till + "'";
+    } else if (query.from != null) {
+	condition = table + "timestamp>='" + query.from + "'";
+    } else if (query.till != null) {
+	condition = table + "timestamp<='" + query.till + "'";
+    }
+    return condition;
+}
+
+module.exports.getUsersInfo = function(callback, query) {
+    var conditionUsage = prepareTimeCondition(query, 'where', 'usage');
+    var conditionConnections = prepareTimeCondition(query, 'where',
+	    'connections');
+    var sqlquery = format(readQuery("GetUsersInfo"), conditionUsage,
+	    conditionConnections);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getConnectionsByHour = function(callback) {
-    var query = readQuery("GetConnectionsByHour");
+module.exports.getConnectionsByHour = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'and', 'connections');
+    var sqlquery = format(readQuery("GetConnectionsByHour"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getConnectionsByWeekday = function(callback) {
-    var query = readQuery("GetConnectionsByWeekday");
+module.exports.getConnectionsByWeekday = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'and', 'connections');
+    var sqlquery = format(readQuery("GetConnectionsByWeekday"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getConnectionsByMonthday = function(callback) {
-    var query = readQuery("GetConnectionsByMonthday");
+module.exports.getConnectionsByMonthday = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'and', 'connections');
+    var sqlquery = format(readQuery("GetConnectionsByMonthday"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getConnectionsByMonth = function(callback) {
-    var query = readQuery("GetConnectionsByMonth");
+module.exports.getConnectionsByMonth = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'and', 'connections');
+    var sqlquery = format(readQuery("GetConnectionsByMonth"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getConnectionsByAP = function(callback) {
-    var query = readQuery("GetConnectionsByAP");
+module.exports.getConnectionsByAP = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'where', 'connections');
+    var sqlquery = format(readQuery("GetConnectionsByAP"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getUsageByHour = function(callback) {
-    var query = readQuery("InsertNewUsagePerHour");
+module.exports.getUsageByHour = function(callback, query) {
+    var sqlquery = readQuery("InsertNewUsagePerHour");
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.exec(query, function(err, rows) {
-	    query = readQuery("GetUsageByHour");
-	    sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.exec(sqlquery, function(err, rows) {
+	    var condition = prepareTimeCondition(query, 'where',
+		    'usage_by_hour');
+	    sqlquery = format(readQuery("GetUsageByHour"), condition);
+	    sqliteDbContext.all(sqlquery, function(err, rows) {
 		callback(rows);
 	    });
 	});
     });
 };
 
-module.exports.getUsageByWeekday = function(callback) {
-    var query = readQuery("InsertNewUsagePerWeekday");
+module.exports.getUsageByWeekday = function(callback, query) {
+    var sqlquery = readQuery("InsertNewUsagePerWeekday");
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.exec(query, function(err, rows) {
-	    query = readQuery("GetUsageByWeekday");
-	    sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.exec(sqlquery, function(err, rows) {
+	    var condition = prepareTimeCondition(query, 'where',
+		    'usage_by_weekday');
+	    sqlquery = format(readQuery("GetUsageByWeekday"), condition);
+	    sqliteDbContext.all(sqlquery, function(err, rows) {
 		callback(rows);
 	    });
 	});
     });
 };
 
-module.exports.getUsageByMonthday = function(callback) {
-    var query = readQuery("InsertNewUsagePerMonthday");
+module.exports.getUsageByMonthday = function(callback, query) {
+    var sqlquery = readQuery("InsertNewUsagePerMonthday");
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.exec(query, function(err, rows) {
-	    query = readQuery("GetUsageByMonthday");
-	    sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.exec(sqlquery, function(err, rows) {
+	    var condition = prepareTimeCondition(query, 'where',
+		    'usage_by_monthday');
+	    sqlquery = format(readQuery("GetUsageByMonthday"), condition);
+	    sqliteDbContext.all(sqlquery, function(err, rows) {
 		callback(rows);
 	    });
 	});
     });
 };
 
-module.exports.getUsageByMonth = function(callback) {
-    var query = readQuery("InsertNewUsagePerMonth");
+module.exports.getUsageByMonth = function(callback, query) {
+    var sqlquery = readQuery("InsertNewUsagePerMonth");
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.exec(query, function(err, rows) {
-	    query = readQuery("GetUsageByMonth");
-	    sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.exec(sqlquery, function(err, rows) {
+	    var condition = prepareTimeCondition(query, 'where',
+		    'usage_by_month');
+	    sqlquery = format(readQuery("GetUsageByMonth"), condition);
+	    sqliteDbContext.all(sqlquery, function(err, rows) {
 		callback(rows);
 	    });
 	});
     });
 };
 
-module.exports.getUsageByAP = function(callback) {
-    var query = readQuery("InsertNewUsagePerAP");
+module.exports.getUsageByAP = function(callback, query) {
+    var sqlquery = readQuery("InsertNewUsagePerAP");
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.exec(query, function(err, rows) {
-	    query = readQuery("GetUsageByAP");
-	    sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.exec(sqlquery,
+		function(err, rows) {
+		    var condition = prepareTimeCondition(query, 'where',
+			    'usage_by_ap');
+		    sqlquery = format(readQuery("GetUsageByAP"), condition);
+		    sqliteDbContext.all(sqlquery, function(err, rows) {
+			callback(rows);
+		    });
+		});
+    });
+};
+
+module.exports.getConnectionsInTime = function(callback, query) {
+    var sqlquery = readQuery("InsertNewConnectionsInTime");
+    sqliteDbContext.serialize(function() {
+	sqliteDbContext.exec(sqlquery, function(err, rows) {
+	    var condition = prepareTimeCondition(query, 'where',
+		    'connections_in_time').replace('timestamp',
+		    'start_timestamp')
+		    + " "
+		    + prepareTimeCondition(query, 'and', 'connections_in_time')
+			    .replace('timestamp', 'end_timestamp');
+	    sqlquery = format(readQuery("GetConnectionsInTime"), condition);
+	    sqliteDbContext.all(sqlquery, function(err, rows) {
 		callback(rows);
 	    });
 	});
     });
 };
 
-module.exports.getConnectionsInTime = function(callback) {
-    var query = readQuery("InsertNewConnectionsInTime");
+module.exports.getConnectionsLast = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'where', 'connections');
+    var sqlquery = format(readQuery("GetConnectionsLast"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.exec(query, function(err, rows) {
-	    query = readQuery("GetConnectionsInTime");
-	    sqliteDbContext.all(query, function(err, rows) {
-		callback(rows);
-	    });
-	});
-    });
-};
-
-module.exports.getConnectionsLast = function(callback) {
-    var query = readQuery("GetConnectionsLast");
-    sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getUrlsLast = function(callback) {
-    var query = readQuery("GetUrlsLast");
+module.exports.getUrlsLast = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'where', 'queries');
+    var sqlquery = format(readQuery("GetUrlsLast"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });
 };
 
-module.exports.getOtherLogsLast = function(callback) {
-    var query = readQuery("GetOtherLogsLast");
+module.exports.getOtherLogsLast = function(callback, query) {
+    var condition = prepareTimeCondition(query, 'where', 'logs');
+    var sqlquery = format(readQuery("GetOtherLogsLast"), condition);
     sqliteDbContext.serialize(function() {
-	sqliteDbContext.all(query, function(err, rows) {
+	sqliteDbContext.all(sqlquery, function(err, rows) {
 	    callback(rows);
 	});
     });

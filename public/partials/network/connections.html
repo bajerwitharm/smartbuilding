@@ -15,20 +15,26 @@
 	ng-init="selectedView = 'hours'">
 	<h4>Widok:</h4>
 	<ul>
-		<li ng-if="selectedView!='hours'" ng-click="changeSelectedView('hours')"
+		<li ng-if="selectedView!='hours'"
+			ng-click="changeSelectedView('hours')" analytics-event="SelectedView"
+			analytics-category="networkUsage" analytics-label="hours"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Godziny</a></li>
 		<li ng-if="selectedView=='hours'" style=""><a>Godziny</a></li>
 		<li ng-if="selectedView!='weekdays'"
-			ng-click="changeSelectedView('weekdays')"
+			ng-click="changeSelectedView('weekdays')" analytics-event="SelectedView"
+			analytics-category="networkUsage" analytics-label="weekdays"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni
 				tygodnia</a></li>
 		<li ng-if="selectedView=='weekdays'" style=""><a>Dni tygodnia</a></li>
-		<li ng-if="selectedView!='monthdays'"
+		<li ng-if="selectedView!='monthdays'" analytics-event="SelectedView"
+			analytics-category="networkUsage" analytics-label="monthdays"
 			ng-click="changeSelectedView('monthdays')"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Dni
 				miesiąca</a></li>
-		<li ng-if="selectedView=='monthdays'" style=""><a>Dni miesiąca</a></li>
-				<li ng-if="selectedView!='months'"
+		<li ng-if="selectedView=='monthdays'" style=""><a>Dni
+				miesiąca</a></li>
+		<li ng-if="selectedView!='months'" analytics-event="SelectedView"
+			analytics-category="networkUsage" analytics-label="months"
 			ng-click="changeSelectedView('months')"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Miesiące</a></li>
 		<li ng-if="selectedView=='months'" style=""><a>Miesiące</a></li>
@@ -40,7 +46,8 @@
 		tooltips="true" interactive="false" useInteractiveGuideline="true"
 		stacked="true" toolTipContent="toolTipContentFunction()"
 		xAxisTickFormat="xAxisTickFormat()"
-		yAxisTickFormat="yAxisTickFormat()"> <svg></svg> </nvd3-multi-bar-chart>
+		yAxisTickFormat="yAxisTickFormat()"> <svg></svg>
+	</nvd3-multi-bar-chart>
 
 </div>
 <br>

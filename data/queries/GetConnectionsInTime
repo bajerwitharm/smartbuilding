@@ -1,1 +1,1 @@
-select * from connections_in_time;
+select * from connections_in_time {1};

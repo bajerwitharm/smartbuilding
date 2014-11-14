@@ -1,1 +1,1 @@
-select datetime(timestamp) as timestamp,user_id,url from queries order by id desc limit 10;
+select datetime(timestamp) as timestamp,user_id,url from queries {1} order by id desc limit 10;

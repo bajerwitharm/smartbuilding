@@ -1,1 +1,1 @@
-select user_id,ap,group_concat(DISTINCT account) AS accounts,count(*) as connections from connections group by ap,user_id;
+select user_id,ap,group_concat(DISTINCT account) AS accounts,count(*) as connections from connections {1} group by ap,user_id;

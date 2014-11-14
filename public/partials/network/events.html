@@ -43,7 +43,7 @@
 		<tr data-ng-repeat="singleUrl in urlsLastTable">
 			<td>{{singleUrl.timestamp}}</td>
 			<td>{{singleUrl.host}}</td>
-			<td>{{singleUrl.url}}</td>
+			<td><a href='{{singleUrl.url}}'>{{singleUrl.url}}</a></td>
 		</tr>
 	</table>
 

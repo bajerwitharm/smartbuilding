@@ -1,1 +1,1 @@
-select count(*) AS connections, name, account, (strftime('%H',connections.timestamp))%24 as hour from users left join connections on connections.user_id=users.id where result='OK' group by hour, mac order by connections desc;
+select count(*) AS connections, name, account, (strftime('%H',connections.timestamp))%24 as hour from users left join connections on connections.user_id=users.id where result='OK' {1} group by hour, mac order by connections desc;
