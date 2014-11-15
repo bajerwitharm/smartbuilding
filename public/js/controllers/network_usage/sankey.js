@@ -81,7 +81,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		sankey.box_width = 10;
 		sankey.stack(0, users);
 		sankey.stack(1, [ "main@salwatorska6", "parter1@salwatorska6",
-			"parter2@salwatorska6","pietro2_1@salwatorska6" ]);
+			"parter2@salwatorska6","pietro2_1@salwatorska6","" ]);
 
 		sankey.convert_flow_values_callback = function(flow) {
 		    return flow / (sumOfUsage/150); // Pixels per TWh
@@ -99,6 +99,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		sumOfUsage = 0;
 		byAP.forEach(function(entry) {
 		    if (users.indexOf(entry.user_id) >= 0) {
+			if (entry.ap==null) entry.ap = "";
 			data.push([ entry.user_id, entry.usage, entry.ap ]);
 			sumOfUsage += entry.usage;
 		    }
