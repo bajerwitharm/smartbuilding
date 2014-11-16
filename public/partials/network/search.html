@@ -1,9 +1,40 @@
+<div class="project-list2">
+	<h4>Zakres</h4>
+	<ul>
+		<li ng-if="selectedView!='connections'"
+			ng-click="getConnectionsLast()" style="background: rgba(0, 0, 0, 0)"><a
+			style="color: #ffea00">Od początku</a></li>
+		<li ng-click="getConnectionsLast()"
+			ng-if="selectedView=='connections'" style=""><a>Od początku</a></li>
+		<li ng-if="selectedView!='connections'"
+			ng-click="getConnectionsLast()" style="background: rgba(0, 0, 0, 0)"><a
+			style="color: #ffea00">Miesiąc</a></li>
+		<li ng-click="getConnectionsLast()"
+			ng-if="selectedView=='connections'" style=""><a>Miesiąc</a></li>
+		<li ng-if="selectedView!='urls'" ng-click="getUrlsLast()"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Tydzień</a></li>
+		<li ng-if="selectedView=='urls'" ng-click="getUrlsLast()" style=""><a>Tydzień</a></li>
+		<li ng-if="selectedView!='others'" ng-click="getOtherLogsLast()"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">24H</a></li>
+		<li ng-click="getOtherLogsLast()" ng-if="selectedView=='others'"
+			style=""><a>24H</a></li>
+		<li ng-if="selectedView!='others'" ng-click="getOtherLogsLast()"
+			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Zakres</a></li>
+		<li ng-click="getOtherLogsLast()" ng-if="selectedView=='others'"
+			style=""><a>Zakres</a></li>
+	</ul>
+</div>
+<div class="project-list2">
 
-<h4>Filtr</h4>
-<div class="search_box">
-	<form name="searchForm"
-		ng-submit="prepareFilteredData(predicate,reverse)">
-		<input type="text" value="Search...." ng-model="filterForm.filterText">
-		<input type="submit" value=''>
-	</form>
+	<h4>Filtr</h4>
+	<div class="search_box">
+		<form name="searchForm"
+			ng-submit="prepareFilteredData(predicate,reverse)">
+			<input type="text" value="Search...."
+				ng-model="filterForm.filterText"> <input type="submit"
+				value=''>
+		</form>
+	</div>
+
+	<div class="clear"></div>
 </div>
