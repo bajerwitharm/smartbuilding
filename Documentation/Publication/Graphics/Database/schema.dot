@@ -1,0 +1,504 @@
+digraph SqlTables {
+	margin="0";
+	
+	graph [
+		fontname=Helvetica,
+		fontsize=9,
+		labeljust=r,
+		labelloc=b,
+		rankdir=BT,
+	];
+	node [fontname=Helvetica,
+		fontsize=9,
+		label="\N",
+		shape=plaintext
+	];
+	edge [arrowsize=0.8,
+		fontname=Helvetica,
+		fontsize=8
+	];
+	
+	logs_32c5af	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">logs</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_146b61ba.start'><b><i>id</i></b></td>
+			<td> </td>
+			<td port='id_146b61ba.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_b2ec25af.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_b2ec25af.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='host_a7199e87.start'>host</td>
+			<td> </td>
+			<td port='host_a7199e87.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='program_4a6ad545.start'>program</td>
+			<td> </td>
+			<td port='program_4a6ad545.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='msg_7900e6c2.start'>msg</td>
+			<td> </td>
+			<td port='msg_7900e6c2.end'>TEXT</td>
+		</tr>
+      </table>
+    >];
+	
+	stats_68ac49f	 [
+		label=<
+      <table cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">stats</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_4e97bcca.start'><b><i>id</i></b></td>
+			<td> </td>
+			<td port='id_4e97bcca.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_8a0d3c9f.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_8a0d3c9f.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='router_9fa5d778.start'>router</td>
+			<td> </td>
+			<td port='router_9fa5d778.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='rx_bytes_326d5a1.start'>rx_bytes</td>
+			<td> </td>
+			<td port='rx_bytes_326d5a1.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='rx_packets_8f7de4a1.start'>rx_packets</td>
+			<td> </td>
+			<td port='rx_packets_8f7de4a1.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='tx_bytes_d2e92f5f.start'>tx_bytes</td>
+			<td> </td>
+			<td port='tx_bytes_d2e92f5f.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='tx_packets_7810c6df.start'>tx_packets</td>
+			<td> </td>
+			<td port='tx_packets_7810c6df.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='load_79d44d5.start'>load</td>
+			<td> </td>
+			<td port='load_79d44d5.end'>INTEGER</td>
+		</tr>
+      </table>
+    >];
+	
+	connections_in_time_82fb4cbd	 [
+		label=<
+			<table border="1" cellborder="0" cellpadding="2" cellspacing="1" bgcolor="white">
+				<tr>
+					<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">connections_in_time</font></i></b></td>
+					<td bgcolor='#0A668A'><font color="white">[temp table]</font></td>
+				</tr>
+				<tr>
+					<td port='id_7a07d7ec.start'><b><i>id</i></b></td>
+					<td> </td>
+					<td port='id_7a07d7ec.end'>INTEGER</td>
+				</tr>
+				<tr>
+					<td port='user_id_c1263dde.start'>user_id</td>
+					<td> </td>
+					<td port='user_id_c1263dde.end'>INTEGER</td>
+				</tr>
+				<tr>
+					<td port='start_timestamp_557e6648.start'>start_timestamp</td>
+					<td> </td>
+					<td port='start_timestamp_557e6648.end'>DATETIME</td>
+				</tr>
+				<tr>
+					<td port='end_timestamp_7c048f41.start'>end_timestamp</td>
+					<td> </td>
+					<td port='end_timestamp_7c048f41.end'>DATETIME</td>
+				</tr>
+      </table>
+    >];
+	
+	users_6a68e08	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">users</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_f02b0ec1.start'><b><i>id</i></b></td>
+			<td > </td>
+			<td port='id_f02b0ec1.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_ed813088.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_ed813088.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='mac_1536d869.start'>mac</td>
+			<td> </td>
+			<td port='mac_1536d869.end'>TEXT NOT NULL</td>
+		</tr>
+		<tr>
+			<td port='name_91a4aab1.start'>name</td>
+			<td> </td>
+			<td port='name_91a4aab1.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='ip_f02b0ecd.start'>ip</td>
+			<td> </td>
+			<td port='ip_f02b0ecd.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='bridge_a798622f.start'>bridge</td>
+			<td> </td>
+			<td port='bridge_a798622f.end'>TEXT</td>
+		</tr>
+      </table>
+    >];
+	
+	connections_in_time_82fb4cbd:"user_id_c1263dde.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+	
+	connections_66cb5d55	 [label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">connections</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_4bc2e054.start'><b><i>id</i></b></td>
+			<td> </td>
+			<td port='id_4bc2e054.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_e7507455.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_e7507455.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='result_89aef5bc.start'>result</td>
+			<td> </td>
+			<td port='result_89aef5bc.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='account_e720d294.start'>account</td>
+			<td> </td>
+			<td port='account_e720d294.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='ap_4bc2df68.start'>ap</td>
+			<td> </td>
+			<td port='ap_4bc2df68.end'>TEXT</td>
+		</tr>
+		<tr>
+			<td port='user_id_24883676.start'>user_id</td>
+			<td> </td>
+			<td port='user_id_24883676.end'>INTEGER</td>
+		</tr>
+      </table>
+    >];
+	
+	connections_66cb5d55:"user_id_24883676.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both];
+		
+	queries_270bd766	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+	<tr>
+		<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">queries</font></i></b></td>
+		<td bgcolor='#0A668A'><font color="white">[table]</font></td>
+	</tr>
+	<tr>
+		<td port='id_daffe0a3.start'><b><i>id</i></b></td>
+		<td> </td>
+		<td port='id_daffe0a3.end'>INTEGER</td>
+	</tr>
+	<tr>
+		<td port='timestamp_8f5d5ce6.start'>timestamp</td>
+		<td> </td>
+		<td port='timestamp_8f5d5ce6.end'>DATETIME</td>
+	</tr>
+	<tr>
+		<td port='user_id_1a3a0f87.start'>user_id</td>
+		<td> </td>
+		<td port='user_id_1a3a0f87.end'>INTEGER</td>
+	</tr>
+	<tr>
+		<td port='url_84fc62e7.start'>url</td>
+		<td> </td>
+		<td port='url_84fc62e7.end'>TEXT</td>
+	</tr>
+      </table>
+    >];
+	queries_270bd766:"user_id_1a3a0f87.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+
+	usage_6a67da1	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">usage</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_e8b64c88.start'><b><i>id</i></b></td>
+			<td> </td>
+			<td port='id_e8b64c88.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_c66182a1.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_c66182a1.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='user_id_4b944ac2.start'>user_id</td>
+			<td> </td>
+			<td port='user_id_4b944ac2.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='data_in_aa5ec68d.start'>data_in</td>
+			<td> </td>
+			<td port='data_in_aa5ec68d.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='data_out_a17a22e6.start'>data_out</td>
+			<td> </td>
+			<td port='data_out_a17a22e6.end'>INTEGER</td>
+		</tr>
+      </table>
+    >];
+	
+	usage_6a67da1:"user_id_4b944ac2.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+	
+	usage_by_ap_4999d4f9	 [
+		label=<
+		<table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+			<tr>
+				<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">usage_by_ap</font></i></b></td>
+				<td bgcolor='#0A668A'><font color="white">[temp table]</font></td>
+			</tr>
+			<tr>
+				<td port='id_4979630.start'><b><i>id</i></b></td>
+				<td> </td>
+				<td port='id_4979630.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='timestamp_b91495f9.start'>timestamp</td>
+				<td> </td>
+				<td port='timestamp_b91495f9.end'>DATETIME</td>
+			</tr>
+			<tr>
+				<td port='user_id_24c6ca1a.start'>user_id</td>
+				<td> </td>
+				<td port='user_id_24c6ca1a.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='data_in_839145e5.start'>data_in</td>
+				<td> </td>
+				<td port='data_in_839145e5.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='data_out_ee978e8e.start'>data_out</td>
+				<td> </td>
+				<td port='data_out_ee978e8e.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='ap_4979544.start'>ap</td>
+				<td> </td>
+				<td port='ap_4979544.end'>TEXT</td>
+			</tr>
+      </table>
+    >];
+	
+	usage_by_ap_4999d4f9:"user_id_24c6ca1a.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+	
+	usage_by_hour_4a7bb42e	 [
+		label=<
+			<table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+				<tr>
+					<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">usage_by_hour</font></i></b></td>
+					<td bgcolor='#0A668A'><font color="white">[temp table]</font></td>
+				</tr>
+				<tr>
+					<td port='id_b18d6edb.start'><b><i>id</i></b></td>
+					<td> </td>
+					<td port='id_b18d6edb.end'>INTEGER</td>
+				</tr>
+				<tr>
+					<td port='timestamp_f4404dae.start'>timestamp</td>
+					<td> </td>
+					<td port='timestamp_f4404dae.end'>DATETIME</td>
+				</tr>
+				<tr>
+					<td port='user_id_384a44f.start'>user_id</td>
+					<td> </td>
+					<td port='user_id_384a44f.end'>INTEGER</td>
+				</tr>
+				<tr>
+					<td port='data_in_624f201a.start'>data_in</td>
+					<td> </td>
+					<td port='data_in_624f201a.end'>INTEGER</td>
+				</tr>
+				<tr>
+					<td port='data_out_e794faf9.start'>data_out</td>
+					<td> </td>
+					<td port='data_out_e794faf9.end'>INTEGER</td>
+				</tr>
+			</table>
+    >];
+	
+	usage_by_hour_4a7bb42e:"user_id_384a44f.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+	
+	usage_by_month_5412d76	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+			<tr>
+				<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">usage_by_month</font></i></b></td>
+				<td bgcolor='#0A668A'><font color="white">[temp table]</font></td>
+			</tr>
+			<tr>
+				<td port='id_7bca1093.start'><b><i>id</i></b></td>
+				<td> </td>
+				<td port='id_7bca1093.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='timestamp_b2721af6.start'>timestamp</td>
+				<td> </td>
+				<td port='timestamp_b2721af6.end'>DATETIME</td>
+			</tr>
+			<tr>
+				<td port='user_id_35005597.start'>user_id</td>
+				<td> </td>
+				<td port='user_id_35005597.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='data_in_93cad162.start'>data_in</td>
+				<td> </td>
+				<td port='data_in_93cad162.end'>INTEGER</td>
+			</tr>
+			<tr>
+				<td port='data_out_e58f72b1.start'>data_out</td>
+				<td> </td>
+				<td port='data_out_e58f72b1.end'>INTEGER</td>
+			</tr>
+      </table>
+    >];
+	
+	usage_by_month_5412d76:"user_id_35005597.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+
+	usage_by_monthday_7bcada66	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">usage_by_monthday</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[temp table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_db3dfda3.start'><b><i>id</i></b></td>
+			<td> </td>
+			<td port='id_db3dfda3.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_46afdfe6.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_46afdfe6.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='user_id_d461287.start'>user_id</td>
+			<td> </td>
+			<td port='user_id_d461287.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='data_in_6c108e52.start'>data_in</td>
+			<td> </td>
+			<td port='data_in_6c108e52.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='data_out_160153c1.start'>data_out</td>
+			<td> </td>
+			<td port='data_out_160153c1.end'>INTEGER</td>
+		</tr>
+      </table>
+    >];
+	
+	usage_by_monthday_7bcada66:"user_id_d461287.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+	
+	usage_by_weekday_b916949e	 [
+		label=<
+      <table border="1" cellborder="0" cellpadding="2" cellspacing="0" bgcolor="white" color="#555555">
+		<tr>
+			<td colspan="2" bgcolor='#0A668A'><b><i><font color="white">usage_by_weekday</font></i></b></td>
+			<td bgcolor='#0A668A'><font color="white">[temp table]</font></td>
+		</tr>
+		<tr>
+			<td port='id_eab9786b.start'><b><i>id</i></b></td>
+			<td> </td>
+			<td port='id_eab9786b.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='timestamp_4ade061e.start'>timestamp</td>
+			<td> </td>
+			<td port='timestamp_4ade061e.end'>DATETIME</td>
+		</tr>
+		<tr>
+			<td port='user_id_f73014bf.start'>user_id</td>
+			<td> </td>
+			<td port='user_id_f73014bf.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='data_in_55fa908a.start'>data_in</td>
+			<td> </td>
+			<td port='data_in_55fa908a.end'>INTEGER</td>
+		</tr>
+		<tr>
+			<td port='data_out_69579889.start'>data_out</td>
+			<td> </td>
+			<td port='data_out_69579889.end'>INTEGER</td>
+		</tr>
+      </table>
+    >];
+	
+	usage_by_weekday_b916949e:"user_id_f73014bf.start":w -> users_6a68e08:"id_f02b0ec1.end":e	 [arrowhead=teetee,
+		arrowtail=crowodot,
+		dir=both,
+		style=solid];
+		
+	{ rank=sink; usage_by_weekday_b916949e usage_by_monthday_7bcada66 usage_by_month_5412d76 usage_by_hour_4a7bb42e}
+}

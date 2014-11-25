@@ -1,16 +1,17 @@
-<div class="project-list2">
+<div class="project-list2" ng-controller="networkSearchController">
 	<h4>Zakres</h4>
 	<ul>
-		<li ng-if="selectedView!='connections'"
-			ng-click="getConnectionsLast()" style="background: rgba(0, 0, 0, 0)"><a
+		<li ng-if="selectedView!='all'"
+			ng-click="setAllView()" style="background: rgba(0, 0, 0, 0)"><a
 			style="color: #ffea00">Od początku</a></li>
-		<li ng-click="getConnectionsLast()"
-			ng-if="selectedView=='connections'" style=""><a>Od początku</a></li>
-		<li ng-if="selectedView!='connections'"
-			ng-click="getConnectionsLast()" style="background: rgba(0, 0, 0, 0)"><a
+		<li ng-click="setAllView()"
+			ng-if="selectedView=='all'" style=""><a>Od początku</a></li>
+			
+		<li ng-if="selectedView!='months'"
+			ng-click="setMonthsView()" style="background: rgba(0, 0, 0, 0)"><a
 			style="color: #ffea00">Miesiąc</a></li>
-		<li ng-click="getConnectionsLast()"
-			ng-if="selectedView=='connections'" style=""><a>Miesiąc</a></li>
+		<li ng-click="setMonthsView()"
+			ng-if="selectedView=='months'" style=""><a>Miesiąc</a></li>
 		<li ng-if="selectedView!='urls'" ng-click="getUrlsLast()"
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Tydzień</a></li>
 		<li ng-if="selectedView=='urls'" ng-click="getUrlsLast()" style=""><a>Tydzień</a></li>
@@ -22,6 +23,13 @@
 			style="background: rgba(0, 0, 0, 0)"><a style="color: #ffea00">Zakres</a></li>
 		<li ng-click="getOtherLogsLast()" ng-if="selectedView=='others'"
 			style=""><a>Zakres</a></li>
+	</ul>
+	<ul>
+		<li ng-repeat="month in months" ng-if="selectedSubView!=month.number"
+			ng-click="setMonth(month.number)" ng-style="background: rgba(0, 0, 0, 0)"><a
+			style="color: #ffea00">{{month.name}}</a></li>
+		<li ng-click="setAllView()"
+			ng-if="selectedView=='all'" style=""><a>Od początku</a></li>
 	</ul>
 </div>
 <div class="project-list2">

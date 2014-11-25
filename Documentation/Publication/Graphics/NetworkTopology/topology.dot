@@ -1,0 +1,79 @@
+digraph G {
+rankdir=TB;
+style="invis";
+edge [dir=none];
+node [tooltip=""];
+margin="0";
+pad="-0.1";
+
+subgraph cluster_internet {
+	interneticon [shape=none, label="", image="./Graphics/NetworkTopology/cloud.png"]
+	internettext [shape=none, label=<<b>Internet</b>>]
+}
+
+subgraph cluster_main {
+	mainicon [URL="http://192.168.1.1",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/router.png"]
+	maintext [URL="http://192.168.1.1",shape=none, label=<<b>Main router</b><br/>192.168.1.1<br/>192.168.2.1>]
+}
+
+subgraph cluster_parter {
+	subgraph cluster_parter1 {
+		parter1icon [URL="http://192.168.1.3",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/wireless2.png"];
+		parter1text [URL="http://192.168.1.3",shape=none, label=<<b>Ground floor 1</b><br/>192.168.1.3<br/>192.168.2.3<br/>>];
+	}
+	
+	subgraph cluster_camera1 {
+		camera1icon [URL="http://192.168.1.51:81", shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/pc video.png"] 
+		camera1text [URL="http://192.168.1.51:81",shape=none, label=<<b>Camera enterance</b><br/>192.168.1.51<br/>>]
+	}
+	
+	subgraph cluster_camera2 {
+		camera2icon [URL="http://192.168.1.52:81",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/pc video.png"] 
+		camera2text [URL="http://192.168.1.52:81",shape=none, label=<<b>Camera corridor</b><br/>192.168.1.52<br/>>]
+	}
+	
+	subgraph cluster_parter2 {
+		parter2icon [URL="http://192.168.1.4",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/wireless.png"]
+		parter2text [URL="http://192.168.1.4",shape=none, label=<<b>Ground floor 2</b><br/>192.168.1.4<br/>192.168.2.4>]
+	}
+	
+	subgraph cluster_intercom {
+		intercomicon [shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/intercom.png"] 
+		intercomtext [shape=none, label=<<b>Intercom</b><br/>USB-RS232<br/>>]
+	}
+	
+	subgraph cluster_rfid {
+		rfidicon [shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/rfid.png"] 
+		rfidext [shape=none, label=<<b>RfId key reader</b><br/>USB-RS485<br/>>]
+	}
+}
+
+subgraph cluster_second {
+	subgraph cluster_second1 {
+		second1icon [URL="http://192.168.1.5",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/wireless.png"]
+		second1text [URL="http://192.168.1.5",shape=none, label=<<b>Second floor 1</b><br/>192.168.1.5<br/>192.168.2.5>]
+	}
+	
+	subgraph cluster_second2 {
+		second2icon [URL="http://192.168.1.6",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/wireless.png"]
+		second2text [URL="http://192.168.1.6",shape=none, label=<<b>Second floor 2</b><br/>192.168.1.6<br/>192.168.2.6>]
+	}
+	
+	subgraph cluster_raspberry {
+		raspberryicon [URL="http://192.168.1.128:8000",shape=none, labelloc="b", label="", image="./Graphics/NetworkTopology/vault.png"] 
+		raspberrytext [URL="http://192.168.1.128:8000",shape=none, label=<<b>RaspberryPi server</b><br/>192.168.1.128<br/>>]
+	}
+}
+
+interneticon->mainicon
+mainicon->parter1icon
+mainicon->parter2icon
+parter2icon->camera1icon
+parter2icon->camera2icon
+parter1icon->intercomicon [style="dotted"]
+parter1icon->rfidicon [style="dotted"]
+mainicon->second1icon
+mainicon->second2icon
+second1icon->raspberryicon
+
+}

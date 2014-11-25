@@ -1,0 +1,110 @@
+% Publication name: Inexpensive system for WiFi network access and monitoring
+% Author: Marcin Bajer
+% Institution: ABB Corporate Research, Krakow, Poland
+\documentclass{llncs}
+%
+\usepackage{makeidx}  % allows for indexgeneration
+
+\usepackage[pdftex]{graphicx}
+\usepackage{graphviz}
+%
+
+\begin{document}
+
+%
+\frontmatter          % for the preliminaries
+%
+\pagestyle{headings}  % switches on printing of running heads
+%
+\mainmatter              % start of the contributions
+%
+\title{Inexpensive system for WiFi network access and monitoring}
+
+\author{Marcin Bajer\inst{1} \and Anna Bajer\inst{2}}
+%
+\authorrunning{Marcin Bajer} % abbreviated author list (for
+% running head)
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+\tocauthor{Marcin Bajer}
+%
+\institute{ABB Corporate Research Krakow, Starowiślna 13A, Krakow, Poland,\\
+\email{marcin.bajer@pl.abb.com}
+\and
+Uniwersity of Economics, Krakow, Poland, \email{ann.bajer@gmail.com}}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+The goal of this publication is to describe cost effective approach for creating WiFi network access 
+and monitoring system in small and medium size buildings. The basic assumption that the system should 
+support per user authentication access control and network usage statistics. 
+In contrast to current market available solutions the presented one requires very little modification of off-the-self 
+low cost routers to enable wide range of new functionalities. The core or the
+system is based on OpenWRT Linux running on multiple WiFi access points spread throughout the building. 
+For data storage and visualization centralized solution 
+based on node.js server running on RaspberryPi development board is used.
+\keywords{netowork monitoring, access control, RaspberryPi, node.js, smart home}
+\end{abstract}
+%
+\section{Introduction}
+%
+
+It is expected that the WiFi market will continue to grow tremendously over the
+next few years. One of main driving factors for this is the increasing number of
+smart devices (mobiles phones, tablets, smartwatches and smart TVs\ldots). The
+observed pattern is to maximum data usage by the end users when they are
+stationary connected to WiFi in homes, restaurants and offices.
+Additionaly, eventhough the falling prices of mobile transfer, it is common that
+smart devices are configured to trigger data intensive applications such as
+updates and synchronization only while being connected to WiFi.
+
+Small businesses are often in a difficult position when it comes to WiFi
+security. On one hand the growing demand for WiFi access is pusshing them
+towards allowing more users to access their WiFi network, on the other hand they
+demand cheap and secure solution for doing so. The main requiremnt for them is
+to enable per user access and monitoring. 
+
+Further in this paper the approach for praparation of internal WiFi network in
+medium size rent house is presented. The goal of the project is not only to
+provide WiFi netowrk to the users, but also to setup backbone for planned
+smart home installation.
+
+%% Start of dot diagram
+\begin{figure}
+\includedot[width=\textwidth]{./Graphics/NetworkTopology/topology}
+\vspace{-15pt}
+\caption{Topology of prepared network}
+\end{figure}
+%% End of dot diagram
+
+%% Start of dot diagram
+\begin{figure}
+\includedot[width=\textwidth]{./Graphics/Database/schema}
+\vspace{-15pt}
+\caption{Topology of prepared network}
+\end{figure}
+%% End of dot diagram
+
+%
+% ---- Bibliography ----
+%
+\begin{thebibliography}{}
+%
+\bibitem{glob}
+Global Wi-Fi Market [Indoor Wi-Fi, Outdoor Wi-Fi, Transportation Wi-Fi]: Global
+Advancements, Business Models, Market Forecasts \& Analysis (2014 - 2019), 
+marketsandmarkets.com,
+August 2014
+\end{thebibliography}
+
+\clearpage
+\addtocmark[2]{Author Index} % additional numbered TOC entry
+\renewcommand{\indexname}{Author Index}
+\printindex
+\clearpage
+\addtocmark[2]{Subject Index} % additional numbered TOC entry
+\markboth{Subject Index}{Subject Index}
+\renewcommand{\indexname}{Subject Index}
+\input{subjidx.ind}
+\end{document}
