@@ -83,9 +83,12 @@ defend the network against internal threats user authenitification and
 access control is necessery even for small networks. 
 
 Separate topic is WiFi piggybacking. Apart from security issue,
-unauthorized access to network can result in steeling bandwith. What is far
-worse, piggybacking can be used as a means of hiding illegal activities
-(pornography, torrenting..etc) impersonating netowrk owner.
+unauthorized access to network can result in steeling bandwith, but what is far
+worse, piggybacking can be used also as a means of hiding illegal activities
+(pornography, torrenting..etc) impersonating authorised netowrk user. Such
+illegal activities can be also performed by authorized users, in this case it is
+important to be able to trace it to the particular user of the network,
+otherwise network owner will be prosecuted. 
 
 An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904}
 concept was designed to autheniticate and authorize users for use of network
@@ -128,6 +131,14 @@ storage,
 \includedot[width=\textwidth]{./Graphics/Database/schema}
 \vspace{-15pt}
 \caption{Schema of database}
+\end{figure}
+%% End of dot diagram
+
+%% Start of dot diagram
+\begin{figure}
+\includedot[width=\textwidth]{./Graphics/Radius/radius}
+\vspace{-15pt}
+\caption{Radius}
 \end{figure}
 %% End of dot diagram
 
