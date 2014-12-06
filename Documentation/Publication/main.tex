@@ -75,33 +75,7 @@ medium size rent house is presented. The goal of the project is not only to
 provide WiFi netowrk to the users, but also to setup backbone for planned
 smart home installation.
 
-\section{Network access control}
-For many years the focus in netowork security was placed on protecting
-network from external threats using firewalls. Nowadays, attention has turned
-towards protecting crucial network resources against the ''enemy within''. To
-defend the network against internal threats user authenitification and
-access control is necessery even for small networks. 
-
-Separate topic is WiFi piggybacking. Apart from security issue,
-unauthorized access to network can result in steeling bandwith, but what is far
-worse, piggybacking can be used also as a means of hiding illegal activities
-(pornography, torrenting..etc) impersonating authorised netowrk user. Such
-illegal activities can be also performed by authorized users, in this case it is
-important to be able to trace it to the particular user of the network,
-otherwise network owner will be prosecuted. 
-
-An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904}
-concept was designed to autheniticate and authorize users for use of network
-resources. Authentication part confirms that a user who is requesting a service
-is a valid user. Authorization grants specific types of service to a user, based
-on their authentication. Accounting refers to the tracking of the consumption of
-network resources by users.
-
-Remote Authentication Dial-In User Service (RADIUS) \cite{rfc2865} is one of
-most widely used protocols to provide AAA. For the network presented in this
-publication FreeRadius \cite{freeRadius} has been used. To reduce load on
-router, the server is running on one of the WiFi access points. Router and other
-APs are considered as clients for FreeRadius server.
+\section{Network requirements}
 
 The assumption for network to be prepared was to:
 \begin{enumerate}
@@ -117,6 +91,64 @@ storage,
   \item External access to internal network via VPN tunnel.
 \end{enumerate}
 
+
+\section{Network access control}
+
+\subsection{Problem of network security}
+For many years the focus in netowork security was placed on protecting
+network from external threats using firewalls. Nowadays, attention has turned
+towards protecting crucial network resources against the ''enemy within''. To
+defend the network against internal threats user authenitification and
+access control is necessery even for small networks. 
+
+Separate topic is WiFi piggybacking. Apart from security issue,
+unauthorized access to network can result in steeling bandwith, but what is far
+worse, piggybacking can be used also as a means of hiding illegal activities
+(pornography, torrenting\ldots etc.) impersonating authorised netowrk user. Such
+illegal activities can be also performed by authorized users, in this case it is
+important to be able to trace network activity to the particular user of the
+network, otherwise network owner would be prosecuted. 
+
+\subsection{Choosing an encryption method}
+It is known that Wired Equivalent Privacy (WAP) based approach for
+securing WiFi network contains serious vulnerabilities that allows to
+easly crack password protecting the wireless by sniffing airwaves.
+Therefore, it is higly recommended to use more secure Wi-Fi Protected Access
+(WPA or WPA2) encryption method. WPA has two versions: PSK
+(Pre-shared key) and Enterprise. Although, using WPA2-PSK AES together
+with long, non-dictionary pass-phrase is considered as safe solution, it has
+significant drawback of using common key across all users.
+In case password is compromised all devices in the
+network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise
+instead. In contrast to WPA-PSK each has given unique creditentials
+(password or electronics certificate). 
+
+The authentication method used to verify the user (and server) credentials on
+WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard.
+
+Thera are many different EAP variants (PEAP, LEAP, WPA, WPA2\ldots etc.). In
+described network it was decided that two VLANs were created - the one
+publicli available protected with EAP and a separate one, available only in
+key protected cabinets dedicated for non EAP compliant devices (i.e. cameras)
+ 
+ Traditionally, the WPA-Enterprise
+implementation requires purchasing dedicated server device. To reduce
+costs, further in this paper process of installing FreeRadius server on
+off-the-self router (Tp-Link TL-WDR4300) is described.
+
+\subsection{Radius server}
+An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904}
+concept was designed to autheniticate and authorize users for use of network
+resources. Authentication part confirms that a user who is requesting a service
+is a valid user. Authorization grants specific types of service to a user, based
+on their authentication. Accounting refers to the tracking of the consumption of
+network resources by users.
+
+Remote Authentication Dial-In User Service (RADIUS) \cite{rfc2865} is one of
+most widely used protocols to provide AAA. For the network presented in this
+publication FreeRadius \cite{freeRadius} has been used. To reduce load on
+router, the server is running on one of the WiFi access points. Router and other
+APs are considered as clients for FreeRadius server. 
 
 %% Start of dot diagram
 \begin{figure}

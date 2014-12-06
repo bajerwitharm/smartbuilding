@@ -1,14 +1,14 @@
 digraph G {
 rankdir=TB;
 style="invis";
+graph [splines=ortho];
 edge [dir=none];
-node [tooltip=""];
+node [tooltip="",fixedsize=true];
 margin="0";
-forcelabels=true;
 
 subgraph cluster_radiusserver {
-	radiusserver[shape=none, label="", image="./Graphics/Radius/server.png"]
 	radiusservertext[shape=none, label=<<b>Radius server</b>>]
+	radiusserver[shape=none, label="", image="./Graphics/Radius/server.png"]
 }
 
 subgraph cluster_radiusclient {
@@ -21,14 +21,45 @@ subgraph cluster_suplicant1 {
 	suplicant1text[shape=none, label=<<b>WiFi client</b><br/>(supplicant)>]
 }
 
-subgraph cluster_suplicant2 {
-	suplicant2[shape=none, label="", image="./Graphics/Radius/supplicant.png"]
-	suplicant2text[shape=none, label=<<b>WiFi client</b><br/>(supplicant)>]
+subgraph cluster_database {
+	database[shape=none, label="", image="./Graphics/Radius/database.png"]
+	databasetext[shape=none, label=<<b>Database</b>>]
 }
 
-radiusserver->radiusclient
-radiusclient->suplicant1 [label="Connection to network"]
-suplicant1->radiusclient [label="Username and password"]
-radiusclient->suplicant2
+radiusclient:sw->suplicant1:nw [dir=forward, xlabel=" Connection to network "]
+suplicant1:ne->radiusclient:se [dir=backward, xlabel=" Username and password "];
+radiusclient->suplicant1 [dir=none, style="dotted" ];
+
+radiusclient:ne->radiusserver:se [dir=forward, xlabel=" Authorization request "];
+radiusserver->database;
+radiusserver:sw->radiusclient:nw [dir=backward, xlabel=" Authorization response "];
+
+
+{
+	rank=same;
+	radiusserver,radiusservertext, database,databasetext
+}
+
+  subgraph cluster_01 { 
+    label = "Legend";
+    key [label=<<table border="0" >
+      <tr><td align="right" port="i1">item 1</td></tr>
+      <tr><td align="right" port="i2">item 2</td></tr>
+      <tr><td align="right" port="i3">item 3</td></tr>
+      <tr><td align="right" port="i4">item 4</td></tr>
+      </table>>, shape=plaintext]
+    key2 [label=<<table border="0">
+      <tr><td port="i1">&nbsp;</td></tr>
+      <tr><td port="i2">&nbsp;</td></tr>
+      <tr><td port="i3">&nbsp;</td></tr>
+      <tr><td port="i4">&nbsp;</td></tr>
+      </table>>, shape=plaintext]
+    
+    key:i1:e -> key2:i1 [style=dashed,constraint=false]
+    key:i2:e -> key2:i2 [color=gray,constraint=false]
+    key:i3:e -> key2:i3 [color=peachpuff3,constraint=false]
+    key:i4:e -> key2:i4 [color=turquoise4, style=dotted,constraint=false]
+
+  }
 
 }
