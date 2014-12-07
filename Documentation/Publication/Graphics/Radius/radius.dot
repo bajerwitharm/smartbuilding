@@ -1,65 +1,87 @@
 digraph G {
-rankdir=TB;
-style="invis";
-graph [splines=ortho];
-edge [dir=none];
-node [tooltip="",fixedsize=true];
-margin="0";
+	rankdir=TB;
+	edge [dir=none];
+	margin="0.15";
 
-subgraph cluster_radiusserver {
-	radiusservertext[shape=none, label=<<b>Radius server</b>>]
-	radiusserver[shape=none, label="", image="./Graphics/Radius/server.png"]
-}
+	graph [splines=ortho];
+	
+  	subgraph cluster_main { 
+		style="invis";
+		node [tooltip="",fixedsize=true];
+		graph [splines=ortho];
+		
+		subgraph cluster_database {
+			database[shape=none, label="", image="./Graphics/Radius/database.png"]
+			databasetext[shape=none, label=<<b>Database</b>>]
+			
+		}
+		
+		subgraph cluster_radiusserver {
+			radiusserver[shape=none, label="", image="./Graphics/Radius/server.png"]
+			radiusservertext[shape=none, label=<<b>Radius server</b>>]
+		}
+		
+		subgraph cluster_radiusclient {
+			radiusclient[shape=none, label="", image="./Graphics/Radius/client.png"]
+			radiusclienttext[shape=none, label=<<b>Radius client</b>>]
+		}
+		
+		subgraph cluster_suplicant1 {
+			suplicant1[shape=none, label="", image="./Graphics/Radius/supplicant.png"]
+			suplicant1text[shape=none, label=<<b>WiFi client</b><br/>(supplicant)>]
+		}
+		
+		subgraph cluster_suplicant2 {
+			suplicant2text[shape=none, label=<<b>Wired client</b><br/>(supplicant)>]
+			suplicant2[shape=none, label="", image="./Graphics/Radius/supplicant2.png"]
+		}
+		
 
-subgraph cluster_radiusclient {
-	radiusclient[shape=none, label="", image="./Graphics/Radius/client.png"]
-	radiusclienttext[shape=none, label=<<b>Radius client</b>>]
-}
-
-subgraph cluster_suplicant1 {
-	suplicant1[shape=none, label="", image="./Graphics/Radius/supplicant.png"]
-	suplicant1text[shape=none, label=<<b>WiFi client</b><br/>(supplicant)>]
-}
-
-subgraph cluster_database {
-	database[shape=none, label="", image="./Graphics/Radius/database.png"]
-	databasetext[shape=none, label=<<b>Database</b>>]
-}
-
-radiusclient:sw->suplicant1:nw [dir=forward, xlabel=" Connection to network "]
-suplicant1:ne->radiusclient:se [dir=backward, xlabel=" Username and password "];
-radiusclient->suplicant1 [dir=none, style="dotted" ];
-
-radiusclient:ne->radiusserver:se [dir=forward, xlabel=" Authorization request "];
-radiusserver->database;
-radiusserver:sw->radiusclient:nw [dir=backward, xlabel=" Authorization response "];
-
-
-{
-	rank=same;
-	radiusserver,radiusservertext, database,databasetext
-}
-
-  subgraph cluster_01 { 
-    label = "Legend";
-    key [label=<<table border="0" >
-      <tr><td align="right" port="i1">item 1</td></tr>
-      <tr><td align="right" port="i2">item 2</td></tr>
-      <tr><td align="right" port="i3">item 3</td></tr>
-      <tr><td align="right" port="i4">item 4</td></tr>
-      </table>>, shape=plaintext]
-    key2 [label=<<table border="0">
-      <tr><td port="i1">&nbsp;</td></tr>
-      <tr><td port="i2">&nbsp;</td></tr>
-      <tr><td port="i3">&nbsp;</td></tr>
-      <tr><td port="i4">&nbsp;</td></tr>
-      </table>>, shape=plaintext]
-    
-    key:i1:e -> key2:i1 [style=dashed,constraint=false]
-    key:i2:e -> key2:i2 [color=gray,constraint=false]
-    key:i3:e -> key2:i3 [color=peachpuff3,constraint=false]
-    key:i4:e -> key2:i4 [color=turquoise4, style=dotted,constraint=false]
-
-  }
-
+		
+		suplicant1:ne->radiusclient:se [dir=forward, color=sienna4, style=dashed];
+		radiusclient:sw->suplicant1:nw [dir=forward, color=sienna4, style=dashed];
+		radiusclient:s->suplicant1:n [dir=none, style="dotted" ];
+		
+		radiusclient:e->suplicant2:ne [dir=forward, color=turquoise4];
+		radiusclient:e->suplicant2:n [dir=none, style="dotted"];
+		suplicant2:nw->radiusclient:e [dir=forward, color=turquoise4];
+		
+		radiusserver:sw->radiusclient:nw [dir=back, style=tapered, penwidth=4, arrowtail=none] ;	
+		radiusclient:ne->radiusserver:se [dir=none, style="dotted"];
+		radiusserver:sw->radiusclient:nw [dir=forward, style=tapered, penwidth=4, arrowhead=none];
+		
+		radiusserver:e->database:w;
+		
+		{
+			rank=same;
+			radiusserver radiusservertext database databasetext
+		}
+	}
+	
+  	subgraph cluster_legend { 		
+		 
+		graph [rank="max"];
+				
+	    key [label=<<table border="0" >
+	      <tr><td align="right" port="i1">EAP</td></tr>
+	      <tr><td align="right" port="i2">EAPOL</td></tr>
+	      <tr><td align="right" port="i3">RADIUS</td></tr>
+	      <tr><td align="right" port="i4">WPA2</td></tr>
+	      </table>>, shape=plaintext]
+	    key2 [label=<<table border="0">
+	      <tr><td port="i1">&nbsp;</td></tr>
+	      <tr><td port="i2">&nbsp;</td></tr>
+	      <tr><td port="i3">&nbsp;</td></tr>
+	      <tr><td port="i4">&nbsp;</td></tr>
+	      </table>>, shape=plaintext]
+	    
+	    {
+			rank=min;
+			key key2;
+		}
+	    key2:i1:w -> key:i1:w  [style=dotted]
+	    key2:i2:w -> key:i2:w [color=turquoise4, dir=back]
+	    key2:i3:w -> key:i3:w [dir=forward, style=tapered, penwidth=4, arrowhead=none]
+	    key2:i4:w -> key:i4:w [dir=forward, color=sienna4, style=dashed]
+	}
 }

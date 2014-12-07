@@ -109,19 +109,29 @@ illegal activities can be also performed by authorized users, in this case it is
 important to be able to trace network activity to the particular user of the
 network, otherwise network owner would be prosecuted. 
 
-\subsection{Choosing an encryption method}
+Of course, monitoring and access control is only a part of complex topic of
+network security. Apart from controling how the network is used, it is
+necessery to protect the network from attacks that are aim to corrupt the data
+or influence on proprer work of network elements. Those problems will not be
+descirbed in this paper, .
+
+\subsection{Choosing an WiFi encryption method}
 It is known that Wired Equivalent Privacy (WAP) based approach for
 securing WiFi network contains serious vulnerabilities that allows to
 easly crack password protecting the wireless by sniffing airwaves.
 Therefore, it is higly recommended to use more secure Wi-Fi Protected Access
 (WPA or WPA2) encryption method. WPA has two versions: PSK
 (Pre-shared key) and Enterprise. Although, using WPA2-PSK AES together
-with long, non-dictionary pass-phrase is considered as safe solution, it has
+with complex, non-dictionary pass-phrase is considered as safe solution, it has
 significant drawback of using common key across all users.
 In case password is compromised all devices in the
 network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise
 instead. In contrast to WPA-PSK each has given unique creditentials
-(password or electronics certificate). 
+(password or electronics certificate). Traditionally, the WPA-Enterprise
+implementation requires purchasing dedicated server device. To reduce
+costs, further in this paper process of installing FreeRadius server on
+off-the-self router (Tp-Link TL-WDR4300) is described.
+
 
 The authentication method used to verify the user (and server) credentials on
 WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard.
@@ -131,10 +141,7 @@ described network it was decided that two VLANs were created - the one
 publicli available protected with EAP and a separate one, available only in
 key protected cabinets dedicated for non EAP compliant devices (i.e. cameras)
  
- Traditionally, the WPA-Enterprise
-implementation requires purchasing dedicated server device. To reduce
-costs, further in this paper process of installing FreeRadius server on
-off-the-self router (Tp-Link TL-WDR4300) is described.
+
 
 \subsection{Radius server}
 An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904}
