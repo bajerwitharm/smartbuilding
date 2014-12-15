@@ -142,7 +142,24 @@ TL-WDR4300) is described.
 The authentication method used to verify the user (and server) credentials on
 WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard.
 
-There are many different EAP variants (PEAP, LEAP, WPA, WPA2\ldots etc.). 
+EAP provides framework for several different authentication methods. General
+idea is that it supposed to replace proprietery solutions with standarized
+approach to whole authentification process. There are many different EAP
+implementations (PEAP, LEAP, WPA, WPA2\ldots etc.).
+
+
+ (password exchange,
+challenge-response tokens and public-key infrastructure certificates all work smoothly.
+
+ response tokens and public-key infrastructure.
+
+
+standarised authentication mechanism
+
+ EAP is supposed to head off
+proprietary authentication systems and let everything from passwords to challenge-response tokens and public-key
+infrastructure certificates all work smoothly.
+
 In described network it was decided that two VLANs were created. First one is
 publicly available and protected with EAP. It is used by ``guests'' in the building
 (renters, visitors\ldots) who login with their unique credentials. Second VLAN
