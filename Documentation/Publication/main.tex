@@ -7,6 +7,7 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage{graphviz}
+\usepackage{url}
 %
 
 \begin{document}
@@ -77,7 +78,8 @@ smart home installation.
 
 \section{Network requirements}
 
-The assumption for network to be prepared was to:
+The goal of this project was to prepare internal network in the building.The
+assumption for network to be prepared was to:
 \begin{enumerate}
   \item Fast and reliable WiFi throughout whole building,
   \item Cost-oriented implementation,
@@ -98,8 +100,8 @@ storage,
 For many years the focus in network security was placed on protecting
 network from external threats using firewalls. Nowadays, attention has turned
 towards protecting crucial network resources against the ''enemy within''. To
-defend the network against internal threats user authentication and
-access control is necessary even for small networks. 
+defend the network, even small, against internal threats user authentication and
+access control is necessary. 
 
 Separate topic is WiFi piggybacking. Apart from security issue,
 unauthorized access to network can result in steeling bandwidth, but what is far
@@ -111,35 +113,55 @@ network, otherwise network owner would be prosecuted.
 
 Of course, monitoring and access control is only a part of complex topic of
 network security. Apart from controlling how the network is used, it is
-necessary to protect the network from attacks that are aim to corrupt the data
-or influence on proper work of network elements. Those problems will not be
-described in this paper since in case of described system it was decided that additional protection against such actions is not needed.
+necessary to protect the network from attacks that are aim to disclosure or corrupt
+sensitive data as well as influence on proper work of network elements.
+Those problems will not be addressed in this paper since in case of described
+network it was decided that additional protection against such actions is not
+needed.
 
 \subsection{Choosing an WiFi encryption method}
 It is known that Wired Equivalent Privacy (WAP) based approach for
 securing WiFi network contains serious vulnerabilities that allows to
-easily crack password protecting the wireless by sniffing airwaves.
+easily crack password protecting the wireless by sniffing airwaves
+\cite{WebDeadAgain}.
 Therefore, it is highly recommended to use more secure Wi-Fi Protected Access
 (WPA or WPA2) encryption method. WPA has two versions: PSK
-(Pre-shared key) and Enterprise. Although, using WPA2-PSK AES together
-with complex, non-dictionary pass-phrase is considered as safe solution, it has
+(Pre-shared key) and Enterprise. PSK version had also some
+vulnerabilities \cite{WpaPskVulnerabilities} which were adressed with
+introduction of AES-based encryption in WPA2. Generally, using WPA2-PSK AES
+together with complex, non-dictionary pass-phrase is considered as safe solution, but it has
 significant drawback of using common key across all users.
 In case password is compromised all devices in the
-network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise
-instead. In contrast to WPA-PSK each has given unique credentials
-(password or electronics certificate). Traditionally, the WPA-Enterprise
-implementation requires purchasing dedicated server device. To reduce
-costs, further in this paper process of installing FreeRadius server on
-off-the-self router (Tp-Link TL-WDR4300) is described.
-
+network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise. In
+contrast to WPA-PSK each has given unique credentials (password or electronics
+certificate). Traditionally, the WPA-Enterprise implementation requires
+purchasing dedicated server device. To reduce costs, further in this paper
+process of installing FreeRadius server on off-the-self router (Tp-Link
+TL-WDR4300) is described.
 
 The authentication method used to verify the user (and server) credentials on
 WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard.
 
-There are many different EAP variants (PEAP, LEAP, WPA, WPA2\ldots etc.). In
-described network it was decided that two VLANs were created - the one
-publicly available protected with EAP and a separate one, available only in
-key protected cabinets dedicated for non EAP compliant devices (i.e. cameras)
+There are many different EAP variants (PEAP, LEAP, WPA, WPA2\ldots etc.). 
+In described network it was decided that two VLANs were created. First one is
+publicly available and protected with EAP. It is used by ``guests'' in the building
+(renters, visitors\ldots) who login with their unique credentials. Second VLAN
+is dedicated for building administration (network storage, cameras, smart home
+automation devices\ldots) and popentially can be used for non EAP compliant
+devices. Security of this crucial building equipment is ensured both physical
+separation (key protected cabinets, straitened access) as well as logical
+(non-trivial WPA2-PSK WiFi password, firewall filtering access from outside the
+network, MAC based IP lease by DHCP). 
+
+Hostile traffic
+
+and guests in a building and
+flat renters,
+
+ and a separate one, available only in
+key protected cabinets dedicated for non EAP compliant devices (i.e. cameras).
+Security of crucial network equipment (i.e. smart home automation, network
+strorage devices)
  
 
 
@@ -186,23 +208,30 @@ APs are considered as clients for FreeRadius server.
 %
 \begin{thebibliography}{}
 %
+\bibitem{WebDeadAgain}
+Ossmann, M., ``WEP: Dead Again Part. 1'', Security Focus, 
+\url{http://www.bandwidthco.com/sf_whitepapers/wireless/WEP%20-%20Dead%20Again%20Part%201.pdf}
+(accessed 2014.12.10),
+\bibitem{WpaPskVulnerabilities}
+Moskowitz, R., Fleishman, G., ``Weakness in Passphrase Choice in WPA Interface'',
+WNN Wi-Fi Net News, \url{http://wifinetnews.com/archives/002452.html} (accessed
+2014.12.10),
 \bibitem{rfc2903}
-de Laat, C., Gross, G., Gommans, L., Vollbrecht, J., and D. Spence, "Generic AAA
-Architecture", RFC 2903, August 2000, http://www.rfc-editor.org/info/rfc2903,
+de Laat, C., Gross, G., Gommans, L., Vollbrecht, J., and D. Spence, ``Generic AAA
+Architecture'', RFC 2903, August 2000,
+\url{http://www.rfc-editor.org/info/rfc2903},
 \bibitem{rfc2904}
 Vollbrecht, J., Calhoun, P., Farrell, S., Gommans, L., Gross, G., de Bruijn, B.,
-de Laat, C., Holdrege, M., and D. Spence, "AAA Authorization Framework", RFC
-2904, August 2000, http://www.rfc-editor.org/info/rfc2904,
+de Laat, C., Holdrege, M., and D. Spence, ``AAA Authorization Framework'', RFC
+2904, August 2000, \url{http://www.rfc-editor.org/info/rfc2904},
 \bibitem{rfc2865}
-Rigney, C., Willens, S., Rubens, A., and W. Simpson, "Remote  Authentication
-Dial In User Service (RADIUS)", RFC 2865, June 2000,
-http://www.rfc-editor.org/info/rfc2865,
+Rigney, C., Willens, S., Rubens, A., and W. Simpson, ``Remote  Authentication
+Dial In User Service (RADIUS)'', RFC 2865, June 2000,
+\url{http://www.rfc-editor.org/info/rfc2865},
 \bibitem{freeRadius}
-FreeRadius technical guide,
-http://networkradius.com/doc/FreeRADIUS%20Technical%20Guide.pdf (accessed
-% 29.11.2014)
+``FreeRadius technical guide'',
+\url{http://networkradius.com/doc/FreeRADIUS%20Technical%20Guide.pdf} (accessed 2014.11.29)
 \end{thebibliography}
-
 
 
 \clearpage

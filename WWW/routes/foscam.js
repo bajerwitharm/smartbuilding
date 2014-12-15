@@ -41,10 +41,10 @@ var app = new EventEmitter
 
 // defaults
 app.settings = {
-	host:	'192.168.1.51',
+	host:	'http://kamerawejscie.salwatorska6/',
 	port:	81,
-	user:	'admin',
-	pass:	''
+	user:	'viewer',
+	pass:	'viewer123'
 }
 
 // overrides

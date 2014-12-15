@@ -10,10 +10,10 @@ module.exports = app
 
 // defaults
 app.settings = {
-    host : '192.168.1.52',
+    host : 'kameraparter.salwatorska6',
     port : 81,
-    user : 'admin',
-    pass : '123456'
+    user : 'viewer',
+    pass : 'viewer123'
 };
 
 module.exports.recordCamera = function(req, res) {
