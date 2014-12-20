@@ -41,10 +41,11 @@ var app = new EventEmitter
 
 // defaults
 app.settings = {
-	host:	'http://kamerawejscie.salwatorska6/',
+	host:	'KameraWejscie.salwatorska6',
 	port:	81,
 	user:	'viewer',
-	pass:	'viewer123'
+	pass:	'viewer123',
+	name:   'KameraWejscie'
 }
 
 // overrides
@@ -480,7 +481,7 @@ app.talk2 = function( props ) {
 module.exports = app
 module.exports.recordCamera = function(req, res) {
 	exec(
-			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa.avi",
+			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi",
 			function puts(error, stdout, stderr){
 			});
 	res.send('done');

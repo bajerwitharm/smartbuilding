@@ -10,10 +10,11 @@ module.exports = app
 
 // defaults
 app.settings = {
-    host : 'kameraparter.salwatorska6',
+    host : 'KameraParter.salwatorska6',
     port : 81,
     user : 'viewer',
-    pass : 'viewer123'
+    pass : 'viewer123',
+    name : 'KameraParter'
 };
 
 module.exports.recordCamera = function(req, res) {
@@ -25,20 +26,10 @@ module.exports.recordCamera = function(req, res) {
 		    + app.settings.user
 		    + "&PWD="
 		    + app.settings.pass
-		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa2.avi",
+		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi",
 	    function puts(error, stdout, stderr) {
 	    });
     res.send('done');
-    console
-	    .log("ffmpeg -r 5 -t 60 -i 'http://"
-		    + app.settings.host
-		    + ":"
-		    + app.settings.port
-		    + "/cgi-bin/encoder?USER="
-		    + app.settings.user
-		    + "&PWD="
-		    + app.settings.pass
-		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa2.avi");
 }
 
 module.exports.getLiveCamera = function(req, res) {

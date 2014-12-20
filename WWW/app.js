@@ -9,8 +9,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
-var ipcamera = require('./routes/foscam.js');
-var ipcamera2 = require('./routes/acti.js');
+var KameraWejscie = require('./routes/foscam.js');
+var KameraParter = require('./routes/acti.js');
 var sqliteDbContext = require('./data/database.js');
 var database = require('./routes/database.js');
 var logParser = require('./routes/logger.js');
@@ -39,10 +39,10 @@ if ('development' == app.get('env')) {
 
 
 app.get('/users', user.list);
-app.get('/recordCamera', ipcamera.recordCamera);
-app.get('/recordCamera2', ipcamera2.recordCamera)
-app.get('/getLiveCamera', ipcamera.getLiveCamera);
-app.get('/getLiveCamera2', ipcamera2.getLiveCamera);
+app.get('/recordKameraWejscie', KameraWejscie.recordCamera);
+app.get('/recordKameraParter', KameraParter.recordCamera);
+app.get('/getLiveKameraWejscie', KameraWejscie.getLiveCamera);
+app.get('/getLiveKameraParter', KameraParter.getLiveCamera);
 app.get('/getUsersInfo', database.getUsersInfo);
 app.get('/getConnectionsByHour', database.getConnectionsByHour);
 app.get('/getConnectionsByWeekday', database.getConnectionsByWeekday);
