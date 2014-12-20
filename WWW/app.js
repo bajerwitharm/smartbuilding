@@ -14,6 +14,7 @@ var KameraParter = require('./routes/acti.js');
 var sqliteDbContext = require('./data/database.js');
 var database = require('./routes/database.js');
 var logParser = require('./routes/logger.js');
+var onvifCameras = require('./routes/onvif.js'); 
 var bandwidthMonitor = require('./routes/bandwidth_monitor.js');
 var statsMonitor = require('./routes/stats_monitor.js');
 
@@ -65,5 +66,6 @@ http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
 
 sqliteDbContext.createDatabase();
 logParser.initLogger(sqliteDbContext);
+onvifCameras.initOnvif(sqliteDbContext);
 bandwidthMonitor.initBandwidthMonitor(sqliteDbContext);
 //statsMonitor.initStatsMonitor(sqliteDbContext,"192.168.1.1");

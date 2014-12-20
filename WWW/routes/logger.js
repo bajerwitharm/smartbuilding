@@ -16,7 +16,6 @@ var parseLogEntry = function(logentry) {
 	database.insertNewLogEntry(logentry);
 	break;
     }
-
 }
 
 module.exports.initLogger = function(db) {
@@ -25,9 +24,6 @@ module.exports.initLogger = function(db) {
     var server = require('net').createServer(
 	    function(stream) {
 		stream.setEncoding('utf8');
-		// stream.addListener("data", function (slice) {
-		// datagram=datagram+slice;
-		// });
 		stream.addListener("data", function(slice) {
 		    datagram = datagram + slice;
 		    if (slice.length < 3472) {
