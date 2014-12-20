@@ -10,10 +10,11 @@ module.exports = app
 
 // defaults
 app.settings = {
-    host : 'kameraparter.salwatorska6',
+    host : 'kamerapietro1.salwatorska6',
     port : 81,
     user : 'viewer',
-    pass : 'viewer123'
+    pass : 'viewer123',
+    name : 'KameraParter'
 };
 
 module.exports.initOnvif = function(db) {
@@ -64,11 +65,13 @@ module.exports.getLiveCamera = function(req, res) {
     if (numberOfClients == 0) {
 	ffmpeg = spawn("ffmpeg", [
 		'-i',
-		"http://" + app.settings.host + ":" + app.settings.port
-			+ "/cgi-bin/encoder?USER=" + app.settings.user
-			+ "&PWD=" + app.settings.pass + "&GET_STREAM", '-f',
-		'mpeg4', '-vcodec', 'mpeg4', '-acodec', 'copy', '-tune',
-		'zerolatency', '-fflags', 'nobuffer', 'pipe:1' ]);
+		"rtsp://192.168.1.53/user=admin_password=FaWsG5QU_channel=1_stream=1.sdp?real_stream",
+	           '-f','webm',
+	           '-vcodec','libvpx',
+	           '-acodec','libvorbis',
+	           '-tune', 'zerolatency',
+	           '-fflags', 'nobuffer',
+	           '- 2>/dev/null|cat' ]);
 	console.log("http://" + app.settings.host + ":" + app.settings.port
 		+ "/cgi-bin/encoder?USER=" + app.settings.user + "&PWD="
 		+ app.settings.pass + "&GET_STREAM");
