@@ -2,7 +2,9 @@ var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 
 var numberOfClients = 0;
+var numberOfClients2 = 0;
 var ffmpeg;
+var ffmpeg2;
 var EventEmitter = require('events').EventEmitter
 var app = new EventEmitter;
 
@@ -64,24 +66,26 @@ recordCamera = function(alarmEntry) {
 module.exports.getLiveCamera = function(req, res) {
     if (numberOfClients == 0) {
 	ffmpeg = spawn("ffmpeg", [
-		'-i',
-		"rtsp://192.168.1.53/user=admin_password=FaWsG5QU_channel=1_stream=1.sdp?real_stream",
-	           '-f','webm',
-	           '-vcodec','libvpx',
-	           '-acodec','libvorbis',
-	           '-tune', 'zerolatency',
-	           '-fflags', 'nobuffer',
-	           '- 2>/dev/null|cat' ]);
-	console.log("http://" + app.settings.host + ":" + app.settings.port
-		+ "/cgi-bin/encoder?USER=" + app.settings.user + "&PWD="
-		+ app.settings.pass + "&GET_STREAM");
+		"-rtsp_transport", "tcp",
+		'-i', "rtsp://192.168.1.53/user=admin_password=FaWsG5QU_channel=1_stream=1.sdp?real_stream",
+	        "-vcodec", "copy", 
+		"-f", "mp4", 
+		"-movflags", "frag_keyframe+empty_moov", 
+                "-reset_timestamps", "1", 
+		"-vsync", "1",
+		"-flags", "global_header", 
+		"-bsf:v", "dump_extra", "-y", "-" ]);
+
     }
     ;
     numberOfClients++;
     res.writeHead(200, {
 	'Transfer-Encoding' : 'chunked',
-	'Content-Type' : 'video/webm'
+	'Content-Type' : 'video/mp4',
+	"Connection": "keep-alive",
+	"Accept-Ranges": "bytes" 
     });
+
     req.on('close', function(code) {
 	numberOfClients--;
 	if (numberOfClients == 0) {
@@ -95,4 +99,42 @@ module.exports.getLiveCamera = function(req, res) {
 	}
     });
     ffmpeg.stdout.pipe(res);
+}
+
+module.exports.getLiveCamera2 = function(req, res) {
+    if (numberOfClients2 == 0) {
+	ffmpeg2 = spawn("ffmpeg", [
+		"-rtsp_transport", "tcp",
+		'-i', "rtsp://192.168.1.54/user=admin_password=FaWsG5QU_channel=1_stream=1.sdp?real_stream",
+	        "-vcodec", "copy", 
+		"-f", "mp4", 
+		"-movflags", "frag_keyframe+empty_moov", 
+                "-reset_timestamps", "1", 
+		"-vsync", "1",
+		"-flags", "global_header", 
+		"-bsf:v", "dump_extra", "-y", "-" ]);
+
+    }
+    ;
+    numberOfClients2++;
+    res.writeHead(200, {
+	'Transfer-Encoding' : 'chunked',
+	'Content-Type' : 'video/mp4',
+	"Connection": "keep-alive",
+	"Accept-Ranges": "bytes" 
+    });
+
+    req.on('close', function(code) {
+	numberOfClients2--;
+	if (numberOfClients == 0) {
+	    ffmpeg.kill();
+	}
+    });
+    req.setTimeout(20000, function(code) {
+	numberOfClients2--;
+	if (numberOfClients == 0) {
+	    ffmpeg.kill();
+	}
+    });
+    ffmpeg2.stdout.pipe(res);
 }
