@@ -11,13 +11,21 @@ var app = new EventEmitter;
 module.exports = app
 
 // defaults
-app.settings = {
+app.settings = [{
     host : 'kamerapietro1.salwatorska6',
     port : 81,
     user : 'viewer',
     pass : 'viewer123',
-    name : 'KameraParter'
-};
+    name : 'KameraPietro1'
+},
+{
+    host : 'kamerapietro2.salwatorska6',
+    port : 81,
+    user : 'viewer',
+    pass : 'viewer123',
+    name : 'KameraPietro2'
+}
+];
 
 module.exports.initOnvif = function(db) {
     database = db;
@@ -26,20 +34,27 @@ module.exports.initOnvif = function(db) {
 	    function(stream) {
 		stream.setEncoding('utf8');
 		stream.addListener("data", function(slice) {
+		    slice=slice.substring(slice.indexOf("{"));
 		    datagram = datagram + slice;
 		    if (slice.length < 3472) {
 			try {
-			    var logentries = JSON.parse("["
-				    + slice.slice(0, -1) + "]");
-			    for ( var logentry in logentries) {
-				logentry = logentries[logentry];
-				if (logentry.length == 0) {
+			    console.log("[" + slice.slice(0, -1) + "]");
+			    var alarmentries = JSON.parse("[" + slice.slice(0, -1) + "]");
+			    console.log(alarmentries);
+			    for ( var alarmentry in alarmentries) {
+				alarmentry = logentries[alarmentry];
+				if (alarmentry.length == 0) {
 				    continue;
 				}
 				console.log(alarmEntry);
-				//recordCamera(alarmEntry);
+				if (alarmEntry.SerialID=="001212399c78") {
+					recordCamera(app.settings[0]);
+				} else {
+					recordCamera(app.settings[1]);
+				};
 			    }
 			} catch (err) {
+				console.log(err);
 			}
 
 			datagram = "";
@@ -49,16 +64,16 @@ module.exports.initOnvif = function(db) {
     server.listen(15002, '0.0.0.0');
 }
 
-recordCamera = function(alarmEntry) {
+recordCamera = function(camera) {
     exec("ffmpeg -r 5 -t 60 -i 'http://"
-		    + app.settings.host
+		    + camera.host
 		    + ":"
-		    + app.settings.port
+		    + camera.port
 		    + "/cgi-bin/encoder?USER="
-		    + app.settings.user
+		    + camera.user
 		    + "&PWD="
-		    + app.settings.pass
-		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`BramaWejsciowa2.avi",
+		    + camera.pass
+		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`"+camera.name+".avi",
 	    function puts(error, stdout, stderr) {
 	    });
 }
