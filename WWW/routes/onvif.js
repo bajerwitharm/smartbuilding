@@ -38,20 +38,16 @@ module.exports.initOnvif = function(db) {
 		    datagram = datagram + slice;
 		    if (slice.length < 3472) {
 			try {
-			    console.log("[" + slice.slice(0, -1) + "]");
-			    var alarmentries = JSON.parse("[" + slice.slice(0, -1) + "]");
-			    console.log(alarmentries);
-			    for ( var alarmentry in alarmentries) {
-				alarmentry = logentries[alarmentry];
-				if (alarmentry.length == 0) {
-				    continue;
-				}
-				console.log(alarmEntry);
-				if (alarmEntry.SerialID=="001212399c78") {
-					recordCamera(app.settings[0]);
-				} else {
-					recordCamera(app.settings[1]);
-				};
+			    var alarmEntries = JSON.parse("[" + slice.slice(0, -1) + "]");
+			    console.log(alarmEntries);
+			    console.log(alarmEntries[0]);
+  			    if (alarmEntries[0].Status=="Start") {	
+					if (alarmEntries[0].SerialID=="0012123972ca") {
+						recordCamera(app.settings[0]);
+					} else {
+						recordCamera(app.settings[1]);
+					};
+			
 			    }
 			} catch (err) {
 				console.log(err);
@@ -65,15 +61,13 @@ module.exports.initOnvif = function(db) {
 }
 
 recordCamera = function(camera) {
-    exec("ffmpeg -r 5 -t 60 -i 'http://"
-		    + camera.host
-		    + ":"
-		    + camera.port
-		    + "/cgi-bin/encoder?USER="
-		    + camera.user
-		    + "&PWD="
-		    + camera.pass
-		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`"+camera.name+".avi",
+    console.log("ffmpeg -t 60 -i rtsp://"
+		    + camera.host + "/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream"
+		    + " -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+camera.name+".avi");
+
+    exec("ffmpeg -t 60 -i rtsp://"
+		    + camera.host + "/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream"
+		    + " -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+camera.name+".avi",
 	    function puts(error, stdout, stderr) {
 	    });
 }

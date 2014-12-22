@@ -18,39 +18,39 @@ app.settings = {
 };
 
 module.exports.recordCamera = function(req, res) {
-    exec("ffmpeg -r 5 -t 60 -i 'http://"
-		    + app.settings.host
-		    + ":"
-		    + app.settings.port
-		    + "/cgi-bin/encoder?USER="
-		    + app.settings.user
-		    + "&PWD="
-		    + app.settings.pass
-		    + "&GET_STREAM' -acodec copy -vcodec mpeg4 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi",
+    exec("ffmpeg -t 60 -i rtsp://"+app.settings.user+":"+app.settings.pass+"@"
+		    + app.settings.host + ":554"
+		    + " -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi",
 	    function puts(error, stdout, stderr) {
 	    });
-    res.send('done');
+    res.send("ffmpeg -t 60 -i rtsp://"+app.settings.user+":"+app.settings.pass+"@"
+		    + app.settings.host + ":554"
+		    + " -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi");
 }
 
 module.exports.getLiveCamera = function(req, res) {
     if (numberOfClients == 0) {
 	ffmpeg = spawn("ffmpeg", [
-		'-i',
-		"http://" + app.settings.host + ":" + app.settings.port
-			+ "/cgi-bin/encoder?USER=" + app.settings.user
-			+ "&PWD=" + app.settings.pass + "&GET_STREAM", '-f',
-		'mpeg4', '-vcodec', 'mpeg4', '-acodec', 'copy', '-tune',
-		'zerolatency', '-fflags', 'nobuffer', 'pipe:1' ]);
-	console.log("http://" + app.settings.host + ":" + app.settings.port
-		+ "/cgi-bin/encoder?USER=" + app.settings.user + "&PWD="
-		+ app.settings.pass + "&GET_STREAM");
+		"-rtsp_transport", "tcp",
+		'-i', "rtsp://"+app.settings.user+":"+app.settings.pass+"@"
+		    + app.settings.host + ":554",
+	        "-vcodec", "copy", 
+		"-f", "mp4", 
+		"-movflags", "frag_keyframe+empty_moov", 
+                "-reset_timestamps", "1", 
+		"-vsync", "1",
+		"-flags", "global_header", 
+		"-bsf:v", "dump_extra", "-y", "-" ]);
     }
     ;
     numberOfClients++;
     res.writeHead(200, {
 	'Transfer-Encoding' : 'chunked',
-	'Content-Type' : 'video/webm'
+	'Content-Type' : 'video/mp4',
+	"Connection": "keep-alive",
+	"Accept-Ranges": "bytes" 
     });
+
     req.on('close', function(code) {
 	numberOfClients--;
 	if (numberOfClients == 0) {
