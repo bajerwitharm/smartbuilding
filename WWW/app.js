@@ -45,6 +45,7 @@ app.get('/recordKameraParter', KameraParter.recordCamera);
 app.get('/getLiveKameraWejscie', KameraWejscie.getLiveCamera);
 app.get('/getLiveKameraParter', KameraParter.getLiveCamera);
 app.get('/getLiveKameraPietro1', onvifCameras.getLiveCamera);
+app.get('/getLiveKameraPietro2', onvifCameras.getLiveCamera2);
 app.get('/getUsersInfo', database.getUsersInfo);
 app.get('/getConnectionsByHour', database.getConnectionsByHour);
 app.get('/getConnectionsByWeekday', database.getConnectionsByWeekday);
