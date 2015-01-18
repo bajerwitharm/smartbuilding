@@ -5,7 +5,7 @@
  *  Author: PLMABAJ
  */ 
 
-#include <avr/io.h>
+#include "global.h"
 
 #define RELAY1_PIN 0
 #define RELAY2_PIN 1
