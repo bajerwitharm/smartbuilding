@@ -1,8 +1,8 @@
 /*
- * io.c
+ * io_pins.c
  *
  * Created: 2015-01-16 23:02:36
- *  Author: PLMABAJ
+ *  Author: Marcin Bajer
  */ 
 
 #include "global.h"
@@ -89,6 +89,19 @@ void ioResetOutput(uint16_t outputs)
 {
 	RELAY1_6_PORT &= ~((outputs & 0x3F)<<RELAY1_PIN);
 	RELAY7_8_PORT &= ~((outputs & 0xC0)<<RELAY7_PIN);
+}
+
+/**
+ * Set output of device
+ * \param outputs - if bit is set appropriate output will be set, if bit is not
+ *					set no output change occur i.e outputs=0x03 sets outputs 1 and 2 
+ *                                                                     
+ * Refer to \ref ioSetOutput for output setting 
+ */
+void ioToggleOutput(uint16_t outputs)
+{
+	RELAY1_6_PORT ^= (outputs & 0x3F)<<RELAY1_PIN;
+	RELAY7_8_PORT ^= (outputs & 0xC0)<<RELAY7_PIN;
 }
 
 /**

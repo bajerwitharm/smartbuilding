@@ -2,14 +2,16 @@
 * main.c
 *
 * Created: 2015-01-16 19:53:52
-*  Author: PLMABAJ
+*  Author: Marcin Bajer
 */
 
-#include "io.h"
+#include "io_pins.h"
+#include "usart.h"
 
 int main(void)
 {
 	ioInit();
+	usartInit();
 	while(1)
 	{
 		ioSetOutput(ioGetInputs());

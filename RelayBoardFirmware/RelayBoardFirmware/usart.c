@@ -2,7 +2,7 @@
  * usart.c
  *
  * Created: 2015-01-17 00:24:04
- *  Author: PLMABAJ
+ *  Author: Marcin Bajer
  */ 
 #include "global.h"
 
@@ -94,7 +94,7 @@ void USART_Send(uint8_t *p_data, uint8_t length)
 	while(!(UCSRA & (1<<UDRE)));
 	
 	tx_buffer.index = 0;
-	tx_buffer.size = length;
+	tx_buffer.size = length+1;
 	
 	for (uint8_t i=0; i<length; i++) {
 		tx_buffer.data[i] = p_data[i];
@@ -106,6 +106,15 @@ void USART_Send(uint8_t *p_data, uint8_t length)
 
 ISR(USART_UDRE_vect)
 {
+	// escape characters
+	for (uint8_t j=0;j<2;j++) {
+		if (tx_buffer.data[tx_buffer.index] == escape_characters[j].toEscape)
+		{
+			UDR = escape_characters[j].howEscape[0];
+			tx_buffer.data[tx_buffer.index] = escape_characters[j].howEscape[1]; 
+			return;
+		}
+	}
 	UDR = tx_buffer.data[tx_buffer.index++]; 
 	if (tx_buffer.size == tx_buffer.index) {
 		UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End

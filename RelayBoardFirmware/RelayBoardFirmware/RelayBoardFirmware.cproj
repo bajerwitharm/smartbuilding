@@ -110,13 +110,19 @@
     <Compile Include="global.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="usart.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="io.h">
+    <Compile Include="io_pins.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="io.c">
+    <Compile Include="io_pins.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
