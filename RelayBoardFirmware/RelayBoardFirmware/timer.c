@@ -5,34 +5,22 @@
  *  Author: Marcin Bajer
  */ 
 
-#define TIMER_PRELOAD_100ms 145	// trigger interrupt every 0.1 s
+#define TIMER_PRELOAD_100ms 158	// trigger interrupt every 0.1 s
 #define TIMER_MS_TO_TIMER(x) x/100
 
 #include "global.h"
 #include "io_pins.h"
+#include "timer.h"
+#include "usart.h"
 
-struct {
-	struct {
-		uint16_t input_on;
-		uint16_t input_off;
-		uint8_t output_on;	
-		uint8_t output_off;
-		uint16_t time_preload;
-		uint16_t time_current;	
-	} activator;
-	struct {
-		uint8_t output_on;
-		uint8_t output_off;
-		uint8_t output_toggle;
-	} actuator;
-} triggers[] = {
+trigger_t triggers[] = {
 {
 	.activator = {
-		.input_off = 0x0000,
+		.input_off = 0x00F0,
 		.input_on = 0x0001,
 		.output_off = 0x00,
 		.output_on = 0x00,
-		.time_preload = TIMER_MS_TO_TIMER(2000),
+		.time_preload = TIMER_MS_TO_TIMER(200),
 		.time_current = 0,
 	},	
 	.actuator = {
@@ -69,19 +57,21 @@ void processTrigger(uint8_t trigger_index) {
 		inputOnVerified(trigger_index) &&
 		outputOffVerified(trigger_index) &&
 		outputOnVerified(trigger_index)
-	) {
-		//all condition satisfied, check if should count down to activate new output state
-		if (triggers[trigger_index].activator.time_current < triggers[trigger_index].activator.time_preload)
-		{
-			triggers[trigger_index].activator.time_current++;
-		}		
+	) {	
+		//all condition satisfied, check if action should be triggered
 		if (triggers[trigger_index].activator.time_current == triggers[trigger_index].activator.time_preload) {
 			//already count down and new state should be activated
 			ioSetOutput(triggers[trigger_index].actuator.output_on);
 			ioResetOutput(triggers[trigger_index].actuator.output_off);
 			ioToggleOutput(triggers[trigger_index].actuator.output_toggle);
+			usartSendAction(&triggers[trigger_index]);
 			triggers[trigger_index].activator.time_current++;
 		}
+		//check if should count down to activate new output state
+		if (triggers[trigger_index].activator.time_current < triggers[trigger_index].activator.time_preload)
+		{
+			triggers[trigger_index].activator.time_current++;
+		}	
 	}
 	else
 	{

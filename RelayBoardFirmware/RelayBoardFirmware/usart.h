@@ -1,3 +1,4 @@
+#include "timer.h"
 /*
  * usart.h
  *
@@ -10,6 +11,7 @@
 #define USART_H_
 
 void usartInit(void);
+void usartSendAction(trigger_t* trigger);
 
 
 #endif /* USART_H_ */

@@ -5,6 +5,9 @@
  *  Author: Marcin Bajer
  */ 
 #include "global.h"
+#include <string.h>
+#include "timer.h"
+#include "telegrams.h"
 
 #define UART_BAUD_SELECT(baudRate,xtalCpu) ((xtalCpu)/((baudRate)*8l)-1)
 #define BAUDRATE 9600
@@ -29,6 +32,8 @@ const struct
 	}
 };
 
+const uint8_t number_char_to_excape =  sizeof(escape_characters) / sizeof(escape_characters[0] );
+
 static struct {
 	uint8_t index;
 	uint8_t size;
@@ -41,6 +46,9 @@ static struct {
 	uint8_t data[RX_BUFFER_SIZE];
 } rx_buffer;
 
+/**
+ * \brief Usart initialization 
+ */
 void usartInit(void)
 {
 	uint16_t baudrate = UART_BAUD_SELECT(BAUDRATE,QUARTZ);
@@ -88,18 +96,21 @@ ISR(USART_RXC_vect)
 		}
 	}
 }
+
+void addCrc()
+{
+	tx_buffer.data[tx_buffer.size++] = 0xAB;//TODO: add crc implementation here
+}
+
 	
-void USART_Send(uint8_t *p_data, uint8_t length)
+void initSending()
 {
 	while(!(UCSRA & (1<<UDRE)));
-	
+	addCrc();
 	tx_buffer.index = 0;
-	tx_buffer.size = length+1;
-	
-	for (uint8_t i=0; i<length; i++) {
-		tx_buffer.data[i] = p_data[i];
-	}
-	  
+		
+	UDR = FRAME_START_CHAR;  
+	 
 	/* Enable UDR Empty interrupt */
 	UCSRB |= (1<<UDRIE);
 }
@@ -107,7 +118,7 @@ void USART_Send(uint8_t *p_data, uint8_t length)
 ISR(USART_UDRE_vect)
 {
 	// escape characters
-	for (uint8_t j=0;j<2;j++) {
+	for (uint8_t j=0;j<number_char_to_excape;j++) {
 		if (tx_buffer.data[tx_buffer.index] == escape_characters[j].toEscape)
 		{
 			UDR = escape_characters[j].howEscape[0];
@@ -119,4 +130,13 @@ ISR(USART_UDRE_vect)
 	if (tx_buffer.size == tx_buffer.index) {
 		UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
 	}
+}
+
+void usartSendAction(trigger_t* trigger)
+{
+	action_triggered_t* telegram = (action_triggered_t*)tx_buffer.data;
+	tx_buffer.size = sizeof(action_triggered_t);
+	telegram->fc = action_triggered_e;
+	memcpy(&telegram->trigger,trigger,sizeof(trigger_t));
+	initSending();
 }
