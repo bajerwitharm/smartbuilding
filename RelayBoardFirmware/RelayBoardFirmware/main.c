@@ -17,9 +17,8 @@ int main(void)
 	timerInit();
 	sei();
 	while(1)
-	{
-		ioGetInputs();
-//		ioSetOutput(ioGetInputs());
-//		ioResetOutput(~ioGetInputs());
+	{		
+		//ioSetOutput(ioGetInputs()&0xFF);
+		//ioResetOutput((~ioGetInputs())&0xFF);
 	}
 }

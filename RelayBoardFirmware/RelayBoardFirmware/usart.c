@@ -17,7 +17,7 @@
 
 #define FRAME_OVERHEAD 3 // src_addr + dst_addr + crc = 3
 #define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3 
-const struct 
+const static struct 
 {
 	uint8_t toEscape;
 	uint8_t howEscape[2];	
@@ -32,7 +32,7 @@ const struct
 	}
 };
 
-const uint8_t number_char_to_excape =  sizeof(escape_characters) / sizeof(escape_characters[0] );
+static const uint8_t number_char_to_excape =  sizeof(escape_characters) / sizeof(escape_characters[0] );
 
 static struct {
 	uint8_t index;
@@ -78,7 +78,7 @@ ISR(USART_RXC_vect)
 	else
 	{
 		// escape characters
-		for (uint8_t i=0;i<2;i++) {
+		for (uint8_t i=0;i<number_char_to_excape;i++) {
 			if ((received == escape_characters[i].howEscape[1]) && (rx_buffer.data[rx_buffer.index-1]==escape_characters[i].howEscape[0]))
 			{
 				received = escape_characters[i].toEscape;
