@@ -11,12 +11,16 @@
 
 #define UART_BAUD_SELECT(baudRate,xtalCpu) ((xtalCpu)/((baudRate)*8l)-1)
 #define BAUDRATE 9600
-#define TX_BUFFER_SIZE 20
-#define RX_BUFFER_SIZE 20
+#define TX_BUFFER_SIZE 40
+#define RX_BUFFER_SIZE 40
 #define FRAME_START_CHAR 0x7E
 
 #define FRAME_OVERHEAD 3 // src_addr + dst_addr + crc = 3
 #define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3 
+
+#define BUS_MASTER_ADDRESS 0 //address of router on the bus
+#define THIS_DEVICE_ADDRESS 1 //adress of this device on the bus
+
 const static struct 
 {
 	uint8_t toEscape;
@@ -58,7 +62,7 @@ void usartInit(void)
 	// double the transmission speed
 	UCSRA = (1<<U2X);
 	// enable interrupt on the RXC Flag, enable Receiver and Transmitter
-	UCSRB = (1<<RXEN) | (1<<TXEN) | (1<<RXCIE) | (1<<TXCIE);
+	UCSRB = (1<<RXEN) | (1<<TXEN) | (1<<RXCIE);
 	// set frame format: 8 data, 1 stop bit
 	UCSRC = (1<<URSEL)|(3<<UCSZ0);
 }
@@ -66,6 +70,13 @@ void usartInit(void)
 
 void handleTelegram(void)
 {
+	telegram_header_t* header = (telegram_header_t*) rx_buffer.data;
+	if (header->destination == THIS_DEVICE_ADDRESS)
+	{
+		if ((header->fc == trigger_action_e) && (rx_buffer.size == sizeof(trigger_action_t))) {	//add here crc check
+			activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
+		}
+	}
 }
 
 ISR(USART_RXC_vect)
@@ -132,11 +143,14 @@ ISR(USART_UDRE_vect)
 	}
 }
 
-void usartSendAction(trigger_t* trigger)
+
+void usartSendAction(trigger_t* trigger, uint8_t destination)
 {
 	action_triggered_t* telegram = (action_triggered_t*)tx_buffer.data;
 	tx_buffer.size = sizeof(action_triggered_t);
-	telegram->fc = action_triggered_e;
-	memcpy(&telegram->trigger,trigger,sizeof(trigger_t));
+	telegram->header.fc = action_triggered_e;
+	telegram->header.source = THIS_DEVICE_ADDRESS;
+	telegram->header.destination = destination;
+	memcpy(&telegram->trigger,trigger,sizeof(*trigger));
 	initSending();
 }

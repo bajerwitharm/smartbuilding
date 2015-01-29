@@ -137,6 +137,12 @@
     <Compile Include="timer.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="triggers.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="triggers.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="usart.c">
       <SubType>compile</SubType>
     </Compile>

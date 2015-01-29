@@ -10,6 +10,8 @@
 #ifndef USART_H_
 #define USART_H_
 
+#include "triggers.h"
+
 void usartInit(void);
 void usartSendAction(trigger_t* trigger);
 

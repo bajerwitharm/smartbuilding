@@ -18,7 +18,7 @@ int main(void)
 	sei();
 	while(1)
 	{		
-		//ioSetOutput(ioGetInputs()&0xFF);
+	//	ioSetOutput(0xFF);
 		//ioResetOutput((~ioGetInputs())&0xFF);
 	}
 }

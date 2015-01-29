@@ -51,6 +51,9 @@ void initOutputPins(void)
 	RELAY7_8_PORT_DIR |= (1<<RELAY7_PIN|1<<RELAY8_PIN);
 }
 
+/**
+* Init Input pins according to                                                                      
+*/
 void initInputPins(void)
 {
 	SWITCH1_4_PORT_DIR &= ~(1<<SWITCH1_PIN|1<<SWITCH2_PIN|1<<SWITCH3_PIN|1<<SWITCH4_PIN);
