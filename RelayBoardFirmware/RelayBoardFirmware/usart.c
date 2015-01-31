@@ -8,6 +8,7 @@
 #include <string.h>
 #include "timer.h"
 #include "telegrams.h"
+#include "usart.h"
 
 #define UART_BAUD_SELECT(baudRate,xtalCpu) ((xtalCpu)/((baudRate)*8l)-1)
 #define BAUDRATE 9600
@@ -15,11 +16,8 @@
 #define RX_BUFFER_SIZE 40
 #define FRAME_START_CHAR 0x7E
 
-#define FRAME_OVERHEAD 3 // src_addr + dst_addr + crc = 3
+#define FRAME_OVERHEAD 5 // src_addr + dst_addr + size + fc + crc = 5
 #define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3 
-
-#define BUS_MASTER_ADDRESS 0 //address of router on the bus
-#define THIS_DEVICE_ADDRESS 1 //adress of this device on the bus
 
 const static struct 
 {
@@ -68,16 +66,40 @@ void usartInit(void)
 }
 
 
+void addCrc()
+{
+	tx_buffer.data[tx_buffer.size++] = 0xAB;//TODO: add crc implementation here
+}
+
+void initSending()
+{
+	while(!(UCSRA & (1<<UDRE)));
+	addCrc();
+	tx_buffer.index = 0;
+	
+	UDR = FRAME_START_CHAR;
+	
+	/* Enable UDR Empty interrupt */
+	UCSRB |= (1<<UDRIE);
+}
+
 void handleTelegram(void)
 {
 	telegram_header_t* header = (telegram_header_t*) rx_buffer.data;
 	if (header->destination == THIS_DEVICE_ADDRESS)
 	{
-		if ((header->fc == trigger_action_e) && (rx_buffer.size == sizeof(trigger_action_t))) {	//add here crc check
+		if ((header->fc == trigger_action_e) && (header->size == sizeof(actuator_t))) {	//add here crc check
 			activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
+			//prepere response on telegram
+			header->destination = BUS_MASTER_ADDRESS;
+			header->source = THIS_DEVICE_ADDRESS;
+			memcpy(tx_buffer.data,rx_buffer.data,tx_buffer.index);
+			tx_buffer.size = sizeof(trigger_action_t);
+			initSending();
 		}
 	}
 }
+
 
 ISR(USART_RXC_vect)
 {
@@ -108,23 +130,6 @@ ISR(USART_RXC_vect)
 	}
 }
 
-void addCrc()
-{
-	tx_buffer.data[tx_buffer.size++] = 0xAB;//TODO: add crc implementation here
-}
-
-	
-void initSending()
-{
-	while(!(UCSRA & (1<<UDRE)));
-	addCrc();
-	tx_buffer.index = 0;
-		
-	UDR = FRAME_START_CHAR;  
-	 
-	/* Enable UDR Empty interrupt */
-	UCSRB |= (1<<UDRIE);
-}
 
 ISR(USART_UDRE_vect)
 {
@@ -151,6 +156,7 @@ void usartSendAction(trigger_t* trigger, uint8_t destination)
 	telegram->header.fc = action_triggered_e;
 	telegram->header.source = THIS_DEVICE_ADDRESS;
 	telegram->header.destination = destination;
+	telegram->header.size = sizeof(*trigger);
 	memcpy(&telegram->trigger,trigger,sizeof(*trigger));
 	initSending();
 }

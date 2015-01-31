@@ -7,6 +7,8 @@
 
 #include "global.h"
 #include "triggers.h"
+#include "io_pins.h"
+#include "usart.h"
 
 static uint8_t device_state = 0;
 
@@ -37,7 +39,7 @@ void toggleState(uint8_t bits_to_toggle)
 #define SHORT_CLICK_TIME 150
 #define LONG_CLICK_TIME 1500
 
-static trigger_t triggers[] = {
+trigger_t triggers[] = {
 	// ON/OFF switch kitchen lamp 1
 	{
 		.activator = {
@@ -190,7 +192,7 @@ void processTrigger(uint8_t trigger_index) {
 		if (triggers[trigger_index].timer.time_current == triggers[trigger_index].timer.time_preload) {
 			//already count down and new state should be activated
 			activateTrigger(&triggers[trigger_index].actuator);
-			usartSendAction(&triggers[trigger_index]);
+			usartSendAction(&triggers[trigger_index], BUS_MASTER_ADDRESS);
 			triggers[trigger_index].timer.time_current++;
 		}
 		//check if should count down to activate new output state

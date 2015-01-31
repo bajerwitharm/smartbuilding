@@ -12,6 +12,8 @@
 #include "global.h"
 #include "timer.h"
 
+#pragma pack(1)
+
 typedef struct {
 	uint16_t input_on;
 	uint16_t input_off;
@@ -39,10 +41,12 @@ typedef struct {
 	} timer;
 } trigger_t;
 
+#pragma pack()
+
 void activateTrigger(const actuator_t* const actuator_p);
 void processTriggers();
 
 
-
+extern trigger_t triggers[];
 
 #endif /* TRIGGERS_H_ */
