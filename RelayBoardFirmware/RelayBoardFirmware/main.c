@@ -8,7 +8,10 @@
 #include "io_pins.h"
 #include "usart.h"
 #include "timer.h"
+#include "triggers.h"
 #include <avr/interrupt.h>
+
+
 
 int main(void)
 {
@@ -18,7 +21,6 @@ int main(void)
 	sei();
 	while(1)
 	{		
-	//	ioSetOutput(0xFF);
-		//ioResetOutput((~ioGetInputs())&0xFF);
+		ioSetOutput(RELAY_2);
 	}
 }

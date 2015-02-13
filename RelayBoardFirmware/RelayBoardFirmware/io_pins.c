@@ -5,20 +5,21 @@
  *  Author: Marcin Bajer
  */ 
 
+
 #include "global.h"
 
-#define RELAY1_PIN 0
-#define RELAY2_PIN 1
-#define RELAY3_PIN 2
-#define RELAY4_PIN 3
-#define RELAY5_PIN 4
-#define RELAY6_PIN 5
-#define RELAY7_PIN 6
-#define RELAY8_PIN 7
-#define RELAY1_6_PORT_DIR DDRB
-#define RELAY1_6_PORT PORTB
-#define RELAY7_8_PORT_DIR DDRD
-#define RELAY7_8_PORT PORTD
+#define OUTPUT1_PIN 0
+#define OUTPUT2_PIN 1
+#define OUTPUT3_PIN 2
+#define OUTPUT4_PIN 3
+#define OUTPUT5_PIN 4
+#define OUTPUT6_PIN 5
+#define OUTPUT7_PIN 6
+#define OUTPUT8_PIN 7
+#define OUTPUT1_6_PORT_DIR DDRB
+#define OUTPUT1_6_PORT PORTB
+#define OUTPUT7_8_PORT_DIR DDRD
+#define OUTPUT7_8_PORT PORTD
 
 //1wire Portc.3
 
@@ -31,24 +32,20 @@
 #define SWITCH4_PIN 5
 #define SWITCH1_4_PORT_DIR DDRD
 #define SWITCH1_4_PORT PIND
-#define SWITCH5_PIN 4
-#define SWITCH6_PIN 5
-#define SWITCH5_6_PORT_DIR DDRC
-#define SWITCH5_6_PORT PINC
+#define SWITCH5_PIN 0
+#define SWITCH6_PIN 1
+#define SWITCH7_PIN 2
+#define SWITCH8_PIN 4
+#define SWITCH9_PIN 5
+#define SWITCH5_9_PORT_DIR DDRC
+#define SWITCH5_9_PORT PINC
 
-/**
-* Switches are NOT isolated with transoptors                                                                     
-*/
-#define INPUT7_PIN 0
-#define INPUT8_PIN 1
-#define INPUT9_PIN 2
-#define INPUT7_9_PORT_DIR DDRC
-#define INPUT7_9_PORT PORTC
+
 
 void initOutputPins(void)
 {
-	RELAY1_6_PORT_DIR |= (1<<RELAY1_PIN|1<<RELAY2_PIN|1<<RELAY3_PIN|1<<RELAY4_PIN|1<<RELAY5_PIN|1<<RELAY6_PIN);
-	RELAY7_8_PORT_DIR |= (1<<RELAY7_PIN|1<<RELAY8_PIN);
+	OUTPUT1_6_PORT_DIR |= (1<<OUTPUT1_PIN|1<<OUTPUT2_PIN|1<<OUTPUT3_PIN|1<<OUTPUT4_PIN|1<<OUTPUT5_PIN|1<<OUTPUT6_PIN);
+	OUTPUT7_8_PORT_DIR |= (1<<OUTPUT7_PIN|1<<OUTPUT8_PIN);
 }
 
 /**
@@ -57,8 +54,7 @@ void initOutputPins(void)
 void initInputPins(void)
 {
 	SWITCH1_4_PORT_DIR &= ~(1<<SWITCH1_PIN|1<<SWITCH2_PIN|1<<SWITCH3_PIN|1<<SWITCH4_PIN);
-	SWITCH5_6_PORT_DIR &= ~(1<<SWITCH5_PIN|1<<SWITCH6_PIN);
-	INPUT7_9_PORT_DIR &= ~(1<<INPUT7_PIN|1<<INPUT8_PIN|1<<INPUT9_PIN);
+	SWITCH5_9_PORT_DIR &= ~(1<<SWITCH5_PIN|1<<SWITCH6_PIN|1<<SWITCH7_PIN|1<<SWITCH8_PIN|1<<SWITCH9_PIN);
 }
 
 /**
@@ -79,8 +75,8 @@ void ioInit(void)
  */
 void ioSetOutput(uint16_t outputs)
 {
-	RELAY1_6_PORT |= (outputs & 0x3F)<<RELAY1_PIN;
-	RELAY7_8_PORT |= (outputs & 0xC0)<<(6-RELAY7_PIN);
+	OUTPUT1_6_PORT |= (outputs & 0x3F)<<OUTPUT1_PIN;
+	OUTPUT7_8_PORT |= (outputs & 0xC0)<<(6-OUTPUT7_PIN);
 }
 
 /**
@@ -92,8 +88,8 @@ void ioSetOutput(uint16_t outputs)
  */
 void ioResetOutput(uint16_t outputs)
 {
-	RELAY1_6_PORT &= ~((outputs & 0x3F)<<RELAY1_PIN);
-	RELAY7_8_PORT &= ~((outputs & 0xC0)<<(6-RELAY7_PIN));
+	OUTPUT1_6_PORT &= ~((outputs & 0x3F)<<OUTPUT1_PIN);
+	OUTPUT7_8_PORT &= ~((outputs & 0xC0)<<(6-OUTPUT7_PIN));
 }
 
 /**
@@ -105,8 +101,8 @@ void ioResetOutput(uint16_t outputs)
  */
 void ioToggleOutput(uint16_t outputs)
 {
-	RELAY1_6_PORT ^= (outputs & 0x3F)<<RELAY1_PIN;
-	RELAY7_8_PORT ^= (outputs & 0xC0)<<(6-RELAY7_PIN);
+	OUTPUT1_6_PORT ^= (outputs & 0x3F)<<OUTPUT1_PIN;
+	OUTPUT7_8_PORT ^= (outputs & 0xC0)<<(6-OUTPUT7_PIN);
 }
 
 /**
@@ -115,7 +111,7 @@ void ioToggleOutput(uint16_t outputs)
 */
 uint16_t ioGetInputs() 
 {
-	return ~((SWITCH1_4_PORT>>SWITCH1_PIN) & 0x000F)|((SWITCH5_6_PORT<<(4-SWITCH5_PIN)) & 0x0030)|((INPUT7_9_PORT<<(6-INPUT7_PIN)) & 0x01C0);
+	return ~((SWITCH1_4_PORT>>SWITCH1_PIN) & 0x000F)|((SWITCH5_9_PORT<<(4-SWITCH5_PIN)) & 0x01F0);
 }
 
 /**
@@ -124,5 +120,5 @@ uint16_t ioGetInputs()
 */
 uint8_t ioGetOutputs()
 {
-	return ((RELAY1_6_PORT>>RELAY1_PIN) & 0x3F)|((RELAY7_8_PORT<<(6-RELAY7_PIN)) & 0xC0);
+	return ((OUTPUT1_6_PORT>>OUTPUT1_PIN) & 0x3F)|((OUTPUT7_8_PORT<<(6-OUTPUT7_PIN)) & 0xC0);
 }

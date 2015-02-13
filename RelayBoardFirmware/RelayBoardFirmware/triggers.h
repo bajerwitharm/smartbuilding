@@ -12,6 +12,15 @@
 #include "global.h"
 #include "timer.h"
 
+#define RELAY_1 0x04
+#define RELAY_2 0x80
+#define RELAY_3 0x01
+#define RELAY_4 0x02
+#define RELAY_5 0x10
+#define RELAY_6 0x20
+#define RELAY_7 0x08
+#define RELAY_8 0x40
+
 #pragma pack(1)
 
 typedef struct {
