@@ -23,8 +23,6 @@
 #define RELAY_8 0x40
 //const uint8_t RELAYS[]={RELAY_1,RELAY_2,RELAY_3,RELAY_4,RELAY_5,RELAY_6,RELAY_7,RELAY_8};
 
-#define SWITCH_1 0x04
-
 #pragma pack(1)
 
 typedef struct {

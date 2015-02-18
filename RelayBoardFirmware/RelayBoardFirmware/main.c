@@ -16,7 +16,7 @@
 int main(void)
 {
 	ioInit();
-	usartInit();
+	//usartInit();
 	timerInit();
 	sei();
 	while(1)
