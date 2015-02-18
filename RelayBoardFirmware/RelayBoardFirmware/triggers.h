@@ -12,6 +12,7 @@
 #include "global.h"
 #include "timer.h"
 
+
 #define RELAY_1 0x04
 #define RELAY_2 0x80
 #define RELAY_3 0x01
@@ -20,6 +21,9 @@
 #define RELAY_6 0x20
 #define RELAY_7 0x08
 #define RELAY_8 0x40
+//const uint8_t RELAYS[]={RELAY_1,RELAY_2,RELAY_3,RELAY_4,RELAY_5,RELAY_6,RELAY_7,RELAY_8};
+
+#define SWITCH_1 0x04
 
 #pragma pack(1)
 

@@ -21,6 +21,6 @@ int main(void)
 	sei();
 	while(1)
 	{		
-		ioSetOutput(RELAY_2);
+
 	}
 }

@@ -29,39 +29,40 @@ void toggleState(uint8_t bits_to_toggle)
 
 
 /*
- *				USB
- *						+ Kuchnia
- *						+ Kuchnia                   
+ *			   USB
+ *			|		|	+ Kuchnia1 -   + Kuchnia2 -     + Pokoj1 -      + Pokoj2 -      + Przedpokoj -   + Toaleta wew -      +5V
+ *						(Input1 PC0)   (Input2 PC1)    (Input3 PC2)    (Input4 PC3)     (Input5 PC4)      (Input6 PC6) 
  *
-
-
-
-
-
- *     -/- Kuchnia1     -/- Kuchnia2 
+ *
+ *
+ *				        + Toaleta zew- +  Kuchnia R-    + Pokój R -  + Przedpokoj R -      + I2C -          GND               +5V
+ *                       (Input7 PD2)   (Input8 PD3)   (Input9 PD4)   (Input10 PD4)     (Input11 PC5) 
  */
 
 
-#define INPUT_1 0x0020
+#define INPUT_1 0x0001
 #define INPUT_2 0x0002
 #define INPUT_3 0x0004
 #define INPUT_4 0x0008
-#define INPUT_5 0x0010
-#define INPUT_6 0x0001
-#define INPUT_7 0x0040
-#define INPUT_8 0x0080
-#define INPUT_9 0x0100
+#define INPUT_5 0x0020
+#define INPUT_6 0x0040
+#define INPUT_7 0x0080
+#define INPUT_8 0x0100
+#define INPUT_9 0x0200
+#define INPUT_10 0x0400
+#define INPUT_11 0x0010
 
-
-#define KITCHEN_LAMP_SWITCH	INPUT_1
+#define KITCHEN_LAMP_SWITCH	INPUT_8
+#define ROOM_LAMP_SWITCH_1	INPUT_2
+#define ROOM_LAMP_SWITCH_2	INPUT_3
+#define CORRIDOR_LAMP_SWITCH INPUT_4
+#define TOILET_LAMP_SWITCH_1 INPUT_5
+#define TOILET_LAMP_SWITCH_2 INPUT_6
 #define KITCHEN_LAMP_MOTION INPUT_2
-#define ROOM_LAMP_SWITCH_1	INPUT_3
-#define ROOM_LAMP_SWITCH_2	INPUT_4
 #define ROOM_LAMP_MOTION	INPUT_5
-#define CORRIDOR_LAMP_SWITCH INPUT_6
+
 #define CORRIDOR_LAMP_MOTION INPUT_7
-#define TOILET_LAMP_SWITCH_1 INPUT_8
-#define TOILET_LAMP_SWITCH_2 INPUT_9
+
 
 
 
@@ -96,7 +97,7 @@ trigger_t triggers[] = {
 	{
 		.activator = {
 			.input_off = 0x0000,
-			.input_on = KITCHEN_LAMP_SWITCH,
+			.input_on = 0x0000,
 			.output_off = 0x00,
 			.output_on = 0x00,
 			.state_on = 0x00,
@@ -106,14 +107,14 @@ trigger_t triggers[] = {
 
 		.actuator = {
 			.output_off = 0x00,
-			.output_toggle = KITCHEN_LAMP_OUTPUT_1,
+			.output_toggle = 0x00,
 			.output_on = 0x00,
 			.state_on = 0x00,
 			.state_off = 0x00,
-			.state_toggle = KITCHEN_LAMP_1_MANUAL_SWTICH_ON,
+			.state_toggle = 0x00,
 		},
 		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
+			.time_preload = 0,
 			.time_current = 0,
 		}
 	},
@@ -513,10 +514,13 @@ void processTrigger(uint8_t trigger_index) {
 		//condition not valid, set countdown counter to 0
 		triggers[trigger_index].timer.time_current = 0;
 	}
+			triggers[trigger_index].activator.input_on = ioGetInputs();
+			usartSendAction(&triggers[trigger_index], BUS_MASTER_ADDRESS);
 }
 
 void processTriggers() {
 	for (uint8_t i=0;i<getNumberOfTriggers();i++) {
 		processTrigger(i);
 	}
+	
 }

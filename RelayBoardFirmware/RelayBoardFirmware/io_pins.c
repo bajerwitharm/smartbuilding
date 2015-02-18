@@ -26,19 +26,21 @@
 /**
 * Switches are isolated with transoptors
 */
-#define SWITCH1_PIN 2
-#define SWITCH2_PIN 3
-#define SWITCH3_PIN 4
-#define SWITCH4_PIN 5
-#define SWITCH1_4_PORT_DIR DDRD
-#define SWITCH1_4_PORT PIND
-#define SWITCH5_PIN 0
-#define SWITCH6_PIN 1
-#define SWITCH7_PIN 2
-#define SWITCH8_PIN 4
-#define SWITCH9_PIN 5
-#define SWITCH5_9_PORT_DIR DDRC
-#define SWITCH5_9_PORT PINC
+#define SWITCH8_PIN 2
+#define SWITCH9_PIN 3
+#define SWITCH10_PIN 4
+#define SWITCH11_PIN 5
+#define SWITCH8_11_PORT_DIR DDRD
+#define SWITCH8_11_PORT (uint16_t)PIND
+#define SWITCH1_PIN 0
+#define SWITCH2_PIN 1
+#define SWITCH3_PIN 2
+#define SWITCH4_PIN 3
+#define SWITCH5_PIN 4
+#define SWITCH6_PIN 5
+#define SWITCH7_PIN 6
+#define SWITCH1_7_PORT_DIR DDRC
+#define SWITCH1_7_PORT (uint16_t)PINC
 
 
 
@@ -53,8 +55,8 @@ void initOutputPins(void)
 */
 void initInputPins(void)
 {
-	SWITCH1_4_PORT_DIR &= ~(1<<SWITCH1_PIN|1<<SWITCH2_PIN|1<<SWITCH3_PIN|1<<SWITCH4_PIN);
-	SWITCH5_9_PORT_DIR &= ~(1<<SWITCH5_PIN|1<<SWITCH6_PIN|1<<SWITCH7_PIN|1<<SWITCH8_PIN|1<<SWITCH9_PIN);
+	SWITCH8_11_PORT_DIR &= ~(1<<SWITCH8_PIN|1<<SWITCH9_PIN|1<<SWITCH10_PIN|1<<SWITCH11_PIN);
+	SWITCH1_7_PORT_DIR &= ~(1<<SWITCH1_PIN|1<<SWITCH2_PIN|1<<SWITCH3_PIN|1<<SWITCH4_PIN|1<<SWITCH5_PIN|1<<SWITCH6_PIN|1<<SWITCH7_PIN);
 }
 
 /**
@@ -111,7 +113,7 @@ void ioToggleOutput(uint16_t outputs)
 */
 uint16_t ioGetInputs() 
 {
-	return ~((SWITCH1_4_PORT>>SWITCH1_PIN) & 0x000F)|((SWITCH5_9_PORT<<(4-SWITCH5_PIN)) & 0x01F0);
+	return ((SWITCH8_11_PORT<<(7-SWITCH8_PIN)) & 0x0780)|((SWITCH1_7_PORT>>(SWITCH1_PIN)) & 0x07F);
 }
 
 /**
