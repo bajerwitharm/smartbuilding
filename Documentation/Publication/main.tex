@@ -44,11 +44,11 @@ size buildings.
 The basic assumption is that the system should support per user
 authentication and network usage statistics.
 In contrast to current market available solutions the presented one requires
-very little modification of off-the-self low cost routers to enable wide range
-of new functionalities. The core or the system is based on OpenWRT Linux running
+very little modification of off-the-self low cost routers to enable wide
+range of new functionalities. The core or the system is based on OpenWRT Linux running
 on multiple WiFi access points spread throughout the building.
-For data storage and visualization centralized solution 
-based on Node.js server and AngularJS frontend running on RaspberryPi
+For data storage and visualization centralized solution prepared
+based on Node.js server and AngularJS frontend and running on RaspberryPi
 development board is used.
 \keywords{netowork monitoring, access control, RaspberryPi, node.js, smart home}
 \end{abstract}
@@ -79,7 +79,7 @@ smart home installation.
 \section{Network requirements}
 
 The goal of this project was to prepare internal network in the building.The
-assumption for network to be prepared was to:
+assumption for network to be prepared was to provide:
 \begin{enumerate}
   \item Fast and reliable WiFi throughout whole building,
   \item Cost-oriented implementation,
@@ -98,10 +98,15 @@ storage,
 
 \subsection{Problem of network security}
 For many years the focus in network security was placed on protecting
-network from external threats using firewalls. Nowadays, attention has turned
-towards protecting crucial network resources against the ''enemy within''. To
-defend the network, even small, against internal threats user authentication and
-access control is necessary. 
+network from external threats using firewalls and public key cryptography.
+Nowadays, attention has turned towards protecting crucial network resources against the ''enemy within''. 
+
+
+To effectively defend the network, even small, against internal threats user
+authentication and access control is necessary. 
+
+data loss prevention (DLP) systems, encryption, firewalls, IDS and anti-virus
+packages – - See more at: http://www.information-age.com/technology/security/123458593/cyber-enemy-within-rise-insider-threat#sthash.lxBXm1qw.dpuf
 
 Separate topic is WiFi piggybacking. Apart from security issue,
 unauthorized access to network can result in steeling bandwidth, but what is far
