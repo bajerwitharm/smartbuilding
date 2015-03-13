@@ -21,4 +21,10 @@
 		<nature>org.nodeclipse.ui.NodeNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>NODE_PATH</name>
+			<value>file:/home/salwatorska/workspace/smartbuilding/WWW/node_modules</value>
+		</variable>
+	</variableList>
 </projectDescription>

@@ -17,6 +17,7 @@ var logParser = require('./routes/logger.js');
 var onvifCameras = require('./routes/onvif.js'); 
 var bandwidthMonitor = require('./routes/bandwidth_monitor.js');
 var statsMonitor = require('./routes/stats_monitor.js');
+var relayBoard = require('./routes/relay_board.js');
 
 var app = express();
 
@@ -61,6 +62,7 @@ app.get('/getUsageByWeekday', database.getUsageByWeekday);
 app.get('/getUsageByMonthday', database.getUsageByMonthday);
 app.get('/getUsageByMonth', database.getUsageByMonth);
 app.get('/getUsageByAP', database.getUsageByAP);
+app.get('/setRelayBoard', relayBoard.writeTelegram);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));
