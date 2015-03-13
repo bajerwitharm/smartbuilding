@@ -481,7 +481,7 @@ app.talk2 = function( props ) {
 module.exports = app
 module.exports.recordCamera = function(req, res) {
 	exec(
-			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi",
+			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/data/camera/today/`date +%#F_%H.%M.%S`_"+app.settings.name+".mp4",
 			function puts(error, stdout, stderr){
 			});
 	res.send("ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+app.settings.name+".avi");
@@ -504,8 +504,10 @@ module.exports.getLiveCamera = function(req, res) {
 	};
 	numberOfClients++;
 	res.writeHead(200, {
-        'Transfer-Encoding': 'chunked'
-       , 'Content-Type': 'video/webm'
+	'Transfer-Encoding' : 'chunked',
+	'Content-Type' : 'video/webm',
+	"Connection": "keep-alive",
+	"Accept-Ranges": "bytes" 
 	});
 	req.on('close', function (code) {
 		numberOfClients--;

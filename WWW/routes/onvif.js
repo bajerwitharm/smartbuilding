@@ -61,13 +61,13 @@ module.exports.initOnvif = function(db) {
 }
 
 recordCamera = function(camera) {
-    console.log("ffmpeg -t 60 -i rtsp://"
+    console.log("ffmpeg -i rtsp://"
 		    + camera.host + "/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream"
-		    + " -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+camera.name+".avi");
+		    + " -preset slow /home/salwatorska/data/camera/today/`date +%#F_%H.%M.%S`_"+camera.name+".avi");
 
-    exec("ffmpeg -t 60 -i rtsp://"
+    exec("ffmpeg -i rtsp://"
 		    + camera.host + "/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream"
-		    + " -preset slow /home/salwatorska/`date +%#F_%H.%M.%S`_"+camera.name+".avi",
+		    + " -t 60 -vcodec copy -preset slow /home/salwatorska/data/camera/today/`date +%#F_%H.%M.%S`_"+camera.name+".mp4",
 	    function puts(error, stdout, stderr) {
 	    });
 }
@@ -76,6 +76,7 @@ module.exports.getLiveCamera = function(req, res) {
     if (numberOfClients == 0) {
 	ffmpeg = spawn("ffmpeg", [
 		"-rtsp_transport", "tcp",
+		"-re",
 		'-i', "rtsp://192.168.1.53/user=admin_password=FaWsG5QU_channel=1_stream=1.sdp?real_stream",
 	        "-vcodec", "copy", 
 		"-f", "mp4", 

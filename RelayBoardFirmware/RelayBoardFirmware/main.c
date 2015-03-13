@@ -8,17 +8,19 @@
 #include "io_pins.h"
 #include "usart.h"
 #include "timer.h"
+#include "triggers.h"
 #include <avr/interrupt.h>
+
+
 
 int main(void)
 {
 	ioInit();
-	usartInit();
+	//usartInit();
 	timerInit();
 	sei();
 	while(1)
 	{		
-	//	ioSetOutput(0xFF);
-		//ioResetOutput((~ioGetInputs())&0xFF);
+
 	}
 }
