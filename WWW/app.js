@@ -62,7 +62,7 @@ app.get('/getUsageByWeekday', database.getUsageByWeekday);
 app.get('/getUsageByMonthday', database.getUsageByMonthday);
 app.get('/getUsageByMonth', database.getUsageByMonth);
 app.get('/getUsageByAP', database.getUsageByAP);
-app.get('/setRelayBoard', relayBoard.writeTelegram);
+app.get('/getRelayBoardInfo', relayBoard.requestInfo);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));

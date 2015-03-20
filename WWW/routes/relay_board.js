@@ -1,16 +1,17 @@
 var _ = require('struct-fu');
-var SerialPort = require("serialport").SerialPort;
-var serialPort = new SerialPort("/dev/ttyUSB0", {
+var com = require("serialport");
+var serialPort = new com.SerialPort("/dev/ttyUSB1", {
 	baudRate : 9600,
 	dataBits : 8,
 	parity : 'none',
 	stopBits : 1,
-	flowControl : false
+	flowControl : false,
+    parser: com.parsers.relayboard()
 });
 
-serialPort.on("data", function(data) {
-	console.log(data);
-});
+var busMaster = 0xFA
+var relayBoard = 0xFB
+
 //
 // var converter = _.struct([
 // _.struct('header', [
@@ -30,8 +31,8 @@ serialPort.on("data", function(data) {
 
 
 
-var inputs = ["KitchenSw1","KitchenSw2","RoomSw1","RoomSw2","CorridorSw","ToiletOutSw","ToiletInSw","KitchenMotion","RoomMotion","CorridorMotion","","","","","",""].reverse();
-var outputs = ["Kitchen1","Kitchen2","Room1","Room2","Corridor","ToiletIn","ToiletOut","NotUsed"].reverse();
+var inputs = ['KitchenSw1',"KitchenSw2","RoomSw1","RoomSw2","CorridorSw","ToiletOutSw","ToiletInSw","KitchenMotion","RoomMotion","CorridorMotion","","","","","",""].reverse();
+var outputs = ["Kitchen1","Kitchen2","Room1","Room2","Corridor","ToiletIn","ToiletOut",""].reverse();
 var states = ["KitchenSw1","KitchenSw2","KitchenMotion","RoomSw1","RoomSw2","RoomMotion","CorridorSw","CorritorMotion"].reverse();
 
 var genereteBitStruct = function(elements) {
@@ -71,6 +72,12 @@ var timer_t =  _.struct('timer', [
                                   _.uint16('time_preload'), 
                                   _.uint16('time_current')
                                   ]);
+
+var info_t =   _.struct('info', [
+                                  _.struct('inputs',genereteBitStruct(inputs)), 
+                                  _.struct('outputs',genereteBitStruct(outputs)),
+                                  _.struct('states',genereteBitStruct(states))
+                                 ]);
 
 var crc_t =  _.uint8('crc');
 
@@ -269,15 +276,49 @@ var action_triggered_t = _.struct([
 //	  crc: 171 }
 // Buffer([ 0x7E, 0xFB, 0xFA, 0xDE, 0x12, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0xAB ])
 
-module.exports.writeTelegram = function(req, res) {
-	telegram = {header:{start:0x7e,source:0xFA,destination:0xFB,fc:0xDF,size:0x06},
-				actuator:{output_on:0x00,output_off:0x00,output_toggle:0xFF,state_on:0x00,state_off:0x00,state_toggle:0x00}}
-	toReceive = action_triggered_t.unpack(Buffer([ 0x7E, 0xFB, 0xFA, 0xDE, 0x12, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0xAB ]));
-// toSend = converter.pack(telegram);
-	console.log(toReceive);
-// serialPort.write(Buffer([ 0x7E, 0xFA, 0xFB, 0xDF, 0x06, 0x00, 0x00, 0xFF,
-// 0x00, 0x00, 0x00, 0xAB ]));
-	
-	
+var get_info_t_req =  _.struct([
+                            	header_t,
+                            //	_.uint8('data'),
+                            	crc_t
+                            ]);
 
+var get_info_t_res =  _.struct([
+                        	header_t,
+                        	info_t,
+                        	crc_t
+                        ]);
+
+module.exports.requestInfo = function(req, res) {
+	telegram = {header:{start:0x7e,source:busMaster,destination:relayBoard,fc:0xEA,size:0x00},crc:0xAB};
+	console.log(get_info_t_req.pack(telegram));
+	serialPort.write(get_info_t_req.pack(telegram));
+	serialPort.once('data',function(data) {
+		console.log(data);
+		res.send(get_info_t_res.unpack(data));
+	});
 }
+
+serialPort.on('data',function(data) {
+	console.log(data);
+	try {
+		console.log(action_triggered_t.unpack(data));	
+	} catch(err) {	  
+	}	
+});
+//
+//module.exports.writeTelegram = (telegram, source = busMaster, destination = relayBoard, fc = 0xDF) {
+//
+//}
+//	
+//	
+//	function(req, res) {
+//	telegram = {header:{start:0x7e,source:0xFA,destination:0xFB,fc:0xDF,size:0x06},
+//				actuator:{output_on:0x00,output_off:0x00,output_toggle:0xFF,state_on:0x00,state_off:0x00,state_toggle:0x00}}
+//	toReceive = action_triggered_t.unpack(Buffer([ 0x7E, 0xFB, 0xFA, 0xDE, 0x12, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0xAB ]));
+//// toSend = converter.pack(telegram);
+//	console.log(toReceive);
+//// serialPort.write(Buffer([ 0x7E, 0xFA, 0xFB, 0xDF, 0x06, 0x00, 0x00, 0xFF,
+//// 0x00, 0x00, 0x00, 0xAB ]));
+//	
+//	
+//}
