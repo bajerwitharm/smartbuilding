@@ -52,10 +52,18 @@ typedef struct {
 	} timer;
 } trigger_t;
 
+typedef struct {
+	uint16_t inputs;
+	uint8_t outputs;
+	uint8_t states;
+} info_t;
+
 #pragma pack()
 
 void activateTrigger(const actuator_t* const actuator_p);
 void processTriggers();
+uint8_t getState();
+
 
 
 extern trigger_t triggers[];
