@@ -27,6 +27,10 @@ void toggleState(const uint8_t bits_to_toggle)
 	device_state ^= bits_to_toggle;
 }
 
+uint8_t getState()
+{
+	return device_state;
+}
 
 /*
  *			   USB
@@ -260,7 +264,7 @@ trigger_t triggers[] = {
 	{
 		.activator = {
 			.input_off = 0x0000,
-			.input_on = TOILET_LAMP_SWITCH_1,
+			.input_on = TOILET_LAMP_SWITCH_2,
 			.output_off = 0x00,
 			.output_on = 0x00,
 			.state_on = 0x00,
@@ -268,7 +272,7 @@ trigger_t triggers[] = {
 		},
 		.actuator = {
 			.output_off = 0x00,
-			.output_toggle = TOILET_LAMP_OUTPUT_1,
+			.output_toggle = TOILET_LAMP_OUTPUT_2,
 			.output_on = 0x00,
 			.state_on = 0x00,
 			.state_off = 0x00,
@@ -498,7 +502,7 @@ void processTrigger(const uint8_t trigger_index) {
 		if (triggers[trigger_index].timer.time_current == triggers[trigger_index].timer.time_preload) {
 			//already count down and new state should be activated
 			activateTrigger(&triggers[trigger_index].actuator);
-		//	usartSendAction(&triggers[trigger_index], BUS_MASTER_ADDRESS);
+			usartSendAction(&triggers[trigger_index], BUS_MASTER_ADDRESS);
 			triggers[trigger_index].timer.time_current++;
 		}
 		//check if should count down to activate new output state

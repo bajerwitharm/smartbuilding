@@ -1,36 +1,46 @@
 /*
- * usart.c
- *
- * Created: 2015-01-17 00:24:04
- *  Author: Marcin Bajer
- */ 
+* usart.c
+*
+* Created: 2015-01-17 00:24:04
+*  Author: Marcin Bajer
+*/
 #include "global.h"
 #include <string.h>
 #include "timer.h"
 #include "telegrams.h"
 #include "usart.h"
+#include "io_pins.h"
 
 #define UART_BAUD_SELECT(baudRate,xtalCpu) ((xtalCpu)/((baudRate)*8l)-1)
 #define BAUDRATE 9600
 #define TX_BUFFER_SIZE 40
 #define RX_BUFFER_SIZE 40
 #define FRAME_START_CHAR 0x7E
+#define FRAME_END_CHAR 0x7B
 
 #define FRAME_OVERHEAD 5 // src_addr + dst_addr + size + fc + crc = 5
-#define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3 
+#define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3
 
-const static struct 
+const static struct
 {
 	uint8_t toEscape;
-	uint8_t howEscape[2];	
-} escape_characters[] = {
+	uint8_t howEscape[2];
+	} escape_characters[] = {
 	{
-		.toEscape = 0x7E,
+		.toEscape = 0x7E,	//0x7E telegram start
 		.howEscape = {0x7D, 0x5E}
 	},
 	{
 		.toEscape = 0x7D,
 		.howEscape = {0x7D, 0x5D}
+	},	
+	{
+		.toEscape = 0x7B,	//0x7B telegram end
+		.howEscape = {0x7A, 0x5B}
+	},
+	{
+		.toEscape = 0x7A,
+		.howEscape = {0x7A, 0x5A}
 	}
 };
 
@@ -49,8 +59,8 @@ static struct {
 } rx_buffer;
 
 /**
- * \brief Usart initialization 
- */
+* \brief Usart initialization
+*/
 void usartInit(void)
 {
 	uint16_t baudrate = UART_BAUD_SELECT(BAUDRATE,QUARTZ);
@@ -83,6 +93,32 @@ void initSending()
 	UCSRB |= (1<<UDRIE);
 }
 
+void usartSendInfo()
+{
+	get_info_t* info = (get_info_t*) tx_buffer.data;
+	info->header.destination = BUS_MASTER_ADDRESS;
+	info->header.source = THIS_DEVICE_ADDRESS;
+	info->header.fc = get_info_e;
+	info->header.size = sizeof(info_t);
+	info->info.inputs = ioGetInputs();
+	info->info.outputs = ioGetOutputs();
+	info->info.states = getState();
+	tx_buffer.size = sizeof(get_info_t);
+	initSending();
+}
+
+
+void usartActivateTriggerResponse()
+{
+	memcpy(tx_buffer.data,rx_buffer.data,tx_buffer.index);
+	trigger_action_t* triggerRequest = (trigger_action_t*) tx_buffer.data;
+	//prepere response on telegram
+	triggerRequest->header.destination = BUS_MASTER_ADDRESS;
+	triggerRequest->header.source = THIS_DEVICE_ADDRESS;
+	tx_buffer.size = sizeof(trigger_action_t);
+	initSending();
+}
+
 void handleTelegram(void)
 {
 	telegram_header_t* header = (telegram_header_t*) rx_buffer.data;
@@ -90,12 +126,10 @@ void handleTelegram(void)
 	{
 		if ((header->fc == trigger_action_e) && (header->size == sizeof(actuator_t))) {	//add here crc check
 			activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
-			//prepere response on telegram
-			header->destination = BUS_MASTER_ADDRESS;
-			header->source = THIS_DEVICE_ADDRESS;
-			memcpy(tx_buffer.data,rx_buffer.data,tx_buffer.index);
-			tx_buffer.size = sizeof(trigger_action_t);
-			initSending();
+			usartActivateTriggerResponse();
+		}
+		if ((header->fc == get_info_e) && (header->size == 0)) {
+			usartSendInfo();
 		}
 	}
 }
@@ -107,7 +141,7 @@ ISR(USART_RXC_vect)
 	if (received == FRAME_START_CHAR) {
 		rx_buffer.index = 0;
 		rx_buffer.size = 0xFF;
-	} 
+	}
 	else
 	{
 		// escape characters
@@ -117,10 +151,10 @@ ISR(USART_RXC_vect)
 				received = escape_characters[i].toEscape;
 				rx_buffer.index--;
 			}
-		}		
+		}
 		// save length of telegram
 		if (rx_buffer.index == FRAME_LENGTH_FIELD_INDEX) {
-			rx_buffer.size = received + FRAME_OVERHEAD; 
+			rx_buffer.size = received + FRAME_OVERHEAD;
 		}
 		rx_buffer.data[rx_buffer.index++] = received;
 		if (rx_buffer.index == rx_buffer.size)
@@ -138,14 +172,16 @@ ISR(USART_UDRE_vect)
 		if (tx_buffer.data[tx_buffer.index] == escape_characters[j].toEscape)
 		{
 			UDR = escape_characters[j].howEscape[0];
-			tx_buffer.data[tx_buffer.index] = escape_characters[j].howEscape[1]; 
+			tx_buffer.data[tx_buffer.index] = escape_characters[j].howEscape[1];
 			return;
 		}
 	}
-	UDR = tx_buffer.data[tx_buffer.index++]; 
 	if (tx_buffer.size == tx_buffer.index) {
-		UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
+			UDR = FRAME_END_CHAR;
+			UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
 	}
+	UDR = tx_buffer.data[tx_buffer.index++];
+
 }
 
 
@@ -160,3 +196,4 @@ void usartSendAction(trigger_t* trigger, uint8_t destination)
 	memcpy(&telegram->trigger,trigger,sizeof(*trigger));
 	initSending();
 }
+
