@@ -56,7 +56,7 @@ module.exports.insertNewUser = function(row, callback) {
 
     var query = format(readQuery("InsertNewUser"), row.timestamp, name, mac,
 	    ip, bridge);
-    // console.log(query);
+    console.log(row.msg);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.exec(query, callback);
     });

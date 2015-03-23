@@ -11,13 +11,13 @@ var express = require('express')
 
 var KameraWejscie = require('./routes/foscam.js');
 var KameraParter = require('./routes/acti.js');
-var sqliteDbContext = require('./data/database.js');
+var sqliteDbContext = require('./data/database_mysql.js');//change to database_sqlite.js if needed
 var database = require('./routes/database.js');
 var logParser = require('./routes/logger.js');
 var onvifCameras = require('./routes/onvif.js'); 
 var bandwidthMonitor = require('./routes/bandwidth_monitor.js');
 var statsMonitor = require('./routes/stats_monitor.js');
-var relayBoard = require('./routes/relay_board.js');
+//var relayBoard = require('./routes/relay_board.js');
 
 var app = express();
 
@@ -62,7 +62,7 @@ app.get('/getUsageByWeekday', database.getUsageByWeekday);
 app.get('/getUsageByMonthday', database.getUsageByMonthday);
 app.get('/getUsageByMonth', database.getUsageByMonth);
 app.get('/getUsageByAP', database.getUsageByAP);
-app.get('/getRelayBoardInfo', relayBoard.requestInfo);
+//app.get('/getRelayBoardInfo', relayBoard.requestInfo);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
   console.log('Express server listening on port ' + app.get('port'));
