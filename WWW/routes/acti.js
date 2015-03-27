@@ -31,13 +31,15 @@ module.exports.recordCamera = function(req, res) {
 module.exports.getLiveCamera = function(req, res) {
     if (numberOfClients == 0) {
 		ffmpeg = spawn("ffmpeg", [
-           '-i', "rtsp://viewer:viewer123@192.168.1.52:554",
-           '-f','webm',
-           '-vcodec','libvpx',
-           '-acodec','libvorbis',
-           '-tune', 'zerolatency',
-           '-fflags', 'nobuffer',
-           'pipe:1']);
+           	'-i', "rtsp://viewer:viewer123@192.168.1.52:554",
+           	'-f','webm',
+           	'-vcodec','libvpx',
+	   	"-movflags", "frag_keyframe+empty_moov", 
+           	"-reset_timestamps", "1", 
+	   	"-vsync", "1",
+	   	"-flags", "global_header", 
+		"-bsf:v", "dump_extra", "-y", "-"]);
+ 
     }
     ;
     numberOfClients++;

@@ -22,7 +22,7 @@
 			precision = 1;
 		    }
 
-		    var units = [ 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB',
+		    var units = [ 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB',
 			    'YB' ];
 		    var exponent = Math.min(Math.floor(Math.log(bytes)
 			    / Math.log(1024)), units.length - 1);
