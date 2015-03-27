@@ -8,9 +8,9 @@ var check_frequency = 90000;	// 15 minutes
 module.exports.initBandwidthMonitor = function(db) {
 	database=db;
 	setInterval(function() {
-		//restClient.get('http://'+router_ip+path_to_usage, function(data) {
-			//database.insertNewUsage(data);
-		//})
+		restClient.get('http://'+router_ip+path_to_usage, function(data) {
+			database.insertNewUsage(data);
+		})
     }, check_frequency);
 }
 

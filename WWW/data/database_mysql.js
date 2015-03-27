@@ -3,7 +3,7 @@ var fs = require('fs');
 var sqliteDbContext = mysql.createConnection({
 	  host     : '192.168.1.101',
 	  user     : 'salwatorska',
-	  password : '------',
+	  password : 'Administracja6',
 	  database : 'SMART_HOME',
 	  multipleStatements: true
 	});
@@ -32,12 +32,12 @@ module.exports.createDatabase = function() {
 
 module.exports.startTransaction = function(callback) {
     var query = readQuery("StartTransaction")
-	sqliteDbContext.query(query, function(err,result) {callback(result)});
+	sqliteDbContext.query(query, function(err,result) {if (callback) callback(result)});
 };
 
 module.exports.endTransaction = function(callback) {
     var query = readQuery("EndTransaction")
-	sqliteDbContext.query(query, function(err,result) {callback(result)});
+	sqliteDbContext.query(query, function(err,result) {if (callback) callback(result)});
 };
 
 module.exports.insertNewUsage = function(rows, callback) {
@@ -47,13 +47,14 @@ module.exports.insertNewUsage = function(rows, callback) {
 		rows[row].data_in, rows[row].data_out);
 	queries = queries + query;
     }
+	console.log(queries);
 	return sqliteDbContext.query(queries, function(err,result) {});
 };
 
 module.exports.insertNewLogEntry = function(row, callback) {
     var query = format(readQuery("InsertNewLogEntry"), row.timestamp, row.host,
 	    row.program, row.msg);
-    return sqliteDbContext.query(query, function(err,result) {callback(result)});
+    return sqliteDbContext.query(query, function(err,result) {if (callback) callback(result)});
 };
 
 module.exports.insertNewUser = function(row, callback) {
@@ -65,8 +66,8 @@ module.exports.insertNewUser = function(row, callback) {
 
     var query = format(readQuery("InsertNewUser"), row.timestamp, name, mac,
 	    ip, bridge);
-    console.log(row.msg);
-	return sqliteDbContext.query(query, function(err,result) {callback(result)});
+    console.log(query);
+	return sqliteDbContext.query(query, function(err,result) {if (callback) callback(result)});
 };
 
 module.exports.insertNewConnection = function(row, callback) {
@@ -82,14 +83,14 @@ module.exports.insertNewConnection = function(row, callback) {
 	    message.indexOf(")")).replace(/-/g, ":").toLowerCase();
     var query = format(readQuery("InsertNewConnection"), row.timestamp, result,
 	    account, ap, mac);
-	return sqliteDbContext.query(query, function(err,result) {callback(result)});
+	return sqliteDbContext.query(query, function(err,result) {if (callback) callback(result)});
 };
 
 module.exports.insertNewQuery = function(row, callback) {
     var messageparts = row.msg.split(" ");
     var query = format(readQuery("InsertNewQuery"), row.timestamp,
 	    messageparts[1], messageparts[3]);
-	return sqliteDbContext.query(query, function(err,result) {callback(result)});
+	return sqliteDbContext.query(query, function(err,result) {if (callback) callback(result)});
 };
 
 module.exports.insertNewStats = function(stats, callback) {
@@ -106,7 +107,7 @@ module.exports.insertNewStats = function(stats, callback) {
 	// console.log(query);
 	queries = queries + query;
     }
-	return sqliteDbContext.query(queries, function(err,result) {callback(result)});
+	return sqliteDbContext.query(queries, function(err,result) {if (callback) callback(result)});
 };
 
 var prepareTimeCondition = function(query, junction, table) {
@@ -134,7 +135,7 @@ module.exports.getUsersInfo = function(callback, query) {
     var sqlquery = format(readQuery("GetUsersInfo"), conditionUsage,
 	    conditionConnections);
 	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
     });
 };
 
@@ -142,7 +143,7 @@ module.exports.getConnectionsByHour = function(callback, query) {
     var condition = prepareTimeCondition(query, 'and', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByHour"), condition);
 	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
 };
 
@@ -150,7 +151,7 @@ module.exports.getConnectionsByWeekday = function(callback, query) {
     var condition = prepareTimeCondition(query, 'and', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByWeekday"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
 };
 
@@ -158,7 +159,7 @@ module.exports.getConnectionsByMonthday = function(callback, query) {
     var condition = prepareTimeCondition(query, 'and', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByMonthday"), condition);
 	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
 };
 
@@ -167,7 +168,7 @@ module.exports.getConnectionsByMonth = function(callback, query) {
     var sqlquery = format(readQuery("GetConnectionsByMonth"), condition);
     sqliteDbContext.serialize(function() {
 	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
     });
 };
@@ -176,7 +177,7 @@ module.exports.getConnectionsByAP = function(callback, query) {
     var condition = prepareTimeCondition(query, 'where', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByAP"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
 };
 
@@ -187,7 +188,7 @@ module.exports.getUsageByHour = function(callback, query) {
 		    'usage_by_hour');
 	    sqlquery = format(readQuery("GetUsageByHour"), condition);
 	    sqliteDbContext.query(sqlquery, function(err, rows) {
-		callback(rows);
+		if (callback) callback(rows);
 	    });
 	});
 };
@@ -199,7 +200,7 @@ module.exports.getUsageByWeekday = function(callback, query) {
 		    'usage_by_weekday');
 	    sqlquery = format(readQuery("GetUsageByWeekday"), condition);
 	    sqliteDbContext.query(sqlquery, function(err, rows) {
-		callback(rows);
+		if (callback) callback(rows);
 	    });
 	});
 };
@@ -211,7 +212,7 @@ module.exports.getUsageByMonthday = function(callback, query) {
 		    'usage_by_monthday');
 	    sqlquery = format(readQuery("GetUsageByMonthday"), condition);
 	    sqliteDbContext.query(sqlquery, function(err, rows) {
-		callback(rows);
+		if (callback) callback(rows);
 	    });
 	});
 };
@@ -223,7 +224,7 @@ module.exports.getUsageByMonth = function(callback, query) {
 		    'usage_by_month');
 	    sqlquery = format(readQuery("GetUsageByMonth"), condition);
 	    sqliteDbContext.query(sqlquery, function(err, rows) {
-		callback(rows);
+		if (callback) callback(rows);
 	    });
 	});
 };
@@ -236,7 +237,7 @@ module.exports.getUsageByAP = function(callback, query) {
 			    'usage_by_ap');
 		    sqlquery = format(readQuery("GetUsageByAP"), condition);
 		    sqliteDbContext.query(sqlquery, function(err, rows) {
-			callback(rows);
+			if (callback) callback(rows);
 		    });
 		}
 	);
@@ -253,7 +254,7 @@ module.exports.getConnectionsInTime = function(callback, query) {
 			    .replace('timestamp', 'end_timestamp');
 	    sqlquery = format(readQuery("GetConnectionsInTime"), condition);
 	    sqliteDbContext.query(sqlquery, function(err, rows) {
-	    	callback(rows);
+	    	if (callback) callback(rows);
 	    });
 	});
 };
@@ -262,7 +263,7 @@ module.exports.getConnectionsLast = function(callback, query) {
     var condition = prepareTimeCondition(query, 'where', 'connections');
     var sqlquery = format(readQuery("GetConnectionsLast"), condition);
 	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
 };
 
@@ -270,7 +271,7 @@ module.exports.getUrlsLast = function(callback, query) {
     var condition = prepareTimeCondition(query, 'where', 'queries');
     var sqlquery = format(readQuery("GetUrlsLast"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
 };
 
@@ -278,7 +279,7 @@ module.exports.getOtherLogsLast = function(callback, query) {
     var condition = prepareTimeCondition(query, 'where', 'logs');
     var sqlquery = format(readQuery("GetOtherLogsLast"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	    callback(rows);
+	    if (callback) callback(rows);
 	});
     
 };
