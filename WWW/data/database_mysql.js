@@ -317,7 +317,7 @@ function executeQuery(err, result, callback) {
     if (err) {
 	console.error(err.stack)
     } else {
-	executeQuery(err, result, callback);
+	if (callback) callback(result);
     }
 }
 
