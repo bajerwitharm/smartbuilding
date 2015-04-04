@@ -1,1 +1,1 @@
-INSERT INTO queries(timestamp,url,user_id) VALUES ('{1}','{2}',(select id from users where ip='{3}' order by id desc limit 1));
+INSERT INTO queries(timestamp,url,user_id) VALUES ('{1}','{2}',(select id from users where ip=INET_ATON('{3}') order by id desc limit 1));
