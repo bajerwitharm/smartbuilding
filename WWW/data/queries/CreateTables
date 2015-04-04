@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS users (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, mac CHAR(17) NOT NULL, name VARCHAR(64), ip INT UNSIGNED, bridge VARCHAR(64), UNIQUE (mac,name,ip,bridge));
+CREATE TABLE IF NOT EXISTS users (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, mac CHAR(17) NOT NULL, name VARCHAR(64), ip INT UNSIGNED, bridge ENUM('br-lan','br-guest'), UNIQUE (mac,name,ip,bridge));
 CREATE TABLE IF NOT EXISTS usage_in_time (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS connections (id INTEGER primary key AUTO_INCREMENT,timestamp DATETIME, result ENUM('OK', 'incorrect'), account VARCHAR(64), ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'), user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS queries (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, url VARCHAR(255), FOREIGN KEY(user_id) REFERENCES users(id));
