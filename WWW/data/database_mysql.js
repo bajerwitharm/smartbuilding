@@ -69,7 +69,7 @@ module.exports.insertNewUser = function(row, callback) {
     var name = messageparts[4];
     var mac = messageparts[3];
     var ip = messageparts[2];
-    var bridge = messageparts[1].substring(messageparts[1].indexOf("("+1),
+    var bridge = messageparts[1].substring(messageparts[1].lastIndexOf("("+1),
 	    messageparts[1].indexOf(")"));
 
     var query = format(readQuery("InsertNewUser"), row.timestamp, name, mac,
