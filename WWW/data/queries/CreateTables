@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS usage_by_hour (id INTEGER primary key AUTO_INCREMENT,
 CREATE TABLE IF NOT EXISTS usage_by_weekday (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap  ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'));
+CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'));
 CREATE TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key AUTO_INCREMENT, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME);
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'main.salwatorska6',lower('E8:94:F6:CD:31:E2'),INET_ATON('192.168.2.1'),'br-guest');
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter1.salwatorska6',lower('64:66:b3:54:bf:a0'),INET_ATON('192.168.2.4'),'br-guest');
