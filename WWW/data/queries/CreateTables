@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, mac CHAR(17) NOT NULL, name VARCHAR(64), ip INT UNSIGNED, bridge VARCHAR(64), UNIQUE (mac,name,ip,bridge));
 CREATE TABLE IF NOT EXISTS usage_in_time (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, FOREIGN KEY(user_id) REFERENCES users(id));
-CREATE TABLE IF NOT EXISTS connections (id INTEGER primary key AUTO_INCREMENT,timestamp DATETIME, result VARCHAR(10), account VARCHAR(64), ap VARCHAR(32), user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS connections (id INTEGER primary key AUTO_INCREMENT,timestamp DATETIME, result ENUM('OK', 'incorrect'), account VARCHAR(64), ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'), user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS queries (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, url VARCHAR(255), FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS logs (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, host VARCHAR(255), program VARCHAR(64), msg VARCHAR(255));
 CREATE TABLE IF NOT EXISTS stats (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, router INTEGER, rx_bytes INTEGER, rx_packets INTEGER, tx_bytes INTEGER, tx_packets INTEGER, sysload INTEGER, UNIQUE(timestamp,router));
@@ -8,12 +8,13 @@ CREATE TABLE IF NOT EXISTS usage_by_hour (id INTEGER primary key AUTO_INCREMENT,
 CREATE TABLE IF NOT EXISTS usage_by_weekday (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap VARCHAR(32));
+CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap  ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'));
 CREATE TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key AUTO_INCREMENT, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME);
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'main.salwatorska6',lower('E8:94:F6:CD:31:E2'),INET_ATON('192.168.2.1'),'br-guest');
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter1.salwatorska6',lower('64:66:b3:54:bf:a0'),INET_ATON('192.168.2.4'),'br-guest');
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'pietro2_1.salwatorska6',lower('e8:de:27:6d:c0:3b'),INET_ATON('192.168.2.5'),'br-guest');
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter2.salwatorska6',lower('10:FE:ED:E6:16:08'),INET_ATON('192.168.2.3'),'br-guest');
+INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'SalwatorskaSerwer',lower('00:14:22:08:6a:d9'),INET_ATON('192.168.2.101'),'br-guest');
 CREATE INDEX IDX_usage_by_hour_user_id ON usage_by_hour(user_id);
 CREATE INDEX IDX_usage_by_hour_timestamp ON usage_by_hour(timestamp);
 CREATE INDEX IDX_usage_by_weekday_user_id ON usage_by_weekday(user_id);
