@@ -37,7 +37,14 @@ var http = require('http'),
     fs = require('fs'),
     EventEmitter = require('events').EventEmitter
 
-var app = new EventEmitter
+var app = new EventEmitter;
+var database;
+
+module.exports = app
+
+module.exports.initCamera = function(db) {
+    database = db;
+}
 
 // defaults
 app.settings = {
@@ -478,8 +485,9 @@ app.talk2 = function( props ) {
 
 
 // ready
-module.exports = app
+
 module.exports.recordCamera = function(req, res) {
+    	database.insertNewRecord('KameraWejscie');
 	exec(
 			"ffmpeg -i 'http://"+app.settings.host+":"+app.settings.port+"/videostream.asf?user="+app.settings.user+"&pwd="+app.settings.pass+"' -acodec libvorbis -vcodec libx264 -r 5 -t 42 -preset slow /home/salwatorska/data/camera/today/`date +%#F_%H.%M.%S`_"+app.settings.name+".mp4",
 			function puts(error, stdout, stderr){

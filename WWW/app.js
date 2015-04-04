@@ -71,5 +71,7 @@ http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
 sqliteDbContext.createDatabase();
 logParser.initLogger(sqliteDbContext);
 onvifCameras.initOnvif(sqliteDbContext);
+KameraWejscie.initCamera(sqliteDbContext);
+KameraParter.initCamera(sqliteDbContext);
 //bandwidthMonitor.initBandwidthMonitor(sqliteDbContext);
 //statsMonitor.initStatsMonitor(sqliteDbContext,"192.168.1.1");

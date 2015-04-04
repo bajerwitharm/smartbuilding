@@ -7,6 +7,7 @@ var ffmpeg;
 var ffmpeg2;
 var EventEmitter = require('events').EventEmitter
 var app = new EventEmitter;
+var database;
 
 module.exports = app
 
@@ -61,9 +62,7 @@ module.exports.initOnvif = function(db) {
 }
 
 recordCamera = function(camera) {
-    console.log("ffmpeg -i rtsp://"
-		    + camera.host + "/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream"
-		    + " -preset slow /home/salwatorska/data/camera/today/`date +%#F_%H.%M.%S`_"+camera.name+".avi");
+    database.insertNewRecord(camera.name);
 
     exec("ffmpeg -i rtsp://"
 		    + camera.host + "/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream"

@@ -5,6 +5,7 @@ var numberOfClients = 0;
 var ffmpeg;
 var EventEmitter = require('events').EventEmitter
 var app = new EventEmitter;
+var database;
 
 module.exports = app
 
@@ -17,7 +18,12 @@ app.settings = {
     name : 'KameraParter'
 };
 
+module.exports.initCamera = function(db) {
+    database = db;
+}
+
 module.exports.recordCamera = function(req, res) {
+    database.insertNewRecord(app.settings.name);
     exec("ffmpeg -i rtsp://"+app.settings.user+":"+app.settings.pass+"@"
 		    + app.settings.host + ":554"
 		    + " -t 60 -vcodec copy -preset slow /home/salwatorska/data/camera/today/`date +%#F_%H.%M.%S`_"+app.settings.name+".mp4",

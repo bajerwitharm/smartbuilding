@@ -8,8 +8,11 @@ CREATE TABLE IF NOT EXISTS usage_by_hour (id INTEGER primary key AUTO_INCREMENT,
 CREATE TABLE IF NOT EXISTS usage_by_weekday (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'));
-CREATE TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key AUTO_INCREMENT, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME);
+CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap ENUM('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'), FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS event_types (id INTEGER primary key AUTO_INCREMENT, device_id INTEGER, event_key CHAR(17), description VARCHAR(255));
+CREATE TABLE IF NOT EXISTS events (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, event_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(event_id) REFERENCES event_types(id));
+CREATE TABLE IF NOT EXISTS records (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, camera CHAR(17));
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'main.salwatorska6',lower('E8:94:F6:CD:31:E2'),INET_ATON('192.168.2.1'),'br-guest');
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter1.salwatorska6',lower('64:66:b3:54:bf:a0'),INET_ATON('192.168.2.4'),'br-guest');
 INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'pietro2_1.salwatorska6',lower('e8:de:27:6d:c0:3b'),INET_ATON('192.168.2.5'),'br-guest');

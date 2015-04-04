@@ -37,6 +37,14 @@ module.exports.startTransaction = function(callback) {
     });
 };
 
+
+module.exports.insertNewRecord = function(camera) {
+    var query = format(readQuery("InsertNewRecord"),camera);
+    sqliteDbContext.query(query, function(err, result) {
+	executeQuery(err, result);
+    });
+};
+
 module.exports.endTransaction = function(callback) {
     var query = readQuery("EndTransaction")
     sqliteDbContext.query(query, function(err, result) {
