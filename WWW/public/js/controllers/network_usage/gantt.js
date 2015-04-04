@@ -118,7 +118,7 @@ salwatorskaControllers.controller('networkUsageGanttChartController', function($
             
             var prepareConnectionsInTimeChart = function() {
 		    $scope.connectionsInTimeChart=[];
-		    $scope.connectionsInTime.forEach(function(entry) {
+		    if ($scope.connectionsInTime!=null) $scope.connectionsInTime.forEach(function(entry) {
 			    var element_index = $rootScope
 				    .findItem(
 					    $rootScope.filteredUsersInfo,

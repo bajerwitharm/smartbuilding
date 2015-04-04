@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS users (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, mac CHAR(17) NOT NULL, name VARCHAR(64), ip CHAR(15), bridge VARCHAR(64), UNIQUE (mac,name,ip,bridge));
+CREATE TABLE IF NOT EXISTS users (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, mac CHAR(17) NOT NULL, name VARCHAR(64), ip INT UNSIGNED, bridge VARCHAR(64), UNIQUE (mac,name,ip,bridge));
 CREATE TABLE IF NOT EXISTS usage_in_time (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS connections (id INTEGER primary key AUTO_INCREMENT,timestamp DATETIME, result VARCHAR(10), account VARCHAR(64), ap VARCHAR(32), user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS queries (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, url VARCHAR(255), FOREIGN KEY(user_id) REFERENCES users(id));
@@ -10,6 +10,10 @@ CREATE TABLE IF NOT EXISTS usage_by_monthday (id INTEGER primary key AUTO_INCREM
 CREATE TABLE IF NOT EXISTS usage_by_month (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT);
 CREATE TABLE IF NOT EXISTS usage_by_ap (id INTEGER primary key AUTO_INCREMENT, timestamp DATETIME, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap VARCHAR(32));
 CREATE TABLE IF NOT EXISTS connections_in_time (id INTEGER primary key AUTO_INCREMENT, user_id INTEGER, start_timestamp DATETIME, end_timestamp DATETIME);
+INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'main.salwatorska6',lower('E8:94:F6:CD:31:E2'),INET_ATON('192.168.2.1'),'br-guest');
+INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter1.salwatorska6',lower('64:66:b3:54:bf:a0'),INET_ATON('192.168.2.4'),'br-guest');
+INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'pietro2_1.salwatorska6',lower('e8:de:27:6d:c0:3b'),INET_ATON('192.168.2.5'),'br-guest');
+INSERT IGNORE INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter2.salwatorska6',lower('10:FE:ED:E6:16:08'),INET_ATON('192.168.2.3'),'br-guest');
 CREATE INDEX IDX_usage_by_hour_user_id ON usage_by_hour(user_id);
 CREATE INDEX IDX_usage_by_hour_timestamp ON usage_by_hour(timestamp);
 CREATE INDEX IDX_usage_by_weekday_user_id ON usage_by_weekday(user_id);
@@ -20,3 +24,4 @@ CREATE INDEX IDX_usage_by_month_user_id ON usage_by_month(user_id);
 CREATE INDEX IDX_usage_by_month_timestamp ON usage_by_month(timestamp);
 delete from connections where id in (select id from (select id from connections t1 where exists(select 1 from connections where t1.id-1=id and t1.user_id=user_id and t1.result=result and t1.ap=ap and t1.account=account)) tmptbl);
 delete from queries where id in (select id from (select id from queries t1 where exists(select 1 from queries where t1.id-1=id and t1.url=url)) tmptbl);
+

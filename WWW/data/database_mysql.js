@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var fs = require('fs');
 var sqliteDbContext = mysql.createConnection({
-	  host     : '192.168.1.101',
+	  host     : '192.168.2.101',
 	  user     : 'salwatorska',
 	  password : 'Administracja6',
 	  database : 'SMART_HOME',
