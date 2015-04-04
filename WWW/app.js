@@ -73,5 +73,5 @@ logParser.initLogger(sqliteDbContext);
 onvifCameras.initOnvif(sqliteDbContext);
 KameraWejscie.initCamera(sqliteDbContext);
 KameraParter.initCamera(sqliteDbContext);
-//bandwidthMonitor.initBandwidthMonitor(sqliteDbContext);
+bandwidthMonitor.initBandwidthMonitor(sqliteDbContext);
 //statsMonitor.initStatsMonitor(sqliteDbContext,"192.168.1.1");
