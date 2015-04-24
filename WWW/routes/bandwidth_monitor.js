@@ -1,7 +1,7 @@
 var database;
 var Client = require('node-rest-client').Client;
 var restClient = new Client();
-var router_ip = "192.168.1.1";
+var router_ip = "192.168.1.1:81";
 var path_to_usage = "/cgi-bin/usage"
 var check_frequency = 90000;	// 15 minutes
     
