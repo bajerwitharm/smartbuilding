@@ -3,7 +3,9 @@
  * telegrams.h
  *
  * Created: 2015-01-24 22:57:24
- *  Author: PLMABAJ
+ *  Author: Marcin Bajer (https://github.com/bajerwitharm)
+ * 
+ * Specify all communication telegram types used in the system
  */ 
 
 

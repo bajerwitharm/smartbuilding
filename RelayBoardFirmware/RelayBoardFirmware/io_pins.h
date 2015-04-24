@@ -17,4 +17,4 @@ void ioToggleOutput(uint16_t outputs);
 uint16_t ioGetInputs();
 uint8_t ioGetOutputs();
 
-#endif /* INCFILE1_H_ */
+#endif /* IO_PINS_ */

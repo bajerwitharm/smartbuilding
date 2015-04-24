@@ -2,12 +2,15 @@
  * io_pins.c
  *
  * Created: 2015-01-16 23:02:36
- *  Author: Marcin Bajer
+ *  Author: Marcin Bajer (https://github.com/bajerwitharm)
+ *
+ * Provides abstraction layer for inputs and outputs. Inputs/outputs are described by variable no matter to which pin/port they are physically connected.
  */ 
 
 
 #include "global.h"
 
+// outputs connected used by relays
 #define OUTPUT1_PIN 0
 #define OUTPUT2_PIN 1
 #define OUTPUT3_PIN 2
@@ -25,7 +28,7 @@
 //1wire Portc.3
 
 /**
-* Switches are isolated with transoptors
+* Inputs (switches)
 */
 #define SWITCH8_PIN 2
 #define SWITCH9_PIN 3

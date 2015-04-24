@@ -2,7 +2,9 @@
  * timer.c
  *
  * Created: 2015-01-18 12:03:22
- *  Author: Marcin Bajer
+ *  Author: Marcin Bajer (https://github.com/bajerwitharm)
+ *
+ * Provides functionality of calling processTriggers() periodically every 100ms
  */ 
 
 #define TIMER_PRELOAD_100ms 158	// trigger interrupt every 0.1 s
@@ -21,6 +23,9 @@ void timerInit(){
 	TCNT0 = TIMER_PRELOAD_100ms;
 }
 
+/**
+ * Interrupt from timer
+ */
 ISR (TIMER0_OVF_vect)  // timer0 overflow interrupt
 {
 	TCNT0 = TIMER_PRELOAD_100ms;

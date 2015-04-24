@@ -2,7 +2,14 @@
 * triggers.c
 *
 * Created: 1/29/2015 1:43:56 PM
-*  Author: Marcin Bajer
+*  Author: Marcin Bajer (https://github.com/bajerwitharm)
+*
+* Control logic for application (specifies how outputs react on inputs). 
+* 
+* Every trigger contains its activator (condition which triggers action defined by trigger), actuator (action which is done after trigger) and timer (count down timer between action trigger and actuator action).
+* Activator - trigger count down when all conditions are satisfied input_off set to 1 are off input_on set to 1 are on...etc
+* Actuator - action to be done after activator is satisfied and count down timer is passed. Output_off set to 1 will be switched off, output_on set to 1 will be switched on..etc
+* Timer - if activator condition is satisfied count down starts, if during count down activator will be not satisfied count down resets to time_preload
 */
 
 #include "global.h"

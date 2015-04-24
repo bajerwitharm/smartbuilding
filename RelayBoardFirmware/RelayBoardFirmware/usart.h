@@ -3,7 +3,7 @@
  * usart.h
  *
  * Created: 2015-01-17 19:36:44
- *  Author: Marcin Bajer
+ *  Author: Marcin Bajer (https://github.com/bajerwitharm)
  */ 
 
 

@@ -2,7 +2,9 @@
 * usart.c
 *
 * Created: 2015-01-17 00:24:04
-*  Author: Marcin Bajer
+*  Author: Marcin Bajer (https://github.com/bajerwitharm)
+*
+* Provides functions for handling communication via usart. Every telegram starts with \ref FRAME_START_CHAR and ends \ref FRAME_END_CHAR. Every frame contains source address, destination address, length of data field and 1 byte CRC
 */
 #include "global.h"
 #include <string.h>
@@ -11,7 +13,7 @@
 #include "usart.h"
 #include "io_pins.h"
 
-#define UART_BAUD_SELECT(baudRate,xtalCpu) ((xtalCpu)/((baudRate)*8l)-1)
+#define UART_BAUD_SELECT(baudRate,xtalCpu) (((xtalCpu)/(baudRate)*8l)-1)
 #define BAUDRATE 9600
 #define TX_BUFFER_SIZE 40
 #define RX_BUFFER_SIZE 40

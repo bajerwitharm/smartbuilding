@@ -2,7 +2,7 @@
  * triggers.h
  *
  * Created: 1/29/2015 1:43:31 PM
- *  Author: Marcin Bajer
+ *  Author: Marcin Bajer (https://github.com/bajerwitharm)
  */ 
 
 
@@ -12,7 +12,7 @@
 #include "global.h"
 #include "timer.h"
 
-
+//maps physical relays on the board with logical abstraction layer outputs
 #define RELAY_1 0x04
 #define RELAY_2 0x80
 #define RELAY_3 0x01
