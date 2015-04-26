@@ -1,12 +1,30 @@
 var _ = require('struct-fu');
 var com = require("serialport");
+
+var parsers = module.exports = {
+	relayboard : function() {
+
+		var data = new Buffer([]);
+		return function(emitter, buffer) {
+			// Collect data
+			data = Buffer.concat([ data, buffer ]);
+			// Split collected data by delimiter
+			var parts = data.split(new Buffer([ 0x7B ]));
+			data = parts.pop();
+			parts.forEach(function(part, i, array) {
+				emitter.emit('data', part);
+			});
+		};
+	},
+};
+
 var serialPort = new com.SerialPort("/dev/ttyUSB0", {
 	baudRate : 4800,
 	dataBits : 8,
 	parity : 'none',
 	stopBits : 1,
 	flowControl : false,
-	parser : com.parsers.relayboard()
+	parser : parsers.relayboard()
 });
 
 var busMaster = 0x0A
@@ -14,7 +32,7 @@ var relayBoard = 0x0B
 var startChar = 0x7E
 var action_triggered_e = 0xDE
 var trigger_action_e = 0xDF
-var get_info_e = 0xEA 	
+var get_info_e = 0xEA
 
 //
 // var converter = _.struct([
@@ -34,12 +52,13 @@ var get_info_e = 0xEA
 // ]);
 
 var inputs = [ 'KitchenSw1', "KitchenSw2", "RoomSw1", "RoomSw2", "CorridorSw",
-		"ToiletOutSw", "ToiletInSw", "KitchenMotion"].reverse().concat(["RoomMotion",
-		"CorridorMotion", "", "", "", "", "", "" ].reverse());
+		"ToiletOutSw", "ToiletInSw", "KitchenMotion" ].reverse().concat(
+		[ "RoomMotion", "CorridorMotion", "", "", "", "", "", "" ].reverse());
 var outputs = [ "Kitchen1", "Kitchen2", "Room1", "Room2", "Corridor",
 		"ToiletIn", "ToiletOut", "" ].reverse();
 var states = [ "KitchenSw1", "KitchenSw2", "KitchenMotion", "RoomSw1",
-		"RoomSw2", "RoomMotion", "CorridorSw", "CorritorMotion"].reverse().concat(["","HeardBeat", "", "", "", "","","" ].reverse());
+		"RoomSw2", "RoomMotion", "CorridorSw", "CorritorMotion" ].reverse()
+		.concat([ "", "HeardBeat", "", "", "", "", "", "" ].reverse());
 
 var genereteBitStruct = function(elements) {
 	var result = [];
@@ -285,51 +304,50 @@ module.exports.requestInfo = function(req, res) {
 	serialPort.write(get_info_t_req.pack(telegram));
 	console.log(get_info_t_req.pack(telegram));
 	serialPort.once('data', function(data) {
-		//console.log(data);
+		// console.log(data);
 		res.send(get_info_t_res.unpack(data));
 	});
 }
 
-var cleanJson = function(obj){
-	  var isArray = obj instanceof Array;
-	  for (var k in obj){
-	    if ((obj[k]==null)||(obj[k]==false)) {
-	    	if (isArray) {
-	    		if (obj[k].length > 0) {
-	    			obj.splice(k,1)	
-	    		}
-	    		else {
-	    			delete obj[k];
-	    		} 
-	    	} else {
-	    		delete obj[k];
-	    	}
-	    } else if (typeof obj[k]=="object") {
-	    	cleanJson(obj[k]);
-	    	if (Object.getOwnPropertyNames(obj[k]).length == 0) {
-	    		delete obj[k];
-	    	}
-	    }
-	  }
-	  
+var cleanJson = function(obj) {
+	var isArray = obj instanceof Array;
+	for ( var k in obj) {
+		if ((obj[k] == null) || (obj[k] == false)) {
+			if (isArray) {
+				if (obj[k].length > 0) {
+					obj.splice(k, 1)
+				} else {
+					delete obj[k];
+				}
+			} else {
+				delete obj[k];
+			}
+		} else if (typeof obj[k] == "object") {
+			cleanJson(obj[k]);
+			if (Object.getOwnPropertyNames(obj[k]).length == 0) {
+				delete obj[k];
+			}
+		}
+	}
+
 }
 
 serialPort.on('data', function(data) {
 	console.log(data);
-	//try {
-		switch(data[3]) {
-		case get_info_e:
-			console.log(get_info_t_res.unpack(data));
-			break;
-		case action_triggered_e:
-			data = action_triggered_t.unpack(data);
-			cleanJson(data);
-			console.log(data);
-			break;	
-		} 
+	// try {
+	switch (data[3]) {
+	case get_info_e:
+		console.log(get_info_t_res.unpack(data));
+		break;
+	case action_triggered_e:
+		data = action_triggered_t.unpack(data);
+		cleanJson(data);
+		console.log(data);
+		break;
+	}
 
-	//} catch (err) {
-	//}
+	// } catch (err) {
+	// }
 });
 
 module.exports.writeTelegram = function(req, res) {
