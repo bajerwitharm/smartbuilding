@@ -18,7 +18,9 @@ typedef uint8_t crc_t;
 typedef enum __attribute__ ((__packed__)) {
 	action_triggered_e = 0xDE,
 	trigger_action_e = 0xDF,
-	get_info_e = 0xEA, 	
+	get_info_e = 0xEA,
+	get_triggers_e = 0xDA, 	
+	set_trigger_e = 0xDB, 	
 } function_code_t;
 
 typedef struct {
@@ -34,6 +36,12 @@ typedef struct {
 	telegram_header_t header;
 	trigger_t trigger;
 } action_triggered_t;
+
+typedef struct {
+	telegram_header_t header;
+	uint8_t trigger_id;
+	trigger_t trigger;
+} set_trigger_t;
 
 //Test telegram: 0x7E 0xFA 0xFB 0xDF 0x06 0x00 0x00 0xFF 0x00 0x00 0x00 0xAB
 typedef struct {

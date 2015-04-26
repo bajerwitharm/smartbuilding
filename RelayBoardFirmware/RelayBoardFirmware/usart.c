@@ -8,20 +8,30 @@
 */
 #include "global.h"
 #include <string.h>
+#include <util/delay.h> 
 #include "timer.h"
 #include "telegrams.h"
 #include "usart.h"
 #include "io_pins.h"
 
-#define UART_BAUD_SELECT(baudRate,xtalCpu) (((xtalCpu)/(baudRate)*8l)-1)
-#define BAUDRATE 9600
-#define TX_BUFFER_SIZE 40
-#define RX_BUFFER_SIZE 40
+#define UART_BAUD_SELECT(baudRate,xtalCpu) ((( (xtalCpu) / ( (baudRate) * 8UL ))) - 1)
+#define BAUDRATE 4800
+#define TX_BUFFER_SIZE 50
+#define RX_BUFFER_SIZE 50
 #define FRAME_START_CHAR 0x7E
 #define FRAME_END_CHAR 0x7B
 
 #define FRAME_OVERHEAD 5 // src_addr + dst_addr + size + fc + crc = 5
 #define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3
+static bool telegramInBuffer=false;
+
+bool usartIsTelegramInBuffer(){
+	return telegramInBuffer;
+};
+
+void usartClearBuffer(){
+	telegramInBuffer=false;
+};
 
 const static struct
 {
@@ -65,9 +75,9 @@ static struct {
 */
 void usartInit(void)
 {
-	uint16_t baudrate = UART_BAUD_SELECT(BAUDRATE,QUARTZ);
-	UBRRH = (uint8_t) (baudrate>>8);
-	UBRRL = (uint8_t) baudrate;
+	uint16_t ubrr = UART_BAUD_SELECT(BAUDRATE,F_CPU);
+	UBRRH = (uint8_t) (ubrr>>8);
+	UBRRL = (uint8_t) ubrr;
 	
 	// double the transmission speed
 	UCSRA = (1<<U2X);
@@ -77,10 +87,20 @@ void usartInit(void)
 	UCSRC = (1<<URSEL)|(3<<UCSZ0);
 }
 
+void waitUntilSendingOver()
+{
+	uint8_t i = 50;
+	while(i--){
+		if (((UCSRB & (1<<UDRIE)) == 0)&&((UCSRA & (1<<UDRE)))) {
+			break;
+		}
+		_delay_ms(2);
+	}
+}
 
 void addCrc()
 {
-	tx_buffer.data[tx_buffer.size++] = 0xAB;//TODO: add crc implementation here
+	tx_buffer.data[tx_buffer.size++] = 0xBB;//TODO: add crc implementation here
 }
 
 void initSending()
@@ -97,6 +117,7 @@ void initSending()
 
 void usartSendInfo()
 {
+	waitUntilSendingOver();
 	get_info_t* info = (get_info_t*) tx_buffer.data;
 	info->header.destination = BUS_MASTER_ADDRESS;
 	info->header.source = THIS_DEVICE_ADDRESS;
@@ -109,9 +130,41 @@ void usartSendInfo()
 	initSending();
 }
 
+void usartGetTriggers()
+{
+	waitUntilSendingOver();
+	set_trigger_t* triggerRequest = (set_trigger_t*) tx_buffer.data;
+	triggerRequest->header.destination = BUS_MASTER_ADDRESS;
+	triggerRequest->header.source = THIS_DEVICE_ADDRESS;
+	triggerRequest->header.fc = get_triggers_e;
+	triggerRequest->header.size = sizeof(trigger_t);
+	for (uint8_t i=0;i<getNumberOfTriggers();i++){
+		waitUntilSendingOver();
+		triggerRequest->trigger_id=i;
+		memcpy(&triggerRequest->trigger,&triggers[i],sizeof(trigger_t));
+		tx_buffer.size = sizeof(action_triggered_t);
+		initSending();
+	}
+}
+
+void usartSetTrigger()
+{
+		set_trigger_t* setTriggerRequest = (set_trigger_t*) rx_buffer.data;
+		memcpy(&triggers[setTriggerRequest->trigger_id],&setTriggerRequest->trigger,sizeof(trigger_t));
+		set_trigger_t* setTriggerResponse = (set_trigger_t*) tx_buffer.data;
+		setTriggerResponse->header.destination = BUS_MASTER_ADDRESS;
+		setTriggerResponse->header.source = THIS_DEVICE_ADDRESS;
+		setTriggerResponse->header.fc = set_trigger_e;
+		setTriggerResponse->trigger_id = setTriggerRequest->trigger_id;
+		setTriggerResponse->header.size = sizeof(trigger_t);
+		tx_buffer.size = sizeof(set_trigger_t);
+		memcpy(&setTriggerResponse->trigger,&setTriggerRequest->trigger,sizeof(trigger_t));
+		initSending();
+}
 
 void usartActivateTriggerResponse()
 {
+	waitUntilSendingOver();
 	memcpy(tx_buffer.data,rx_buffer.data,tx_buffer.index);
 	trigger_action_t* triggerRequest = (trigger_action_t*) tx_buffer.data;
 	//prepere response on telegram
@@ -121,7 +174,7 @@ void usartActivateTriggerResponse()
 	initSending();
 }
 
-void handleTelegram(void)
+void usartHandleTelegram(void)
 {
 	telegram_header_t* header = (telegram_header_t*) rx_buffer.data;
 	if (header->destination == THIS_DEVICE_ADDRESS)
@@ -133,7 +186,14 @@ void handleTelegram(void)
 		if ((header->fc == get_info_e) && (header->size == 0)) {
 			usartSendInfo();
 		}
+		if ((header->fc == get_triggers_e)) {
+			usartGetTriggers();
+		}
+		if ((header->fc == set_trigger_e)) {
+			usartSetTrigger();
+		}
 	}
+	usartClearBuffer();
 }
 
 
@@ -161,7 +221,7 @@ ISR(USART_RXC_vect)
 		rx_buffer.data[rx_buffer.index++] = received;
 		if (rx_buffer.index == rx_buffer.size)
 		{
-			handleTelegram();
+			telegramInBuffer=true;
 		}
 	}
 }
@@ -181,14 +241,15 @@ ISR(USART_UDRE_vect)
 	if (tx_buffer.size == tx_buffer.index) {
 			UDR = FRAME_END_CHAR;
 			UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
+	} else {
+		UDR = tx_buffer.data[tx_buffer.index++];
 	}
-	UDR = tx_buffer.data[tx_buffer.index++];
-
 }
-
 
 void usartSendAction(trigger_t* trigger, uint8_t destination)
 {
+	waitUntilSendingOver();
+
 	action_triggered_t* telegram = (action_triggered_t*)tx_buffer.data;
 	tx_buffer.size = sizeof(action_triggered_t);
 	telegram->header.fc = action_triggered_e;

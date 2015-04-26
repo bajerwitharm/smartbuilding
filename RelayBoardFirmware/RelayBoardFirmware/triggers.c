@@ -17,24 +17,24 @@
 #include "io_pins.h"
 #include "usart.h"
 
-static uint8_t device_state = 0;
+static states_t device_state = 0;
 
-void setState(const uint8_t bits_to_activate)
+void setState(const states_t bits_to_activate)
 {
 	device_state |= bits_to_activate;
 }
 
-void resetState(const uint8_t bits_to_deactivate)
+void resetState(const states_t bits_to_deactivate)
 {
 	device_state &= ~bits_to_deactivate;
 }
 
-void toggleState(const uint8_t bits_to_toggle)
+void toggleState(const states_t bits_to_toggle)
 {
 	device_state ^= bits_to_toggle;
 }
 
-uint8_t getState()
+states_t getState()
 {
 	return device_state;
 }
@@ -95,8 +95,11 @@ uint8_t getState()
 #define ROOM_LAMP_MONTION_SWTICH_ON 0x20
 #define CORRIDOR_LAMP_MANUAL_SWTICH_ON 0x40
 #define CORRIDOR_LAMP_MONTION_SWTICH_ON 0x80
+#define HEARDBEAT_STATE 0x200
 
 #define ON_AFTER_MOTION_TIME 10000
+#define HEARDBEAT_TIME 5000
+
 
 //#define MOTION_DETECTION_ENABLED
 
@@ -104,6 +107,52 @@ uint8_t getState()
 #define LONG_CLICK_TIME 2500
 
 trigger_t triggers[] = {
+	//// Heardbeat1
+	//{
+		//.activator = {
+			//.input_on = 0x0000,
+			//.input_off = 0x0000,
+			//.output_off = 0x00,
+			//.output_on = 0x00,
+			//.state_on = 0x0000,
+			//.state_off = HEARDBEAT_STATE,
+		//},
+		//.actuator = {
+			//.output_off = 0x0000,
+			//.output_toggle = 0x0000,
+			//.output_on = 0x00,
+			//.state_on =  0x00,
+			//.state_off =  0x00,
+			//.state_toggle = HEARDBEAT_STATE,
+		//},
+		//.timer = {
+			//.time_preload = TIMER_MS_TO_TIMER(HEARDBEAT_TIME),
+			//.time_current = 0,
+		//}
+	//},
+	//// Heardbeat2
+	//{
+		//.activator = {
+			//.input_on = 0x0000,
+			//.input_off = 0x0000,
+			//.output_off = 0x00,
+			//.output_on = 0x00,
+			//.state_on = HEARDBEAT_STATE,
+			//.state_off = 0x00,
+		//},
+		//.actuator = {
+			//.output_off = 0x0000,
+			//.output_toggle = 0x0000,
+			//.output_on = 0x00,
+			//.state_on = 0x00,
+			//.state_off = 0x00,
+			//.state_toggle = HEARDBEAT_STATE,
+		//},
+		//.timer = {
+			//.time_preload = TIMER_MS_TO_TIMER(HEARDBEAT_TIME),
+			//.time_current = 0,
+		//}
+	//},
 	// ON/OFF switch kitchen lamp 1
 	{
 		.activator = {
@@ -446,6 +495,7 @@ trigger_t triggers[] = {
 			.time_current = 0,
 		}
 	},
+	
 	#endif
 };
 

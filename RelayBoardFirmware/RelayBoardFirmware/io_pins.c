@@ -83,7 +83,7 @@ void ioInit(void)
  *                                                                    
  * Refer to \ref ioResetOutput for output reset
  */
-void ioSetOutput(uint16_t outputs)
+void ioSetOutput(outputs_t outputs)
 {
 	OUTPUT1_6_PORT |= (outputs & 0x3F)<<OUTPUT1_PIN;
 	OUTPUT7_8_PORT |= (outputs & 0xC0)<<(6-OUTPUT7_PIN);
@@ -96,7 +96,7 @@ void ioSetOutput(uint16_t outputs)
  *                                                                     
  * Refer to \ref ioSetOutput for output setting 
  */
-void ioResetOutput(uint16_t outputs)
+void ioResetOutput(outputs_t outputs)
 {
 	OUTPUT1_6_PORT &= ~((outputs & 0x3F)<<OUTPUT1_PIN);
 	OUTPUT7_8_PORT &= ~((outputs & 0xC0)<<(6-OUTPUT7_PIN));
@@ -109,7 +109,7 @@ void ioResetOutput(uint16_t outputs)
  *                                                                     
  * Refer to \ref ioSetOutput for output setting 
  */
-void ioToggleOutput(uint16_t outputs)
+void ioToggleOutput(outputs_t outputs)
 {
 	OUTPUT1_6_PORT ^= (outputs & 0x3F)<<OUTPUT1_PIN;
 	OUTPUT7_8_PORT ^= (outputs & 0xC0)<<(6-OUTPUT7_PIN);
@@ -119,7 +119,7 @@ void ioToggleOutput(uint16_t outputs)
 * Returns inputs state
 * if bit is set means input is high if bit not set input is reset i.e. 0x0101 means that inputs 9 and 1 are high
 */
-uint16_t ioGetInputs() 
+inputs_t ioGetInputs() 
 {
 	return (((SWITCH8_11_PORT<<(7-SWITCH8_PIN)) & 0x0780)|((SWITCH1_7_PORT>>(SWITCH1_PIN)) & 0x007F));
 }
@@ -128,7 +128,7 @@ uint16_t ioGetInputs()
 * Returns output state
 * if bit is set means input is high if bit not set input is reset i.e. 0x11 means that outputs 5 and 1 are high
 */
-uint8_t ioGetOutputs()
+outputs_t ioGetOutputs()
 {
 	return ((OUTPUT1_6_PORT>>OUTPUT1_PIN) & 0x3F)|((OUTPUT7_8_PORT<<(6-OUTPUT7_PIN)) & 0xC0);
 }

@@ -6,14 +6,15 @@
  */ 
 
 #include <stdint.h>
+#include "global.h"
 
 #ifndef IO_PINS_
 #define IO_PINS_
 
 void ioInit(void);
-void ioSetOutput(uint16_t outputs);
-void ioResetOutput(uint16_t outputs);
-void ioToggleOutput(uint16_t outputs);
+void ioSetOutput(outputs_t outputs);
+void ioResetOutput(outputs_t outputs);
+void ioToggleOutput(outputs_t outputs);
 uint16_t ioGetInputs();
 uint8_t ioGetOutputs();
 

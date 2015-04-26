@@ -25,22 +25,24 @@
 
 #pragma pack(1)
 
+
+
 typedef struct {
-	uint16_t input_on;
-	uint16_t input_off;
-	uint8_t output_on;
-	uint8_t output_off;
-	uint8_t state_on;
-	uint8_t state_off;
+	inputs_t input_on;
+	inputs_t input_off;
+	outputs_t output_on;
+	outputs_t output_off;
+	states_t state_on;
+	states_t state_off;
 } activator_t;
 
 typedef struct {
-	uint8_t output_on;
-	uint8_t output_off;
-	uint8_t output_toggle;
-	uint8_t state_on;
-	uint8_t state_off;
-	uint8_t state_toggle;
+	outputs_t output_on;
+	outputs_t output_off;
+	outputs_t output_toggle;
+	states_t state_on;
+	states_t state_off;
+	states_t state_toggle;
 } actuator_t;
 
 typedef struct {
@@ -53,16 +55,16 @@ typedef struct {
 } trigger_t;
 
 typedef struct {
-	uint16_t inputs;
-	uint8_t outputs;
-	uint8_t states;
+	inputs_t inputs;
+	outputs_t outputs;
+	states_t states;
 } info_t;
 
 #pragma pack()
-
+const uint8_t getNumberOfTriggers();
 void activateTrigger(const actuator_t* const actuator_p);
 void processTriggers();
-uint8_t getState();
+states_t getState();
 
 
 

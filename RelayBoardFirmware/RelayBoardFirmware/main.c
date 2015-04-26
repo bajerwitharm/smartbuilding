@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "triggers.h"
 #include <avr/interrupt.h>
+#include "usart.h"
 
 
 
@@ -21,6 +22,8 @@ int main(void)
 	sei();
 	while(1)
 	{		
-
+		if (usartIsTelegramInBuffer()) {
+			usartHandleTelegram();
+		}
 	}
 }
