@@ -15,6 +15,9 @@ salwatorska_app.config([ '$routeProvider', function($routeProvider, $analyticsPr
     }).when('/users_connections', {
 	templateUrl : 'partials/network/users_connections.html',
 	controller : 'networkUsageController'
+    }).when('/automation', {
+	templateUrl : 'partials/automation/automation.html',
+	controller : 'automationController'
     }).otherwise({
 	redirectTo : '/main'
     });

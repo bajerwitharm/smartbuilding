@@ -17,7 +17,7 @@ var logParser = require('./routes/logger.js');
 var onvifCameras = require('./routes/onvif.js'); 
 var bandwidthMonitor = require('./routes/bandwidth_monitor.js');
 var statsMonitor = require('./routes/stats_monitor.js');
-var relayBoard = require('./routes/relay_board.js');
+//var relayBoard = require('./routes/relay_board.js');
 
 var app = express();
 
@@ -62,15 +62,15 @@ app.get('/getUsageByWeekday', database.getUsageByWeekday);
 app.get('/getUsageByMonthday', database.getUsageByMonthday);
 app.get('/getUsageByMonth', database.getUsageByMonth);
 app.get('/getUsageByAP', database.getUsageByAP);
-app.get('/getRelayBoardInfo', relayBoard.requestInfo);
-app.get('/writeTelegram', relayBoard.writeTelegram);
+//app.get('/getRelayBoardInfo', relayBoard.requestInfo);
+//app.get('/writeTelegram', relayBoard.writeTelegram);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function(){
     // Find out which user used sudo through the environment variable
     var uid = parseInt(process.env.SUDO_UID);
     // Set our server's uid to that user
     if (uid) process.setuid(uid);
-    console.log('Server\'s UID is now ' + process.getuid());
+    // console.log('Server\'s UID is now ' + process.getuid());
     console.log('Express server listening on port ' + app.get('port'));
 });
 
