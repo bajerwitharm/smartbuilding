@@ -126,9 +126,10 @@ This paper will describe implementation of WiFi network with one router and 6 ac
 
 The factory firmware was replaced by custom compiled OpenWRT Barrier Breaker build. Configuration details and build instructions can be find in \cite{GitHub}. The firmware is the same for all devices and contains all required packages compiled into SquashFS ROM partition. The difference is only in configuration, so in case of malfunction it is possible to easy replace broken device. For future use, it is also possible to download needed packet from OpenWRT packet repository and place it into JFFS2 data partition.
 
-On each floor of the building two APs were located. Each provides WiFi coveradge and wire LAN connections for this segment of the building. In the future, USB ports in APs will also be used for connectivity with elements of smart home automation devices (automatic meter reading, light control...etc.). 
+On each floor of the building two APs were located. Each provides WiFi coveradge and wire LAN connections for this segment of the building. In the future, USB ports in APs will also be used for connectivity with elements of smart home automation devices (automatic meter reading, light control\ldots etc.). 
 
 \section{Separate isolated virtual subnetwork for critical devices}
+It was decided that two networks were configured - the isolated one for tenants which allows only Internet access and second one for building infrastructure and administration (IP cameras, IoT devices, VoIP intercoms).  To implement this idea four WiFi networks were created (two for 2,4GHz and two for 5GHz band). The separation of the devices is done using VLAN mechanism. 
 
 \section{Network access control}
 
