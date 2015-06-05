@@ -12,44 +12,39 @@
 
 \begin{document}
 
-%
-\frontmatter          % for the preliminaries
-%
-\pagestyle{headings}  % switches on printing of running heads
-%
-\mainmatter              % start of the contributions
-%
-\title{Lightweight approach for WiFi network access and monitoring}
 
-\author{Marcin Bajer\inst{1} \and Anna Bajer\inst{2}}
-%
-\authorrunning{Marcin Bajer} % abbreviated author list (for
-% running head)
-%
-%%%% list of authors for the TOC (use if author list has to be modified)
+\frontmatter          % for the preliminaries
+
+\pagestyle{headings}  % switches on printing of running heads
+\mainmatter              % start of the contributions
+\title{Lightweight approach for WiFi network access and monitoring}
+\author{Marcin Bajer\inst{1}}
+\authorrunning{Marcin Bajer} 
+
 \tocauthor{Marcin Bajer}
 %
 \institute{ABB Corporate Research Krakow, Starowiślna 13A, Krakow, Poland,\\
 \email{marcin.bajer@pl.abb.com}
-\and
-Cracow University of Economics, Rakowicka 27, Krakow, Poland,
-\email{ann.bajer@gmail.com}}
+}
 
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
 The goal of this publication is to describe lightweight, cost effective approach
-for creating access and monitoring system to WiFi network in small and medium
+for creating access and monitoring system for WiFi network in small and medium
 size buildings.
+
 The basic assumption is that the system should support per user
-authentication and network usage statistics.
+authentication and provide network health and usage statistics.
+
 In contrast to current market available solutions the presented one requires
-very little modification of off-the-self low cost routers to enable wide
+very little modification of off-the-shelf SOHO type routers to enable wide
 range of new functionalities. The core or the system is based on OpenWRT Linux running
 on multiple WiFi access points spread throughout the building.
 For data storage and visualization centralized solution prepared
-based on Node.js server and AngularJS frontend and running on RaspberryPi
-development board is used.
+based on Node.js server and AngularJS front-end and running on Raspberry Pi
+development board is used. 
+
 \keywords{netowork monitoring, access control, RaspberryPi, node.js, smart home}
 \end{abstract}
 %
@@ -60,53 +55,26 @@ It is expected that the WiFi market will continue to grow tremendously over the
 next few years. One of main driving factors for this is the increasing number of
 smart devices (mobiles phones, tablets, smartwatches and smart TVs\ldots). The
 observed pattern is to maximum data usage by the end users when they are
-stationary connected to WiFi in homes, restaurants and offices.
+stationary connected to WiFi in homes, offices or public buildings.
 Additionally, even though the falling prices of mobile transfer, it is common that
 smart devices are configured to trigger data intensive applications such as
 updates and synchronization only while being connected to WiFi.
 
-Small businesses are often in a difficult position when it comes to network
-security. On one hand the growing demand for WiFi access is pushing them
+For many years the focus in network security was placed on protecting
+network from external threats using firewalls and public key cryptography.
+Nowadays, attention has turned towards protecting crucial network resources
+against the ''enemy within''. Small businesses are often in a difficult position when
+it comes to network security. On one hand the growing demand for WiFi access is pushing them
 towards allowing more users to access their WiFi network, on the other hand they
 lack the cheap and secure solution for doing so. The main requirement for them is
 to enable secure per user access and monitoring. 
 
-Further in this paper, the approach for preparation of internal WiFi network in
-medium size rent house is presented. The goal of the project is not only to
-provide WiFi network to the users, but also to setup backbone for planned
-smart home installation.
-
-\section{Network requirements}
-
-The goal of this project was to prepare internal network in the building.The
-assumption for network to be prepared was to provide:
-\begin{enumerate}
-  \item Fast and reliable WiFi throughout whole building,
-  \item Cost-oriented implementation,
-  \item Separate isolated virtual subnetwork for critical devices
-such as surveillance cameras, smart home automation devices or network attached
-storage,
-  \item Easy to manage, per user, internet access for devices guest devices via
-  dedicated subnetwork,
-  \item Web page for network administration accessible both internally and
-  externally,
-  \item External access to internal network via VPN tunnel.
-\end{enumerate}
-
-
-\section{Network access control}
-
-\subsection{Problem of network security}
-For many years the focus in network security was placed on protecting
-network from external threats using firewalls and public key cryptography.
-Nowadays, attention has turned towards protecting crucial network resources against the ''enemy within''. 
-
-
-To effectively defend the network, even small, against internal threats user
-authentication and access control is necessary. 
-
-data loss prevention (DLP) systems, encryption, firewalls, IDS and anti-virus
-packages – - See more at: http://www.information-age.com/technology/security/123458593/cyber-enemy-within-rise-insider-threat#sthash.lxBXm1qw.dpuf
+In addition, nowadays, network devices are not limited to not
+regular laptop/smartphone devices. It is expected that number of IoT devices
+will far exceed that of other connected devices \cite{IoTwillGrow}. Very often
+it is expected that those devices are separated for regular network and additional security
+level is implemented. For case of some IoT applications it is also crucial to ensure sufficient 
+level of network reliability.
 
 Separate topic is WiFi piggybacking. Apart from security issue,
 unauthorized access to network can result in steeling bandwidth, but what is far
@@ -116,13 +84,53 @@ illegal activities can be also performed by authenticated users, in this case it
 important to be able to trace web activity to the particular user of the
 network, otherwise network owner would be prosecuted. 
 
+Further in this paper, the approach for preparation of internal WiFi network in
+medium size rent house is presented. The goal of the project is not only to
+provide WiFi network to the users, but also to setup backbone for planned
+smart home installation.
+
 Of course, monitoring and access control is only a part of complex topic of
 network security. Apart from controlling how the network is used, it is
 necessary to protect the network from attacks that are aim to disclosure or corrupt
 sensitive data as well as influence on proper work of network elements.
 Those problems will not be addressed in this paper since in case of described
-network it was decided that additional protection against such actions is not
+installation it was decided that additional protection against such actions is not
 needed.
+
+
+\section{Network requirements}
+
+The goal of this project was to prepare internal network in tenement house. The
+assumption for network to be prepared was to provide:
+
+\begin{enumerate}
+  \item Fast and reliable WiFi throughout whole building,
+  \item Cost-oriented implementation,
+  \item Separate isolated virtual subnetwork for critical devices,
+such as surveillance cameras, smart home automation devices or network attached
+storage,
+  \item Easy to manage, per user, Internet access for devices guest devices via
+  dedicated subnetwork,
+  \item Web page for network administration accessible both internally and
+  externally,
+  \item External access to internal network via VPN tunnel.
+  \item Backbone for planned smart home installation.
+\end{enumerate}
+
+In the subsequent parts of the paper, each of this requirements will be addressed.
+
+\section{Fast and reliable WiFi throughout whole building \& cost-oriented implementation}
+Modern enterprise class WLAN solutions are feature-packed, complicated and, what is the most important, quite expensive. For customers on tight budgets, there are a lot of low-cost WiFi devices which can be fitted with open-source software to provide business-class WiFi features. This would require some additional work and trade-offs, but can result with interesting feature sets that typically are beyond reach for small budgets.
+
+This paper will describe implementation of WiFi network with one router and 6 access points. It was decided to use one hardware for all of the devices. After cost-capability assessment it was decided to use TpLink WRT4300 SOHO type router. It offers Gigabit Ethernet and concurrent dual band wireless N750 transfer. It can support 300Mbps on the 2.4 GHz (dual-stream 2x2) and 450 Mbps on the 5 GHz Band (triple-stream 3x3). The hardware platform is based on Atheros AR9344@560MHz and 128MB RAM. In addition, the device was equipped with 800Mbps hardware NAT and 2 USB v2.0 ports. 
+
+The factory firmware was replaced by custom compiled OpenWRT Barrier Breaker build. Configuration details and build instructions can be find in \cite{GitHub}. The firmware is the same for all devices and contains all required packages compiled into SquashFS ROM partition. The difference is only in configuration, so in case of malfunction it is possible to easy replace broken device. For future use, it is also possible to download needed packet from OpenWRT packet repository and place it into JFFS2 data partition.
+
+On each floor of the building two APs were located. Each provides WiFi coveradge and wire LAN connections for this segment of the building. In the future, USB ports in APs will also be used for connectivity with elements of smart home automation devices (automatic meter reading, light control...etc.). 
+
+\section{Separate isolated virtual subnetwork for critical devices}
+
+\section{Network access control}
 
 \subsection{Choosing an WiFi encryption method}
 It is known that Wired Equivalent Privacy (WAP) based approach for
@@ -138,14 +146,16 @@ together with complex, non-dictionary pass-phrase is considered as safe solution
 significant drawback of using common key across all users.
 In case password is compromised all devices in the
 network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise. In
-contrast to WPA-PSK each has given unique credentials (password or electronics
+contrast to WPA-PSK each has given unique credentials (user/password or digital
 certificate). Traditionally, the WPA-Enterprise implementation requires
 purchasing dedicated server device. To reduce costs, further in this paper
-process of installing FreeRadius server on off-the-self router (Tp-Link
+process of installing FreeRadius server on off-the-shelf router (Tp-Link
 TL-WDR4300) is described.
 
+\subsection{Authentication}
+
 The authentication method used to verify the user (and server) credentials on
-WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard.
+WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard. IEEE 802.1X is simply a standard for passing EAP over a wired or wireless LAN. 
 
 EAP provides framework for several different authentication methods. General
 idea is that it supposed to replace proprietery solutions with standarized
@@ -230,6 +240,13 @@ APs are considered as clients for FreeRadius server.
 %
 \begin{thebibliography}{}
 %
+\bibitem{IoTwillGrow} 
+Middleton, P., Kjeldsen P., Tully J., Forecast: The Internet of Things,
+Worldwide, Gartner Inc., November 2013
+\bibitem{GitHub}
+Bajer, M., GitHub repository of SmartBuilding project, 
+\url{https://github.com/bajerwitharm/smartbuilding},
+\bibitem{WpaPskVulnerabilities}
 \bibitem{WebDeadAgain}
 Ossmann, M., ``WEP: Dead Again Part. 1'', Security Focus, 
 \url{http://www.bandwidthco.com/sf_whitepapers/wireless/WEP%20-%20Dead%20Again%20Part%201.pdf}
@@ -256,13 +273,5 @@ Dial In User Service (RADIUS)'', RFC 2865, June 2000,
 \end{thebibliography}
 
 
-\clearpage
-\addtocmark[2]{Author Index} % additional numbered TOC entry
-\renewcommand{\indexname}{Author Index}
-\printindex
-\clearpage
-\addtocmark[2]{Subject Index} % additional numbered TOC entry
-\markboth{Subject Index}{Subject Index}
-\renewcommand{\indexname}{Subject Index}
-\input{subjidx.ind}
+
 \end{document}
