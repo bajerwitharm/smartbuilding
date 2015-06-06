@@ -126,42 +126,48 @@ This paper will describe implementation of WiFi network with one router and 6 ac
 
 The factory firmware was replaced by custom compiled OpenWRT Barrier Breaker build. Configuration details and build instructions can be find in \cite{GitHub}. The firmware is the same for all devices and contains all required packages compiled into SquashFS ROM partition. The difference is only in configuration, so in case of malfunction it is possible to easy replace broken device. For future use, it is also possible to download needed packet from OpenWRT packet repository and place it into JFFS2 data partition.
 
-On each floor of the building two APs were located. Each provides WiFi coveradge and wire LAN connections for this segment of the building. In the future, USB ports in APs will also be used for connectivity with elements of smart home automation devices (automatic meter reading, light control\ldots etc.). 
+On each floor of the building two APs were located. Each provides WiFi coveradge and wire LAN connections for this segment of the building. In the future, USB ports in APs will also be used for connectivity with elements of smart home automation devices (automatic meter reading, light control\ldots etc.). Oryginal power adapters for the routers has been replaced with one central power supply on each of the floors. 
 
 \section{Separate isolated virtual subnetwork for critical devices}
-It was decided that two networks were configured - the isolated one for tenants which allows only Internet access and second one for building infrastructure and administration (IP cameras, IoT devices, VoIP intercoms).  To implement this idea four WiFi networks were created (two for 2,4GHz and two for 5GHz band). The separation of the devices is done using VLAN mechanism. 
+The separation of the devices is done using VLAN mechanism. Two VLANs were configured in the building. First, isolated guest network for tenants, which allows only Internet access. Second, administration network, for building infrastructure and administration (IP cameras, IoT devices, VoIP intercoms). To implement this idea, in each of APs, four WiFi networks were created (two for 2,4GHz and two for 5GHz band). Only two network SSIDs were used, one for the guest network and second for administration network - this allows that the user is automatically routed to the AP which provides the best signal. The WiFi networks are linked to the VLANs in the way both 2,4GHz and 5GHz band provides access to both VLANs. Ports of the AP switch which are connected to the network backbone use VLAN tagging to distinguish traffic associated with different VLANs. In this way AP is connected only with the one cable (so called trunk link) to the router/other switch. Each VLAN is also a separated subnet. Router only allows to forward traffic from administration network to the guest network.
 
-\section{Network access control}
+\section{Easy to manage, per user network access}
 
 \subsection{Choosing an WiFi encryption method}
-It is known that Wired Equivalent Privacy (WAP) based approach for
-securing WiFi network contains serious vulnerabilities that allows to
-easily crack password protecting the wireless by sniffing airwaves
-\cite{WebDeadAgain}.
-Therefore, it is highly recommended to use more secure Wi-Fi Protected Access
-(WPA or WPA2) encryption method. WPA has two versions: PSK
-(Pre-shared key) and Enterprise. PSK version had also some
-vulnerabilities \cite{WpaPskVulnerabilities} which were adressed with
-introduction of AES-based encryption in WPA2. Generally, using WPA2-PSK AES
-together with complex, non-dictionary pass-phrase is considered as safe solution, but it has
-significant drawback of using common key across all users.
-In case password is compromised all devices in the
-network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise. In
-contrast to WPA-PSK each has given unique credentials (user/password or digital
-certificate). Traditionally, the WPA-Enterprise implementation requires
-purchasing dedicated server device. To reduce costs, further in this paper
-process of installing FreeRadius server on off-the-shelf router (Tp-Link
-TL-WDR4300) is described.
+It is known that Wired Equivalent Privacy (WAP) based approach for securing WiFi network contains serious vulnerabilities that allows to easily crack password protecting the wireless by sniffing airwaves
+\cite{WebDeadAgain}. Therefore, it is highly recommended to use more secure Wi-Fi Protected Access (WPA or WPA2) encryption method. WPA has two versions: PSK (Pre-shared key) and Enterprise. PSK version had also some vulnerabilities \cite{WpaPskVulnerabilities} which were adressed with introduction of AES-based encryption in WPA2. Generally, using WPA2-PSK AES together with complex, non-dictionary pass-phrase is considered as safe solution, but it has significant drawback of using common key across all users.
+In case password is compromised all devices in the network reprogrammed. Solution to this problem is to use WPA/WPA2 Enterprise. In contrast to WPA-PSK each has given unique credentials (user/password or digital certificate). Traditionally, the WPA-Enterprise implementation requires purchasing dedicated server device. To reduce costs, further in this paper process of installing FreeRadius server on Raspberry Pi 2 device will be described.
 
-\subsection{Authentication}
+\subsection{Authentication, authorization, accounting}
 
-The authentication method used to verify the user (and server) credentials on
-WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard. IEEE 802.1X is simply a standard for passing EAP over a wired or wireless LAN. 
+An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904} concept was designed to authenticate and authorize users for use of network resources. Authentication part confirms that a user who is requesting a service is a valid user. Authorization grants specific types of service to a user, based on their authentication. Accounting refers to the tracking of the consumption of network resources by users.
+
+\subsubsection{Authentication}
+
+To replace proprietary solutions and provide unified authentication framework EAP (Extensible Authentication Protocol) was specified \cite{rfc3748}. EAP provides framework for several different authentication methods (MD5, TLS, TTLS, LEAP, PEAP). The authentication method used to verify the user (and server) credentials on WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard which is simply a standard for passing EAP over a wired or wireless LAN. Complete IEEE 802.1X system is composed of three-component architecture for authentication   
+
+%% Start of dot diagram
+\begin{figure}
+	\includedot[width=\textwidth]{./Graphics/Radius/radius}
+	\vspace{-15pt}
+	\caption{Radius}
+\end{figure}
+%% End of dot diagram
+
+\subsection{Radius server}
+
+
+Remote Authentication Dial-In User Service (RADIUS) \cite{rfc2865} is one of
+most widely used protocols to provide AAA. For the network presented in this
+publication FreeRadius \cite{freeRadius} has been used. To reduce load on
+router, the server is running on one of the WiFi access points. Router and other
+APs are considered as clients for FreeRadius server. 
+
 
 EAP provides framework for several different authentication methods. General
-idea is that it supposed to replace proprietery solutions with standarized
+idea is that it supposed  with standarized
 approach to whole authentification process. There are many different EAP
-implementations (PEAP, LEAP, WPA, WPA2\ldots etc.).
+implementations , WPA, WPA2\ldots etc.).
 
 
  (password exchange,
@@ -198,19 +204,7 @@ strorage devices)
  
 
 
-\subsection{Radius server}
-An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904}
-concept was designed to authenticate and authorize users for use of network
-resources. Authentication part confirms that a user who is requesting a service
-is a valid user. Authorization grants specific types of service to a user, based
-on their authentication. Accounting refers to the tracking of the consumption of
-network resources by users.
 
-Remote Authentication Dial-In User Service (RADIUS) \cite{rfc2865} is one of
-most widely used protocols to provide AAA. For the network presented in this
-publication FreeRadius \cite{freeRadius} has been used. To reduce load on
-router, the server is running on one of the WiFi access points. Router and other
-APs are considered as clients for FreeRadius server. 
 
 %% Start of dot diagram
 \begin{figure}
@@ -228,13 +222,7 @@ APs are considered as clients for FreeRadius server.
 \end{figure}
 %% End of dot diagram
 
-%% Start of dot diagram
-\begin{figure}
-\includedot[width=\textwidth]{./Graphics/Radius/radius}
-\vspace{-15pt}
-\caption{Radius}
-\end{figure}
-%% End of dot diagram
+
 
 %
 % ---- Bibliography ----
@@ -244,33 +232,44 @@ APs are considered as clients for FreeRadius server.
 \bibitem{IoTwillGrow} 
 Middleton, P., Kjeldsen P., Tully J., Forecast: The Internet of Things,
 Worldwide, Gartner Inc., November 2013
+
 \bibitem{GitHub}
 Bajer, M., GitHub repository of SmartBuilding project, 
 \url{https://github.com/bajerwitharm/smartbuilding},
-\bibitem{WpaPskVulnerabilities}
+
 \bibitem{WebDeadAgain}
-Ossmann, M., ``WEP: Dead Again Part. 1'', Security Focus, 
+Ossmann, M., WEP: Dead Again Part. 1, Security Focus, 
 \url{http://www.bandwidthco.com/sf_whitepapers/wireless/WEP%20-%20Dead%20Again%20Part%201.pdf}
 (accessed 2014.12.10),
+
 \bibitem{WpaPskVulnerabilities}
-Moskowitz, R., Fleishman, G., ``Weakness in Passphrase Choice in WPA Interface'',
-WNN Wi-Fi Net News, \url{http://wifinetnews.com/archives/002452.html} (accessed
-2014.12.10),
+Moskowitz, R., Fleishman, G., Weakness in Passphrase Choice in WPA Interface,
+WNN Wi-Fi Net News, 
+\url{http://wifinetnews.com/archives/002452.html} (accessed 2014.12.10),
+
+\bibitem{rfc3748}
+Aboba, B., Blunk, L., Vollbrecht, J., Carlson, J., Levkowetz, H.E., Extensible Authentication Protocol (EAP), RFC 3748, June 2004,
+\url{http://tools.ietf.org/html/rfc3748},
+
 \bibitem{rfc2903}
-de Laat, C., Gross, G., Gommans, L., Vollbrecht, J., and D. Spence, ``Generic AAA
-Architecture'', RFC 2903, August 2000,
+de Laat, C., Gross, G., Gommans, L., Vollbrecht, J., and D. Spence, Generic AAA
+Architecture, RFC 2903, August 2000,
 \url{http://www.rfc-editor.org/info/rfc2903},
+
 \bibitem{rfc2904}
 Vollbrecht, J., Calhoun, P., Farrell, S., Gommans, L., Gross, G., de Bruijn, B.,
-de Laat, C., Holdrege, M., and D. Spence, ``AAA Authorization Framework'', RFC
+de Laat, C., Holdrege, M., and D. Spence, AAA Authorization Framework, RFC
 2904, August 2000, \url{http://www.rfc-editor.org/info/rfc2904},
+
 \bibitem{rfc2865}
-Rigney, C., Willens, S., Rubens, A., and W. Simpson, ``Remote  Authentication
-Dial In User Service (RADIUS)'', RFC 2865, June 2000,
+Rigney, C., Willens, S., Rubens, A., and W. Simpson, Remote  Authentication
+Dial In User Service (RADIUS), RFC 2865, June 2000,
 \url{http://www.rfc-editor.org/info/rfc2865},
+
 \bibitem{freeRadius}
-``FreeRadius technical guide'',
+FreeRadius technical guide,
 \url{http://networkradius.com/doc/FreeRADIUS%20Technical%20Guide.pdf} (accessed 2014.11.29)
+
 \end{thebibliography}
 
 
