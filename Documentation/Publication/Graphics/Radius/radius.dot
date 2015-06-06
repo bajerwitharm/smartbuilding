@@ -1,7 +1,7 @@
 digraph G {
 	rankdir=TB;
 	edge [dir=none];
-	margin="0.15";
+	margin="1,0";
 
 	graph [splines=ortho];
 	
@@ -23,7 +23,7 @@ digraph G {
 		
 		subgraph cluster_radiusclient {
 			radiusclient[shape=none, label="", image="./Graphics/Radius/client.png"]
-			radiusclienttext[shape=none, label=<<b>Radius client</b>>]
+			radiusclienttext[shape=none, label=<<b>Radius client</b><br/>(authenticator)>]
 		}
 		
 		subgraph cluster_suplicant1 {
@@ -37,10 +37,12 @@ digraph G {
 		}
 		
 
-		
-		suplicant1:ne->radiusclient:se [dir=forward, color=sienna4, style=dashed];
-		radiusclient:sw->suplicant1:nw [dir=forward, color=sienna4, style=dashed];
+		radiusclient:sw->suplicant1:nw [dir=forward, color=sienna4, style=dashed];	
+		suplicant1:ne->radiusclient:se [dir=forward, color=turquoise4, style=dashed];
 		radiusclient:s->suplicant1:n [dir=none, style="dotted" ];
+		radiusclient:s->suplicant1:n [dir=forward, color=turquoise4, style=dashed];
+		
+		suplicant1:n->radiusclient:s [dir=forward, color=sienna4, style=dashed];	
 		
 		radiusclient:e->suplicant2:ne [dir=forward, color=turquoise4];
 		radiusclient:e->suplicant2:n [dir=none, style="dotted"];
@@ -64,7 +66,7 @@ digraph G {
 				
 	    key [label=<<table border="0" >
 	      <tr><td align="right" port="i1">EAP</td></tr>
-	      <tr><td align="right" port="i2">EAPOL</td></tr>
+	      <tr><td align="right" port="i2">EAPoL</td></tr>
 	      <tr><td align="right" port="i3">RADIUS</td></tr>
 	      <tr><td align="right" port="i4">WPA2</td></tr>
 	      </table>>, shape=plaintext]

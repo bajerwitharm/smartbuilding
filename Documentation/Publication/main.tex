@@ -106,9 +106,7 @@ assumption for network to be prepared was to provide:
 \begin{enumerate}
   \item Fast and reliable WiFi throughout whole building,
   \item Cost-oriented implementation,
-  \item Separate isolated virtual subnetwork for critical devices,
-such as surveillance cameras, smart home automation devices or network attached
-storage,
+  \item Separate isolated virtual subnetwork for critical devices, such as surveillance cameras, smart home automation devices or network attached storage,
   \item Easy to manage, per user, Internet access for devices guest devices via
   dedicated subnetwork,
   \item Web page for network administration accessible both internally and
@@ -142,9 +140,19 @@ In case password is compromised all devices in the network reprogrammed. Solutio
 
 An Authentication Authorization Accounting (AAA) \cite{rfc2903}\cite{rfc2904} concept was designed to authenticate and authorize users for use of network resources. Authentication part confirms that a user who is requesting a service is a valid user. Authorization grants specific types of service to a user, based on their authentication. Accounting refers to the tracking of the consumption of network resources by users.
 
-\subsubsection{Authentication}
+\subsubsection{Extensible Authentication Protocol}
 
-To replace proprietary solutions and provide unified authentication framework EAP (Extensible Authentication Protocol) was specified \cite{rfc3748}. EAP provides framework for several different authentication methods (MD5, TLS, TTLS, LEAP, PEAP). The authentication method used to verify the user (and server) credentials on WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard which is simply a standard for passing EAP over a wired or wireless LAN. Complete IEEE 802.1X system is composed of three-component architecture for authentication   
+To replace proprietary solutions and provide unified authentication framework EAP (Extensible Authentication Protocol) was specified \cite{rfc3748}. EAP provides framework for several different authentication methods (MD5, TLS, TTLS, LEAP, PEAP). The authentication method used to verify the user (and server) credentials on WPA/WPA2-Enterprise networks is defined in the IEEE 802.1X standard which is simply a standard for passing EAP over a wired or wireless LAN (EAPoL - EAP over LAN). Complete IEEE 802.1X system is composed of three-component architecture: supplicant (end user station), access device (switch, access point) and authentication server (RADIUS).  EAPoL communication occurs between supplicant and authenticator. The RADIUS protocol is used for communication between the authenticator and the RADIUS server.
+
+\subsubsection{Radius server}
+
+Remote Authentication Dial-In User Service (RADIUS) \cite{rfc2865} is one of most widely used protocols to provide AAA. For the network presented in this publication FreeRadius \cite{freeRadius} has been used. To reduce load on router, the server is running on one of the WiFi access points. Router and other
+APs are considered as clients for FreeRadius server. 
+
+
+In presented installation the authenticators are APs. To provide possibility to authenticate users with Radius server \textit{wpad-mini} packet (default WPA implementation for OpenWRT) has been replaced with \textit{wpad}. Although tests shown that also Radius server can work on any of AP without any noticeable performance impact, it was decided that   
+
+
 
 %% Start of dot diagram
 \begin{figure}
@@ -154,14 +162,6 @@ To replace proprietary solutions and provide unified authentication framework EA
 \end{figure}
 %% End of dot diagram
 
-\subsection{Radius server}
-
-
-Remote Authentication Dial-In User Service (RADIUS) \cite{rfc2865} is one of
-most widely used protocols to provide AAA. For the network presented in this
-publication FreeRadius \cite{freeRadius} has been used. To reduce load on
-router, the server is running on one of the WiFi access points. Router and other
-APs are considered as clients for FreeRadius server. 
 
 
 EAP provides framework for several different authentication methods. General
