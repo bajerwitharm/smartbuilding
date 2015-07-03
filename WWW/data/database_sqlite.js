@@ -84,6 +84,7 @@ module.exports.insertNewQuery = function(row, callback) {
     var messageparts = row.msg.split(" ");
     var query = format(readQuery("InsertNewQuery"), row.timestamp,
 	    messageparts[1], messageparts[3]);
+    console.log(row.msg);
     sqliteDbContext.serialize(function() {
 	return sqliteDbContext.run(query, callback);
     });
