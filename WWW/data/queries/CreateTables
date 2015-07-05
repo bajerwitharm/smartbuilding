@@ -1,34 +1,108 @@
-CREATE TYPE bridge_name AS ENUM('br-lan','br-guest','eth0.1','eth0.2');
+CREATE OR REPLACE FUNCTION create_type_enum_if_not_exists (t_name text, enums text) RETURNS void AS $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM   pg_type
+    WHERE  typname = t_name
+    ) THEN
+    execute 'CREATE TYPE ' || t_name || ' AS ENUM (' || enums || ')';
+END IF;
+END
+$$
+LANGUAGE plpgsql VOLATILE;
+
+/* 
+ * Create types
+ */
+SELECT create_type_enum_if_not_exists('bridge_name',$$'br-lan','br-guest','eth0.1','eth0.2'$$);
+SELECT create_type_enum_if_not_exists('ap_name',$$'main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6'$$);
+SELECT create_type_enum_if_not_exists('connection_result',$$'OK', 'incorrect'$$);
+
+/*
+ * Create tables
+ */
 CREATE TABLE IF NOT EXISTS users (id serial primary key, timestamp timestamp, mac macaddr NOT NULL, name VARCHAR(64), ip inet, bridge bridge_name, UNIQUE (mac,name,ip,bridge));
 CREATE TABLE IF NOT EXISTS usage_in_time (id serial primary key, timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT, FOREIGN KEY(user_id) REFERENCES users(id));
-CREATE TYPE ap_name AS ENUM ('main@salwatorska6', 'pietro2_1@salwatorska6', 'parter2@salwatorska6', 'parter1@salwatorska6');
-CREATE TYPE connection_result AS ENUM ('OK', 'incorrect');
 CREATE TABLE IF NOT EXISTS connections (id serial primary key,timestamp timestamp, result connection_result, account VARCHAR(64), ap ap_name, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));
-CREATE TABLE IF NOT EXISTS queries (id serial primary key , timestamp timestamp, user_id INTEGER, url VARCHAR(255), FOREIGN KEY(user_id) REFERENCES users(id));
-CREATE TABLE IF NOT EXISTS logs (id serial primary key , timestamp timestamp, host VARCHAR(255), program VARCHAR(64), msg VARCHAR(255));
-CREATE TABLE IF NOT EXISTS stats (id serial primary key , timestamp timestamp, router INTEGER, rx_bytes INTEGER, rx_packets INTEGER, tx_bytes INTEGER, tx_packets INTEGER, sysload INTEGER, UNIQUE(timestamp,router));
-CREATE TABLE IF NOT EXISTS usage_by_hour (id serial primary key , timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_weekday (id serial primary key , timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_monthday (id serial primary key , timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_month (id serial primary key , timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
-CREATE TABLE IF NOT EXISTS usage_by_ap (id serial primary key , timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap ap_name, FOREIGN KEY(user_id) REFERENCES users(id));
-CREATE TABLE IF NOT EXISTS connections_in_time (id serial primary key , timestamp timestamp, user_id INTEGER, start_timestamp timestamp, end_timestamp timestamp, FOREIGN KEY(user_id) REFERENCES users(id));
-CREATE TABLE IF NOT EXISTS event_types (id serial primary key , device_id INTEGER, event_key CHAR(17), description VARCHAR(255));
-CREATE TABLE IF NOT EXISTS events (id serial primary key , timestamp timestamp, user_id INTEGER, event_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(event_id) REFERENCES event_types(id));
-CREATE TABLE IF NOT EXISTS records (id serial primary key , timestamp timestamp, camera CHAR(17));
-INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'main.salwatorska6',macaddr 'E8:94:F6:CD:31:E2',inet '192.168.2.1','br-guest');
-INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter1.salwatorska6',macaddr '64:66:b3:54:bf:a0',inet '192.168.2.4' ,'br-guest');
-INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'pietro2_1.salwatorska6',macaddr 'e8:de:27:6d:c0:3b',inet '192.168.2.5' ,'br-guest');
-INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'parter2.salwatorska6',macaddr '10:FE:ED:E6:16:08',inet '192.168.2.3','br-guest');
-INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES(now(),'SalwatorskaSerwer',macaddr '00:14:22:08:6a:d9',inet '192.168.2.101','br-guest');
-CREATE INDEX IDX_usage_by_hour_user_id ON usage_by_hour(user_id);
-CREATE INDEX IDX_usage_by_hour_timestamp ON usage_by_hour(timestamp);
-CREATE INDEX IDX_usage_by_weekday_user_id ON usage_by_weekday(user_id);
-CREATE INDEX IDX_usage_by_weekday_timestamp ON usage_by_weekday(timestamp);
-CREATE INDEX IDX_usage_by_monthday_user_id ON usage_by_monthday(user_id);
-CREATE INDEX IDX_usage_by_monthday_timestamp ON usage_by_monthday(timestamp);
-CREATE INDEX IDX_usage_by_month_user_id ON usage_by_month(user_id);
-CREATE INDEX IDX_usage_by_month_timestamp ON usage_by_month(timestamp);
-delete from connections where id in (select id from (select id from connections t1 where exists(select 1 from connections where t1.id-1=id and t1.user_id=user_id and t1.result=result and t1.ap=ap and t1.account=account)) tmptbl);
-delete from queries where id in (select id from (select id from queries t1 where exists(select 1 from queries where t1.id-1=id and t1.url=url)) tmptbl);
+CREATE TABLE IF NOT EXISTS queries (id serial primary key, timestamp timestamp, user_id INTEGER, url VARCHAR(255), FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS logs (id serial primary key, timestamp timestamp, host VARCHAR(255), program VARCHAR(64), msg VARCHAR(255));
+CREATE TABLE IF NOT EXISTS stats (id serial primary key, timestamp timestamp, router INTEGER, rx_bytes INTEGER, rx_packets INTEGER, tx_bytes INTEGER, tx_packets INTEGER, sysload INTEGER, UNIQUE(timestamp,router));
+CREATE TABLE IF NOT EXISTS usage_by_hour (id serial primary key, timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
+CREATE TABLE IF NOT EXISTS usage_by_weekday (id serial primary key, timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
+CREATE TABLE IF NOT EXISTS usage_by_monthday (id serial primary key, timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
+CREATE TABLE IF NOT EXISTS usage_by_month (id serial primary key, timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT);
+CREATE TABLE IF NOT EXISTS usage_by_ap (id serial primary key, timestamp timestamp, user_id INTEGER, data_in BIGINT, data_out BIGINT, ap ap_name, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS connections_in_time (id serial primary key, timestamp timestamp, user_id INTEGER, start_timestamp timestamp, end_timestamp timestamp, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS event_types (id serial primary key, device_id INTEGER, event_key CHAR(17), description VARCHAR(255));
+CREATE TABLE IF NOT EXISTS events (id serial primary key, timestamp timestamp, user_id INTEGER, event_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(event_id) REFERENCES event_types(id));
+CREATE TABLE IF NOT EXISTS records (id serial primary key, timestamp timestamp, camera CHAR(17));
 
+CREATE OR REPLACE FUNCTION create_index_if_not_exists (t_name text, i_name text) RETURNS void AS $$
+DECLARE
+  full_index_name varchar;
+  schema_name varchar;
+BEGIN
+
+full_index_name = t_name || '_' || i_name;
+schema_name = 'public';
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM   pg_class c
+    JOIN   pg_namespace n ON n.oid = c.relnamespace
+    WHERE  c.relname = full_index_name
+    AND    n.nspname = schema_name
+    ) THEN
+
+    execute 'CREATE INDEX ' || full_index_name || ' ON ' || schema_name || '.' || t_name || ' (' || i_name || ')';
+END IF;
+END
+$$
+LANGUAGE plpgsql VOLATILE;
+
+
+/*
+ * Create indexes on table
+ */
+SELECT create_index_if_not_exists('usage_by_hour', 'user_id');
+SELECT create_index_if_not_exists('usage_by_hour', 'timestamp');
+SELECT create_index_if_not_exists('usage_by_weekday', 'user_id');
+SELECT create_index_if_not_exists('usage_by_weekday', 'timestamp');
+SELECT create_index_if_not_exists('usage_by_monthday', 'user_id');
+SELECT create_index_if_not_exists('usage_by_monthday', 'timestamp');
+SELECT create_index_if_not_exists('usage_by_month', 'user_id');
+SELECT create_index_if_not_exists('usage_by_month', 'timestamp');
+
+
+
+/*
+ * Clean connections which are the same next to each other (sth. client asks a few times for the same address)
+ */
+delete from connections where id in (select id from (select id from connections t1 where exists(select 1 from connections where t1.id-1=id and t1.user_id=user_id and t1.result=result and t1.ap=ap and t1.account=account)) AS id_to_delete);
+
+/*
+ * Clean queries which are the same next to each other (sth. client asks a few times for the same address)
+ */
+delete from queries where id in (select id from (select id from queries t1 where exists(select 1 from queries where t1.id-1=id and t1.url=url)) AS id_to_delete);
+
+
+
+
+CREATE OR REPLACE FUNCTION insert_or_update_user (time_p timestamp, mac_p macaddr, name_p VARCHAR(64), ip_p inet, bridge_p bridge_name) RETURNS void AS $$
+BEGIN
+	INSERT INTO users(timestamp, name, mac, ip, bridge) VALUES(time_p, name_p, mac_p, ip_p, bridge_p);
+	EXCEPTION WHEN unique_violation THEN
+END;
+$$
+LANGUAGE plpgsql VOLATILE;
+
+
+/*
+ * Insert non DHCP users (modify to your network)
+ */
+SELECT insert_or_update_user(LOCALTIMESTAMP,macaddr 'E8:94:F6:CD:31:E2','main.salwatorska6',inet '192.168.2.1',bridge_name 'br-guest');
+SELECT insert_or_update_user(LOCALTIMESTAMP,macaddr '64:66:b3:54:bf:a0','parter1.salwatorska6',inet '192.168.2.4' ,bridge_name 'br-guest');
+SELECT insert_or_update_user(LOCALTIMESTAMP,macaddr 'e8:de:27:6d:c0:3b','pietro2_1.salwatorska6',inet '192.168.2.5' ,bridge_name 'br-guest');
+SELECT insert_or_update_user(LOCALTIMESTAMP,macaddr '10:FE:ED:E6:16:08','parter2.salwatorska6',inet '192.168.2.3', bridge_name 'br-guest');
+SELECT insert_or_update_user(LOCALTIMESTAMP,macaddr '00:14:22:08:6a:d9','SalwatorskaSerwer',inet '192.168.2.101',bridge_name 'br-guest');
+SELECT insert_or_update_user(LOCALTIMESTAMP,macaddr 'b8:27:eb:4c:52:fb','SalwatorskaSmallSerwer',inet '192.168.1.99',bridge_name 'br-guest');

@@ -1,8 +1,4 @@
-BEGIN
-	INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES('{1}','{2}',macaddr '{3}',inet '{4}','{5}');
-EXCEPTION WHEN unique_violation THEN
-	UPDATE users SET timestamp='{1}', name='{2}', mac=macaddr '{3}', ip=inet '{4}', bridge='{5}' where timestamp='{1}' AND name='{2}' AND mac=macaddr '{3}' AND ip=inet '{4}' AND bridge='{5}';
-END;
+SELECT insert_or_update_user ('{1}', macaddr '{3}', '{2}', inet '{4}', bridge_name '{5}');
 
 
 
