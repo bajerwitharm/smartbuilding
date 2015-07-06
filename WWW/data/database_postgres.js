@@ -57,6 +57,7 @@ module.exports.insertNewUsage = function(rows, callback) {
 	queries = queries + query;
     }
     return sqliteDbContext.query(queries, function(err, result) {
+	executeQuery(err, result, callback);
     });
 };
 
@@ -121,7 +122,7 @@ module.exports.insertNewStats = function(stats, callback) {
 	stats.traffic[second][4],// tx packets
 	stats.load[second][1]// 1 minute load
 	);
-	// console.log(query);
+
 	queries = queries + query;
     }
     return sqliteDbContext.query(queries, function(err, result) {
@@ -154,9 +155,7 @@ module.exports.getConnectionsByWeekday = function(callback, query) {
     var condition = prepareTimeCondition(query, 'and', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByWeekday"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	if (callback) {
-	    callback(rows);
-	}
+	executeQuery(err, rows, callback);
     });
 };
 
@@ -164,21 +163,15 @@ module.exports.getConnectionsByMonthday = function(callback, query) {
     var condition = prepareTimeCondition(query, 'and', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByMonthday"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	if (callback) {
-	    callback(rows);
-	}
+	executeQuery(err, rows, callback);
     });
 };
 
 module.exports.getConnectionsByMonth = function(callback, query) {
     var condition = prepareTimeCondition(query, 'and', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByMonth"), condition);
-    sqliteDbContext.serialize(function() {
-	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    if (callback) {
-		callback(rows);
-	    }
-	});
+    sqliteDbContext.query(sqlquery, function(err, rows) {
+	executeQuery(err, rows, callback);
     });
 };
 
@@ -186,9 +179,7 @@ module.exports.getConnectionsByAP = function(callback, query) {
     var condition = prepareTimeCondition(query, 'where', 'connections');
     var sqlquery = format(readQuery("GetConnectionsByAP"), condition);
     sqliteDbContext.query(sqlquery, function(err, rows) {
-	if (callback) {
-	    callback(rows);
-	}
+	executeQuery(err, rows, callback);
     });
 };
 
@@ -198,9 +189,7 @@ module.exports.getUsageByHour = function(callback, query) {
 	var condition = prepareTimeCondition(query, 'where', 'usage_by_hour');
 	sqlquery = format(readQuery("GetUsageByHour"), condition);
 	sqliteDbContext.query(sqlquery, function(err, rows) {
-	    if (callback) {
-		callback(rows);
-	    }
+		executeQuery(err, rows, callback);
 	});
     });
 };

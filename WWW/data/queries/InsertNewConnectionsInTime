@@ -1,1 +1,12 @@
-INSERT INTO connections_in_time(user_id, start_timestamp, end_timestamp) select user_id,timestamp,(select timestamp from usage_in_time t2 where t2.id>=t1.id and not exists (select 1 from usage_in_time where user_id=t2.user_id and id>t2.id and timestamp<=t2.timestamp + INTERVAL '1 HOUR') limit 1) from usage_in_time t1 where timestamp>COALESCE((select max(end_timestamp) from connections_in_time),'1974-01-01') and not exists (select 1 from usage_in_time where user_id=t1.user_id and timestamp<t1.timestamp and timestamp>=t1.timestamp - INTERVAL '1 HOUR') order by t1.timestamp,user_id;
+INSERT INTO connections_in_time(user_id, start_timestamp, end_timestamp) 
+select 
+	user_id,
+	timestamp,
+	(select timestamp from usage_in_time t2 where 
+		t2.id>=t1.id and 
+		not exists (select 1 from usage_in_time where user_id=t2.user_id and id>t2.id and timestamp<=t2.timestamp + INTERVAL '1 HOUR') limit 1) 
+	from usage_in_time t1 
+	where 
+		timestamp>COALESCE((select max(end_timestamp) from connections_in_time),'1974-01-01') and 
+		not exists (select 1 from usage_in_time where user_id=t1.user_id and timestamp<t1.timestamp and timestamp>=t1.timestamp - INTERVAL '1 HOUR') 
+order by t1.timestamp, user_id;

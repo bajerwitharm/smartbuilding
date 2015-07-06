@@ -1,1 +1,9 @@
-select count(*) AS connections, name, account, ((to_char(connections.timestamp,'HH24'))) as hour from users left join connections on connections.user_id=users.id where result='OK' {1} group by users.id, connections.account, hour order by connections desc;
+select 
+	count(*) AS connections, 
+	name, 
+	account, 
+	((to_char(connections.timestamp,'HH24'))) as hour 
+from users left join connections on 
+	connections.user_id=users.id 
+where result='OK' {1} 
+group by users.id, connections.account, hour order by connections desc;
