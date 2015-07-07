@@ -6,4 +6,8 @@ select
 from users left join connections on 
 	connections.user_id=users.id 
 where result='OK' {1} 
-group by users.id, connections.account, hour order by connections desc;
+group by 
+	users.id, 
+	connections.account, 
+	hour 
+order by connections desc;

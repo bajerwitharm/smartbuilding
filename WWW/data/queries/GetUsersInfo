@@ -6,7 +6,7 @@ select * from
     ), t2.data_in, t2.data_out, t3.accounts, t3.connections from users t1 inner join 
     (
       SELECT user_id,sum(data_in) as data_in, sum(data_out) as data_out from usage_in_time GROUP BY user_id
-    ) t2 on t1.id=t2.user_id left join
+    ) t2 on t1.id=t2.user_id inner join
     (
       select user_id,array_to_string(array_agg(DISTINCT account),',') AS accounts, count(*) AS connections from connections group by user_id
     ) t3 on t3.user_id=t2.user_id
