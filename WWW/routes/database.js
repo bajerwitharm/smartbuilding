@@ -1,4 +1,4 @@
-var sqliteDbContext = require('../data/database_mysql.js');
+var sqliteDbContext = require('../data/database_postgres.js');
 
 module.exports.getUsersInfo = function(req, res){
 	sqliteDbContext.getUsersInfo(function(data)

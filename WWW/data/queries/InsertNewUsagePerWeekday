@@ -1,1 +1,9 @@
-INSERT INTO usage_by_weekday(timestamp,user_id, data_in, data_out) SELECT timestamp,user_id,sum(data_in) as data_in,sum(data_out) as data_out from usage_in_time where timestamp>ifnull((select max(timestamp) from usage_by_weekday),0) group by user_id, DATE_FORMAT(timestamp,'%w'); 
+INSERT INTO usage_by_weekday(timestamp,user_id, data_in, data_out) 
+SELECT 
+	max(timestamp),
+	user_id,
+	sum(data_in) as data_in,
+	sum(data_out) as data_out 
+from usage_in_time 
+where timestamp>COALESCE((select max(timestamp) from usage_by_weekday),'1974-01-01') 
+group by user_id, to_char(timestamp,'D'); 

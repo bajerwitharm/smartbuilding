@@ -4,14 +4,18 @@
  */
 
 var express = require('express')
+  , bodyParser = require('body-parser')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
+  , logger = require('morgan')
+  , methodOverride = require('method-override')
+  , errorHandler = require('errorhandler')
   , path = require('path');
 
 var KameraWejscie = require('./routes/foscam.js');
 var KameraParter = require('./routes/acti.js');
-var sqliteDbContext = require('./data/database_mysql.js');//change to database_sqlite.js if needed
+var sqliteDbContext = require('./data/database_postgres.js');//change to database_sqlite.js if needed
 var database = require('./routes/database.js');
 var logParser = require('./routes/logger.js');
 var onvifCameras = require('./routes/onvif.js'); 
@@ -21,22 +25,26 @@ var statsMonitor = require('./routes/stats_monitor.js');
 
 var app = express();
 
-
+app.use(methodOverride());
+ 
+app.use(logger('dev'));
+ 
+app.use(bodyParser.urlencoded({limit:'50mb'}));
 
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('title','www.salwatorska.pl');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
+//app.use(express.favicon());
+app.use(logger('dev'));
+app.use(bodyParser());
+app.use(methodOverride());
+//app.use(app.router);
 app.use(express.static(path.join(__dirname, '/public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  app.use(errorHandler());
 }
 
 

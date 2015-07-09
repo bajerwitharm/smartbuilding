@@ -1,7 +1,6 @@
 var database;
 
 var parseLogEntry = function(logentry) {
-
     switch (logentry.program) {
     case "dnsmasq":
 	database.insertNewQuery(logentry);
@@ -9,7 +8,7 @@ var parseLogEntry = function(logentry) {
     case "dnsmasq-dhcp":
 	database.insertNewUser(logentry);
 	break;
-    case "radiusd":
+    case "freeradius":
 	database.insertNewConnection(logentry);
 	break;
     default:
@@ -20,16 +19,17 @@ var parseLogEntry = function(logentry) {
 
 module.exports.initLogger = function(db) {
     database = db;
-    var datagram;
+    var datagram="";
     var server = require('net').createServer(
 	    function(stream) {
 		stream.setEncoding('utf8');
 		stream.addListener("data", function(slice) {
-		    datagram = datagram + slice;
+    		    datagram = datagram + slice;
 		    if (slice.length < 3472) {
 			try {
 			    var logentries = JSON.parse("["
-				    + slice.slice(0, -1) + "]");
+				    + datagram.slice(0, -1) + "]");
+
 			    for ( var logentry in logentries) {
 				logentry = logentries[logentry];
 				if (logentry.length == 0) {
@@ -38,6 +38,7 @@ module.exports.initLogger = function(db) {
 				parseLogEntry(logentry);
 			    }
 			} catch (err) {
+				console.log(err);
 			}
 
 			datagram = "";

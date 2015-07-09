@@ -1,1 +1,13 @@
-select DATE_FORMAT(usage_by_weekday.timestamp,'%w') as weekday,users.mac as mac, name, sum(data_in) as data_in,sum(data_out) as data_out,(select account from connections where user_id=users.id limit 1) as account from usage_by_weekday join users on usage_by_weekday.user_id=users.id {1} group by weekday,usage_by_weekday.user_id;
+select 
+	to_char(usage_by_weekday.timestamp,'D') as weekday,
+	users.mac as mac, 
+	name, 
+	sum(data_in) as data_in,
+	sum(data_out) as data_out,
+	(select account from connections where user_id=users.id limit 1) as account 
+from usage_by_weekday 
+join users on usage_by_weekday.user_id=users.id {1} 
+group by 
+	users.id,
+	weekday,
+	usage_by_weekday.user_id;

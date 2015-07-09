@@ -1,1 +1,8 @@
-select count(*) AS connections, name, account, (DATE_FORMAT(connections.timestamp,'%d')) as monthday from users left join connections on connections.user_id=users.id where result='OK' {1} group by monthday, mac order by connections desc;
+select 
+	count(*) AS connections, 
+	name, 
+	account, 
+	(to_char(connections.timestamp,'DD')) as monthday 
+from users left join connections on connections.user_id=users.id 
+where result='OK' {1} 
+group by users.id, connections.account, monthday, mac order by connections desc;

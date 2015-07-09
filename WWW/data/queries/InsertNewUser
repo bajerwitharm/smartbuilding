@@ -1,1 +1,4 @@
-INSERT INTO users (timestamp, name, mac, ip, bridge) VALUES('{1}','{2}',lower('{3}'),INET_ATON('{4}'),'{5}') ON DUPLICATE KEY UPDATE id=id;
+SELECT insert_or_update_user ('{1}', macaddr '{3}', '{2}', inet '{4}', bridge_name '{5}');
+
+
+

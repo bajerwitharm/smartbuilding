@@ -1,2 +1,2 @@
-CREATE DATABASE SMART_HOME;
-USE SMART_HOME;
+CREATE DATABASE smart_home;
+/* USE smart_home;*/

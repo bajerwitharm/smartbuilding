@@ -1,1 +1,8 @@
-select count(*) AS connections, name, account, (DATE_FORMAT(connections.timestamp,'%w')) as weekday from users left join connections on connections.user_id=users.id where result='OK' {1} group by weekday, mac order by connections desc;
+select 
+	count(*) AS connections, 
+	name, 
+	account, 
+	(to_char(connections.timestamp,'D')) as weekday 
+from users left join connections on connections.user_id=users.id 
+where result='OK' {1} 
+group by weekday, users.name, connections.account order by connections desc;

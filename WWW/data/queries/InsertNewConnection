@@ -1,1 +1,1 @@
-INSERT INTO connections(timestamp, result, account, ap, user_id) VALUES('{1}','{2}','{3}','{4}',(select id from users where mac=lower('{5}') order by id desc limit 1));
+INSERT INTO connections(timestamp, result, account, ap, user_id) VALUES('{1}','{2}','{3}','{4}',(select id from users where mac=macaddr '{5}' order by id desc limit 1));

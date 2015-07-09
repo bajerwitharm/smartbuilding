@@ -1,1 +1,16 @@
-INSERT INTO usage_by_ap(timestamp,user_id, data_in, data_out, ap) select timestamp, user_id, sum(data_in), sum(data_out), ap from (select timestamp, user_id, data_in, data_out, (select ap from connections where user_id=usage_in_time.user_id and timestamp<usage_in_time.timestamp order by id desc limit 1) as ap from usage_in_time where date(timestamp)>ifnull((select max(timestamp) from usage_by_ap as t1),'2004-01-01 02:34:56')) as t2 group by user_id, ap,date(timestamp);
+INSERT INTO usage_by_ap(timestamp,user_id, data_in, data_out, ap) 
+select 
+	max(timestamp), 
+	user_id, 
+	sum(data_in), 
+	sum(data_out),
+	ap from 
+	(select 
+		timestamp, 
+		user_id, 
+		data_in, 
+		data_out, 
+		(select ap from connections where user_id=usage_in_time.user_id and timestamp<usage_in_time.timestamp order by id desc limit 1) as ap 
+	from usage_in_time 
+	where date(timestamp)>COALESCE((select max(timestamp) from usage_by_ap as t1),'1974-01-01')) as t2 
+group by user_id, ap;
