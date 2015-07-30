@@ -16,13 +16,13 @@ Generally this software should work without problems on other routers. It is req
 ## Usage
 **./dht11** ***pin*** ***sensor_type***
 
-Description: ***pin*** is the DATA pin number of DHTxx sensor, ***sensor_type*** is xx in DHTxx
+Description: ***pin*** is the router's GPIO pin number to which DATA pin of DHTxx sensor is connected, ***sensor_type*** is xx in DHTxx
 
 i.e.
 
 **./dht11** ***2*** ***11***
 
-In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and ***gettemp*** file is copied to ***/www/cgi-bin*** script results can be accessed via web browser and address ***http://router-ip/cgi-bin/gettemp***
+In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and [gettemp](https://github.com/bajerwitharm/smartbuilding/blob/master/DHTxx/gettemp) file is copied to ***/www/cgi-bin*** script results can be accessed via web browser and address ***http://router-ip/cgi-bin/gettemp***
 
 
 
