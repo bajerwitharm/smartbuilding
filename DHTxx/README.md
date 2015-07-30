@@ -22,7 +22,7 @@ i.e.
 
 **./dht11** ***2*** ***11***
 
-output is [JSON](http://json.org/) coded string containing temperature in Celsius degree and humidity in %RH:
+output is [JSON](http://json.org/) coded string containing temperature in Celsius and humidity in [%RH](https://en.wikipedia.org/wiki/Relative_humidity):
 
 ```
 {
