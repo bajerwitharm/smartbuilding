@@ -14,7 +14,15 @@ The only PIN which is not used by the [TL-WDR4300](http://wiki.openwrt.org/toh/t
 Generally this software should work without problems on other routers. It is required to customize GPIO registers addresses to support used uP.
 
 ## Usage
-**dht11** ***<pin> <sensor_type>***
+**./dht11** ***pin*** ***sensor_type***
+
 Description: ***pin*** is the DATA pin number of DHTxx sensor, ***sensor_type*** is xx in DHTxx
+
+i.e.
+
+**./dht11** ***2*** ***11***
+
+In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and ***gettemp*** file is copied to ***/www/cgi-bin*** script results can be accessed via web browser and address ***http://router-ip/cgi-bin/gettemp***
+
 
 
