@@ -22,6 +22,15 @@ i.e.
 
 **./dht11** ***2*** ***11***
 
+output is JSON coded string:
+
+```
+{
+temp: 28.000000,
+humidity: 31.000000
+}
+```
+
 In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and [gettemp](https://github.com/bajerwitharm/smartbuilding/blob/master/DHTxx/gettemp) file is copied to ***/www/cgi-bin*** script results can be accessed via web browser at address ***http://router-ip/cgi-bin/gettemp***
 
 
