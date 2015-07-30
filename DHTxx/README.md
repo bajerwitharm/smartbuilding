@@ -1,7 +1,13 @@
 # DHT11/DHT22 temperature/humidity sensor reading with OpenWRT based router
 ## Abstract
 The goal of this document is to describe implementation of reading [DHTxx](http://www.micropik.com/PDF/dht11.pdf) temperature/humidity sensor by [TP-Link TL-WDR4300](http://wiki.openwrt.org/toh/tp-link/tl-wdr4300) router running OpenWRT. 
+
+This application is a part of larger home-automation project: https://github.com/bajerwitharm/smartbuilding
+
+Important info:
+
 * To compile software it is required to have toolchain for the [Atheros AR9344](http://cykey.ca/~cykey/airport/AR9344.pdf) (OpenWRT prefered). 
+* The compiled application for TP-Link WDR-4300 is also available on github
 * Software is not a driver, all calculations are performed in user space. Unfortunetely, this is not very optimal solution since waiting for DATA change pin are done as ***while*** loop. To increase accuracy process priority is increased to highest during the time critical part.
 
 ## DHTxx communication protocol
