@@ -22,7 +22,7 @@ i.e.
 
 **./dht11** ***2*** ***11***
 
-In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and [gettemp](https://github.com/bajerwitharm/smartbuilding/blob/master/DHTxx/gettemp) file is copied to ***/www/cgi-bin*** script results can be accessed via web browser and address ***http://router-ip/cgi-bin/gettemp***
+In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and [gettemp](https://github.com/bajerwitharm/smartbuilding/blob/master/DHTxx/gettemp) file is copied to ***/www/cgi-bin*** script results can be accessed via web browser at address ***http://router-ip/cgi-bin/gettemp***
 
 
 
