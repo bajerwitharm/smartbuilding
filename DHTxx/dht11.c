@@ -1,5 +1,6 @@
 /*
- *  DHT11/DHT22 temparature/humidity sensor reading application for TP-LINK TL-WDR4300 router running OpenWRT (OpenWrt 15.05 RC2 Gets Linux Kernel 3.18.14)
+ *  DHT11/DHT22 temparature/humidity sensor reading application for TP-LINK TL-WDR4300 router running 
+ *  OpenWRT (OpenWrt 15.05 Linux Kernel 3.18.14)
  *  
  *  Base on: 
  *   - Adafruit_Python_DHT by Tony DiCola (https://github.com/adafruit/Adafruit_Python_DHT)
