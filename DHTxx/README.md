@@ -16,7 +16,7 @@ Generally this software should work without problems on other routers. It is req
 ## Usage
 **./dht11** ***pin*** ***sensor_type***
 
-Description: ***pin*** is the router's GPIO pin number to which DATA pin of DHTxx sensor is connected, ***sensor_type*** is xx in DHTxx
+Description: ***pin*** is the router's GPIO pin number to which DATA pin of DHTxx sensor is connected, ***sensor_type*** is ***xx*** in DHT***xx***
 
 i.e.
 
