@@ -7,7 +7,7 @@ This application is a part of larger home-automation project: https://github.com
 Important info:
 
 * To compile software it is required to have toolchain for the [Atheros AR9344](http://cykey.ca/~cykey/airport/AR9344.pdf) (OpenWRT prefered). 
-* The compiled application for TP-Link WDR-4300 is also available on github
+* The compiled application for TP-Link WDR-4300 (OpenWrt 15.05 Linux Kernel 3.18.14) is also available on github
 * Software is not a driver, all calculations are performed in user space. Unfortunetely, this is not very optimal solution since waiting for DATA change pin are done as ***while*** loop. To increase accuracy process priority is increased to highest during the time critical part.
 
 ## DHTxx communication protocol
