@@ -29,7 +29,7 @@ sudo dd if=bananian-1504.img of=/dev/sdd bs=4M
 
 * Flash the buffer content to card to make sure everything was written
 ```Shell
-dmesg
+sync
 ```
  
 
