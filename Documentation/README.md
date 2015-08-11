@@ -3,13 +3,13 @@
 * Download latest version of minbian:
 
 ```Shell
-wget http://sourceforge.net/projects/minibian/files/latest/download
+wget http://dl.bananian.org/releases/bananian-latest.zip
 ```
 
 * Extract archive:
 
 ```Shell
-tar -zxvf download
+unzip bananian-latest.zip
 ```
 
 * Find SD card device: 
@@ -24,7 +24,7 @@ dmesg
 * Download image to sd card (remember to change device **/dev/sdd** to correct one):
 
 ```Shell
-sudo dd if=2015-02-18-wheezy-minibian.img of=/dev/sdd bs=1M
+sudo dd if=bananian-1504.img of=/dev/sdd bs=4M
 ```
 
 * Flash the buffer content to card to make sure everything was written
