@@ -39,10 +39,22 @@ Now you image for BananaPi is ready.
 ## Additional software instalation
 
 * Log on you BananaPi with [Putty](http://www.putty.org/) or other ssh client
+* Configure system
+```Shell
+bananian-config
+bananian-update
+```
 * Perform repository and system update
-* 
 ```Shell
 apt-get update
 apt-get upgrate
 ```
+
+* Install [Webmin](http://www.webmin.com/)
+```Shell
+apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libpam-runtime libio-pty-perl apt-show-versions python
+wget http://sourceforge.net/projects/webadmin/files/webmin/1.760/webmin_1.760_all.deb
+dpkg --install webmin_1.760_all.deb
+```
+
 
