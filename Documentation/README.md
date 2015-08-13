@@ -57,4 +57,13 @@ wget http://sourceforge.net/projects/webadmin/files/webmin/1.760/webmin_1.760_al
 dpkg --install webmin_1.760_all.deb
 ```
 
+* Install [Plex](https://plex.tv/)
 
+Details how to install Plex on Banana Pi are described here: http://www.htpcguides.com/install-plex-media-server-on-banana-pi-with-bananian/
+
+```Shell
+wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | apt-key add -
+echo "deb https://dev2day.de/pms/ wheezy main" | tee /etc/apt/sources.list.d/pms.list
+apt-get update
+apt-get install plexmediaserver -y
+```
