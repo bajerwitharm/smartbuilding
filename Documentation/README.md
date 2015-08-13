@@ -97,6 +97,9 @@ listen-address=192.168.1.99
 listen-address=192.168.2.99
 bind-interfaces
 
+# Comment below to enable DHCP
+no-dhcp-interface=eth0
+
 # serve DHCP on guest network
 dhcp-range=eth0.1,192.168.2.100,192.168.2.254,24h
 dhcp-option=eth0.1,option:router,192.168.2.1
