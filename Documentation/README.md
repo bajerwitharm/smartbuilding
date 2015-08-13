@@ -61,9 +61,13 @@ dpkg --install webmin_1.760_all.deb
 
 Details how to install Plex on Banana Pi are described here: http://www.htpcguides.com/install-plex-media-server-on-banana-pi-with-bananian/
 
+On my site sudo  was not installed so I need to modyfy scripts.
+
 ```Shell
 wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | apt-key add -
 echo "deb https://dev2day.de/pms/ wheezy main" | tee /etc/apt/sources.list.d/pms.list
 apt-get update
 apt-get install plexmediaserver -y
 ```
+
+[Plex](https://plex.tv/) should be now available at: http://banana-ip:32400/web
