@@ -74,4 +74,4 @@ apt-get install plexmediaserver -y
 
 * Configure SSH to access via private key
  + First generate SSH key with PuTTyGen which is available together with [Putty](http://www.putty.org/)
- + Save both keys and copy content of public key to /root/.ssh/authorized_keys file on banana pi
+ + Save both keys and copy content of public key to ***/root/.ssh/authorized_keys*** file on banana pi
