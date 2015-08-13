@@ -70,4 +70,9 @@ apt-get update
 apt-get install plexmediaserver -y
 ```
 
-[Plex](https://plex.tv/) should be now available at: http://banana-ip:32400/web
+[Plex](https://plex.tv/) should be now available at: [http://banana-ip:32400/web](http://banana-ip:32400/web)
+
+* Configure SSH to access via private key
+
+- First generate SSH key with PuTTyGen which is available together with [Putty](http://www.putty.org/)
+- Save both keys and copy content of public key to /root/.ssh/authorized_keys file on banana pi
