@@ -76,6 +76,30 @@ apt-get install plexmediaserver -y
  + First generate SSH key with [PuTTyGen](https://winscp.net/eng/docs/ui_puttygen) which is available together with [Putty](http://www.putty.org/)
  + Save both keys and copy content of public key to ***/root/.ssh/authorized_keys*** file on banana pi
 
+* Configure IP addresse.
+
+Copy content to ***/etc/network/interfaces*** 
+
+```Shell
+auto lo eth0 eth0.1 eth0.2
+iface lo inet loopback
+
+iface eth0.1 inet static
+	address 192.168.2.98
+	netmask 255.255.255.0
+	broadcast 192.168.2.255
+	network 192.168.2.0
+	up ip route add 192.168.2.0/24 via 192.168.2.1
+
+iface eth0.2 inet static
+	address 192.168.1.98
+	netmask 255.255.255.0
+	broadcast 192.168.1.255
+	network 192.168.1.0
+	gateway 192.168.1.1
+	up ip route add 192.168.1.0/24 via 192.168.1.1
+```
+
 * Install [dnsmasq](https://en.wikipedia.org/wiki/Dnsmasq)
 
 ```Shell
