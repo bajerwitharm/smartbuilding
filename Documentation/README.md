@@ -117,8 +117,8 @@ expand-hosts
 local=/salwatorska.pl/ 
 
 listen-address=127.0.0.1 
-listen-address=192.168.1.99
-listen-address=192.168.2.99
+listen-address=192.168.1.98
+listen-address=192.168.2.98
 bind-interfaces
 
 # Comment below to enable DHCP
