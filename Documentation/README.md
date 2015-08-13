@@ -97,25 +97,30 @@ listen-address=192.168.1.99
 listen-address=192.168.2.99
 bind-interfaces
 
+# serve DHCP on guest network
 dhcp-range=eth0.1,192.168.2.100,192.168.2.254,24h
 dhcp-option=eth0.1,option:router,192.168.2.1
 dhcp-option=eth0.1,option:dns-server,192.168.2.99,8.8.8.8
 dhcp-option=eth0.1,252,"\n"
 
+# serve DHCP on private network
 dhcp-range=eth0.2,192.168.1.100,192.168.1.254,24h
 dhcp-option=eth0.2,option:router,192.168.1.1
 dhcp-option=eth0.2,option:dns-server,192.168.1.99,8.8.8.8
 dhcp-option=eth0.2,252,"\n"
 
+# DNS servers to forward requests to 
 server=74.82.42.42
 server=208.67.222.222
 server=217.17.34.10
+
 
 dhcp-host=00:b2:00:00:5e:5c, KameraWejscie, 192.168.1.51
 dhcp-host=00:0f:7c:02:5a:0a, KameraParter, 192.168.1.52
 dhcp-host=00:12:12:39:72:ca, KameraPietro1, 192.168.1.53
 dhcp-host=00:12:12:39:9c:78, KameraPietro2, 192.168.1.54
 
+# enable TFTP 
 enable-tftp
 tftp-root=/var/ftpd
 
@@ -123,5 +128,8 @@ domain-needed
 cache-size=4096
 log-queries
 log-async
+#log-dhcp
+#
+#
 
 ```
