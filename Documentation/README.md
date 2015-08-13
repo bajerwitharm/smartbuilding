@@ -161,3 +161,9 @@ log-async
 #
 
 ```
+
+* Install tftp
+
+```Shell
+apt-get install tftpd-hpa
+```
