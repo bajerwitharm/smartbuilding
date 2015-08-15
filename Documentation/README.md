@@ -162,8 +162,10 @@ log-async
 
 ```
 
-* Install tftp
+* Install [ftp server](http://www.proftpd.org/)
 
 ```Shell
-apt-get install tftpd-hpa
+apt-get install proftpd
 ```
+
+
