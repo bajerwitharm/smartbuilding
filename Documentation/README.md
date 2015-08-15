@@ -168,4 +168,14 @@ log-async
 apt-get install proftpd
 ```
 
+* Install [ftp server](http://www.proftpd.org/)
+
+```Shell
+echo "deb-src http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+apt-get update
+apt-get upgrade
+apt-get install build-essential fakeroot
+```
+
 
