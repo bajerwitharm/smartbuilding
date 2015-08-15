@@ -170,6 +170,7 @@ apt-get install proftpd
 
 * Install [ftp server](http://www.proftpd.org/)
 
+Postgres
 ```Shell
 echo "deb-src http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
 wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -178,4 +179,13 @@ apt-get upgrade
 apt-get install build-essential fakeroot
 ```
 
-
+Mosquito
+```Shell
+curl -O http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+sudo apt-key add mosquitto-repo.gpg.key
+rm mosquitto-repo.gpg.key
+cd /etc/apt/sources.list.d/
+curl -O http://repo.mosquitto.org/debian/mosquitto-wheezy.list
+apt-get update
+apt-get install mosquitto mosquitto-clients python-mosquitto
+```
