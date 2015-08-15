@@ -50,6 +50,8 @@ apt-get update
 apt-get upgrate
 ```
 
+apt-get install git
+
 * Install [Webmin](http://www.webmin.com/)
 ```Shell
 apt-get install perl libnet-ssleay-perl openssl libauthen-pam-perl libpam-runtime libio-pty-perl apt-show-versions python
