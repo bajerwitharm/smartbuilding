@@ -39,6 +39,23 @@ humidity: 31.000000
 
 In addition if [luci](http://wiki.openwrt.org/doc/howto/luci.essentials) is installed and [gettemp](https://github.com/bajerwitharm/smartbuilding/blob/master/DHTxx/gettemp) file is copied to ***/www/cgi-bin*** script results can be accessed via web browser at address ***http://router-ip/cgi-bin/gettemp***
 
+## MQTT extension
 
+Temperature and humidity can be served to smart home automation using [MQTT](mqtt.org) protocol. To perform connection [Mosquitto](http://mosquitto.org/) is suggested.
+
+Remote version:
+
+```Shell
+!/bin/bash
+mqtt_server='192.168.0.25'
+data_url='http://192.168.0.29/cgi-bin/gettemp'
+data=$(curl "$data_url")
+temp=$(echo "$data" | grep -Po '(?<=temp: )[^,]*')
+humidity=$(echo "$data" | grep -Po '(?<=humidity: )[^,]*')
+echo $temp
+echo $humidity
+mosquitto_pub -h "$mqtt_server" -t "nullo/temp" -m "$temp"
+mosquitto_pub -h "$mqtt_server" -t "nullo/humidity" -m "$humidity"
+```
 
 
