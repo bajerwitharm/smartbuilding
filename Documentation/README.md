@@ -50,7 +50,7 @@ apt-get update
 apt-get upgrate
 ```
 
-apt-get install git
+apt-get install git automake
 
 * Install [Webmin](http://www.webmin.com/)
 ```Shell
