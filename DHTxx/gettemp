@@ -1,4 +1,4 @@
 #!/bin/ash
 echo "Content-type: application/json"
 echo ""
-/root/dht11
+/root/dht11 2 11
