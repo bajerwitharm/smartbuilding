@@ -13,6 +13,7 @@ Find out more [Free Angular Themes at StartAngular.com](http://www.startangular.
 ``` bash
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
 dpkg -i node_latest_armhf.deb
+npm install -g grunt-cli
 ```
 
 3. On the command prompt run the following commands
