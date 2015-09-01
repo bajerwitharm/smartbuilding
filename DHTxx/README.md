@@ -58,4 +58,14 @@ mosquitto_pub -h "$mqtt_server" -t "nullo/temp" -m "$temp"
 mosquitto_pub -h "$mqtt_server" -t "nullo/humidity" -m "$humidity"
 ```
 
-
+```Shell
+!/bin/ash
+mqtt_server='test.mosquitto.org'
+data=$(/root/dht11 2 11)
+temp=$(echo "$data" | grep -Eo "(temp: )[^,]*" | sed "s/^temp: //")
+humidity=$(echo "$data" | grep -Eo "(humidity: )[^,]*" | sed "s/^humidity: //")
+echo $temp
+echo $humidity
+mosquitto_pub -h "$mqtt_server" -t "click_senzations/temp1" -m "$temp"
+mosquitto_pub -h "$mqtt_server" -t "click_senzations/humidity1" -m "$humidity"
+```
