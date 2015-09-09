@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS dht11 (id serial primary key, timestamp timestamp, place place_name, temp float(1), humidity float(1));
-INSERT INTO dht11(place, temp, humidity) VALUES ('{1}','{2}','{3}');
