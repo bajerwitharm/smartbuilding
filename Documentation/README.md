@@ -191,3 +191,9 @@ curl -O http://repo.mosquitto.org/debian/mosquitto-wheezy.list
 apt-get update
 apt-get install mosquitto mosquitto-clients python-mosquitto
 ```
+
+Noide.js
+```Shell
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+dpkg -i node_latest_armhf.deb
+```
