@@ -255,8 +255,11 @@ void usartSendAction(trigger_t* trigger, uint8_t destination)
 	telegram->header.fc = action_triggered_e;
 	telegram->header.source = THIS_DEVICE_ADDRESS;
 	telegram->header.destination = destination;
-	telegram->header.size = sizeof(*trigger);
+	telegram->header.size = sizeof(*trigger)+sizeof(info_t);
 	memcpy(&telegram->trigger,trigger,sizeof(*trigger));
+	telegram->info.inputs = ioGetInputs();
+	telegram->info.outputs = ioGetOutputs();
+	telegram->info.states = getState();
 	initSending();
 }
 

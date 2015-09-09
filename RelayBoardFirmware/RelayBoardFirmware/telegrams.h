@@ -35,6 +35,7 @@ typedef struct {
 typedef struct {
 	telegram_header_t header;
 	trigger_t trigger;
+	info_t info;
 } action_triggered_t;
 
 typedef struct {
