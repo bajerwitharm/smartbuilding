@@ -48,6 +48,12 @@
       <symbol id="bulb_on">
          <path d="M256 64c-70.688 0-128 57.313-128 128 0 64 64 129 64 192h128c0-65 64-128 64-192C384 121.313 326.688 64 256 64zM323.594 272.906c-12.75 25.344-25.781 51.344-31.938 79.094h-71.469c-6.156-26.906-18.906-52.5-31.375-77.5C174 244.719 160 216.594 160 192c0-52.938 43.063-96 96-96s96 43.063 96 96C352 216.313 338.188 243.813 323.594 272.906zM320 464c0 8.844-7.156 16-16 16h-2.938c-6.594 18.625-24.188 32-45.063 32s-38.469-13.375-45.063-32H208c-8.844 0-16-7.156-16-16s7.156-16 16-16h96C312.844 448 320 455.156 320 464zM320 416c0 8.844-7.156 16-16 16h-96c-8.844 0-16-7.156-16-16s7.156-16 16-16h96C312.844 400 320 407.156 320 416zM97.719 82.125l28.813 16.656c-6.25 8.656-11.656 17.844-16.094 27.656l-28.719-16.563L97.719 82.125zM256 32c-5.5 0-10.656 1.063-16 1.625V0h32v33.625C266.656 33.063 261.5 32 256 32zM162.781 62.531l-16.656-28.813 27.75-16 16.563 28.719C180.625 50.875 171.438 56.281 162.781 62.531zM401.594 126.438c-4.438-9.813-9.875-19-16.125-27.656l28.813-16.656 16 27.75L401.594 126.438zM349.219 62.5c-8.625-6.219-17.844-11.625-27.625-16.063l16.563-28.719 27.688 16L349.219 62.5zM97.688 208H64v-32h33.625C97.063 181.344 96 186.5 96 192 96 197.438 97.063 202.688 97.688 208zM448 176v32h-33.688c0.625-5.313 1.688-10.563 1.688-16 0-5.5-1.063-10.656-1.625-16H448zM401.219 257.375l29.063 16.75-16 27.719-26.188-15.125C392.813 277.063 397.188 267.313 401.219 257.375zM110.656 257.438c3.969 9.938 8.344 19.75 13.031 29.438l-25.969 14.969-16-27.719L110.656 257.438z"  />
       </symbol>
+	  <symbol id="bulb_right_on">
+         <path d="m 256,64 c -70.688,0 -128,57.313 -128,128 0,64 64,129 64,192 l 128,0 C 320,319 384,256 384,192 384,121.313 326.688,64 256,64 Z m 67.594,208.906 C 310.844,298.25 297.813,324.25 291.656,352 l -71.469,0 C 214.031,325.094 201.281,299.5 188.812,274.5 174,244.719 160,216.594 160,192 c 0,-52.938 43.063,-96 96,-96 52.937,0 96,43.063 96,96 0,24.313 -13.812,51.813 -28.406,80.906 z M 320,464 c 0,8.844 -7.156,16 -16,16 l -2.938,0 c -6.594,18.625 -24.188,32 -45.063,32 -20.875,0 -38.469,-13.375 -45.063,-32 L 208,480 c -8.844,0 -16,-7.156 -16,-16 0,-8.844 7.156,-16 16,-16 l 96,0 c 8.844,0 16,7.156 16,16 z m 0,-48 c 0,8.844 -7.156,16 -16,16 l -96,0 c -8.844,0 -16,-7.156 -16,-16 0,-8.844 7.156,-16 16,-16 l 48.35593,0 L 304,400 c 8.844,0 16,7.156 16,16 z M 256,32 c -5.5,0 -10.656,1.063 -16,1.625 L 240,0 l 32,0 0,33.625 C 266.656,33.063 261.5,32 256,32 Z m 145.594,94.438 c -4.438,-9.813 -9.875,-19 -16.125,-27.656 l 28.813,-16.656 16,27.75 z M 349.219,62.5 C 340.594,56.281 331.375,50.875 321.594,46.437 l 16.563,-28.719 27.688,16 z M 448,176 l 0,32 -33.688,0 c 0.625,-5.313 1.688,-10.563 1.688,-16 0,-5.5 -1.063,-10.656 -1.625,-16 z m -46.781,81.375 29.063,16.75 -16,27.719 -26.188,-15.125 c 4.719,-9.656 9.094,-19.406 13.125,-29.344 z"  />
+      </symbol>
+	  <symbol id="bulb_left_on">
+         <path d="m 256,64 c -70.688,0 -128,57.313 -128,128 0,64 64,129 64,192 l 128,0 C 320,319 384,256 384,192 384,121.313 326.688,64 256,64 Z m 67.594,208.906 C 310.844,298.25 297.813,324.25 291.656,352 l -71.469,0 C 214.031,325.094 201.281,299.5 188.812,274.5 174,244.719 160,216.594 160,192 c 0,-52.938 43.063,-96 96,-96 52.937,0 96,43.063 96,96 0,24.313 -13.812,51.813 -28.406,80.906 z M 320,464 c 0,8.844 -7.156,16 -16,16 l -2.938,0 c -6.594,18.625 -24.188,32 -45.063,32 -20.875,0 -38.469,-13.375 -45.063,-32 L 208,480 c -8.844,0 -16,-7.156 -16,-16 0,-8.844 7.156,-16 16,-16 l 96,0 c 8.844,0 16,7.156 16,16 z m 0,-48 c 0,8.844 -7.156,16 -16,16 l -96,0 c -8.844,0 -16,-7.156 -16,-16 0,-8.844 7.156,-16 16,-16 l 96,0 c 8.844,0 16,7.156 16,16 z M 97.719,82.125 126.532,98.781 c -6.25,8.656 -11.656,17.844 -16.094,27.656 L 81.719,109.874 Z M 256,32 c -5.5,0 -10.656,1.063 -16,1.625 L 240,0 l 32,0 0,33.625 C 266.656,33.063 261.5,32 256,32 Z m -93.219,30.531 -16.656,-28.813 27.75,-16 16.563,28.719 c -9.813,4.438 -19,9.844 -27.657,16.094 z M 97.688,208 64,208 l 0,-32 33.625,0 C 97.063,181.344 96,186.5 96,192 c 0,5.438 1.063,10.688 1.688,16 z m 12.968,49.438 c 3.969,9.938 8.344,19.75 13.031,29.438 l -25.969,14.969 -16,-27.719 z"  />
+      </symbol>
       <symbol id="key">
          <path clip-rule="evenodd" d="M56.629 379.2c-14.09 14.071-14.09 36.975 0 51.055 14.08 14.087 36.981 14.087 50.965 0l10.177-10.08 42.438 42.428c7.257 7.268 18.888 7.268 26.155 0l63.244-63.244c7.268-7.255 7.268-18.89 0-26.157l-42.429-42.427 75.586-75.682c16.174 8.357 34.61 13.075 54.059 13.075 65.234 0 118.111-52.869 118.111-118.109 0-65.232-52.877-118.111-118.111-118.111-65.238 0-118.11 52.879-118.11 118.111 0 19.449 4.721 37.886 13.077 54.06L56.629 379.2zM291.396 150.059c0-25.075 20.354-45.429 45.427-45.429 25.076 0 45.426 20.354 45.426 45.429s-20.35 45.426-45.426 45.426C311.751 195.485 291.396 175.133 291.396 150.059z" fill="#010101" fill-rule="evenodd"  />
       </symbol>
@@ -88,7 +94,7 @@
       <path id="flat2_toilet" d="m -97.62,369.56 c 0,-9.13 0.15,-17.34 0.33,-18.25 l 0.33,-1.65 11.28,0 11.28,0 0.16,3.31 0.16,3.31 8.83,0.14 8.83,0.14 0.04,14.8 0.04,14.8 -20.65,0 -20.65,0 0,-16.6 z" />
       <path id="flat2_corridor" d="m -53.7,370.02 0,-20.37 27.25,0 27.25,0 0,17.46 c 0,17.11 -0.02,17.46 -1.06,17.46 -0.58,0 -1.06,0.24 -1.06,0.53 0,0.33 -3.35,0.53 -8.99,0.53 -5.64,0 -8.99,-0.2 -8.99,-0.53 0,-0.3 -1.59,-0.53 -3.7,-0.53 l -3.7,0 0,2.91 0,2.91 -13.49,0 -13.49,0 0,-20.37 z" />
       <path id="flat1_corridor" d="m -72.22,406.79 0,-17.46 7.94,0 7.94,0 0,2.38 0,2.38 14.81,0 14.81,0 0,1.32 c 0,0.97 0.28,1.32 1.06,1.32 1,0 1.06,0.35 1.06,6.88 0,6.53 -0.05,6.88 -1.06,6.88 -1,0 -1.06,0.35 -1.06,6.88 l 0,6.88 -22.75,0 -22.75,0 0,-17.46 z" />
-      <path id="flat1_toilet" d="m -100.08,419.4 c 0.19,-8.78 0.35,-19.13 0.35,-23.02 l 0,-7.06 11.38,0 11.38,0 0,2.12 c 0,1.53 0.22,2.12 0.79,2.12 0.69,0 0.79,2.67 0.79,20.9 l 0,20.9 -12.52,0 -12.52,0 0.35,-15.96 z" />
+      <path id="flat1_toilet" ng-click='negate({name:"bulb_1toilet_center"})' long-press='negate({name:"bulb_1toilet_mirror"})' d="m -100.08,419.4 c 0.19,-8.78 0.35,-19.13 0.35,-23.02 l 0,-7.06 11.38,0 11.38,0 0,2.12 c 0,1.53 0.22,2.12 0.79,2.12 0.69,0 0.79,2.67 0.79,20.9 l 0,20.9 -12.52,0 -12.52,0 0.35,-15.96 z" />
       <path id="flat1_kitchen" d="m -103.58,502.16 c 0.06,-7.78 0.27,-20.64 0.46,-28.57 l 0.34,-14.42 3.05,0 3.05,0 0.33,-1.98 c 0.18,-1.09 0.33,-5.73 0.33,-10.32 l 0.01,-8.33 11.9,0 11.9,0 0,-5.82 0,-5.82 9.52,0 9.52,0 0,44.71 0,44.71 -25.26,0 -25.26,0 0.12,-14.15 z" />
       <path id="flat1_room" d="m -50.4,471.74 0.14,-44.58 35.32,-0.14 35.32,-0.14 0,44.71 0,44.71 -35.45,0 -35.45,0 0.14,-44.58 z" />
       <path id="staircase" d="m 156.18164,60.578125 c -4.4766,-0.09331 -9.06289,0.710078 -13.52539,2.541016 -11.26,4.62 -19.27914,14.758984 -21.11914,26.708984 -0.51,3.25 -0.70094,11.800315 -0.71094,30.820315 l -0.01,26.32031 -5.5586,0 -5.56054,0 0,-1.58984 0,-1.58985 -8.99024,0 -8.990233,0 0,4.22852 c 0,3.88 -0.09055,4.23047 -1.060547,4.23047 -1.01,0 -1.058594,0.35086 -1.058594,6.88086 0,6.53 0.05859,6.8789 1.058594,6.8789 0.94,0 1.060547,0.34992 1.060547,3.16992 l 0,3.16993 24.070313,0 24.07031,0 0,5.03125 c 0,4.68 -0.0805,5.02929 -1.06054,5.02929 -1.04001,0 -1.06055,0.35024 -1.06055,17.99024 l 0.0215,0.0195 0,17.99023 17.98828,0 17.99024,0 0,-17.99023 c 0,-15.64 -0.0991,-17.99024 -0.78906,-17.99024 -0.65,0 -0.79102,-0.90929 -0.79102,-5.02929 l 0,-5.0293 24.60156,0 24.59961,0 0,-2.12109 c 0,-1.53 0.21906,-2.11914 0.78906,-2.11914 0.67,0 0.79102,-1.47079 0.79102,-10.05079 0,-8.57999 -0.11102,-10.04882 -0.79102,-10.04882 -0.58,0 -0.78906,-0.62086 -0.78906,-2.38086 l 0,-2.38086 -9.79101,0 -9.78907,0 0,1.85156 0,1.84961 -5.82031,0 -5.82031,0 -0.01,-26.32031 c -0.01,-19.02 -0.21093,-27.570315 -0.71093,-30.820315 -2.64844,-17.15625 -17.24652,-28.916756 -33.23438,-29.25 z m 65.92969,92.978515 c 0.0323,0.012 0.068,0.0623 0.10547,0.15234 0.15,0.36 0.15,0.96032 0,1.32032 -0.15,0.37 -0.26953,0.0698 -0.26953,-0.66016 0,-0.5475 0.067,-0.84859 0.16406,-0.8125 z m -84.375,65.88086 0,3.44141 0,3.43945 17.99023,0 17.99024,0 0,-3.43945 0,-3.44141 -17.99024,0 -17.99023,0 z m 0,7.94141 0,3.43945 0,3.43945 17.99023,0 17.99024,0 0,-3.43945 0,-3.43945 -17.99024,0 -17.99023,0 z m 0,7.93945 0,3.43945 0,3.44141 17.99023,0 17.99024,0 0,-3.44141 0,-3.43945 -17.99024,0 -17.99023,0 z m 0,7.40039 0,14.28906 c 0,13.94 0.0305,14.29102 1.06055,14.29102 0.93,0 1.06054,0.35015 1.06054,2.91015 l 0,2.91016 16.13867,0 16.14063,0 0,-2.91016 c 0,-2.23 0.18101,-2.91015 0.79101,-2.91015 0.68,0 0.78907,-1.94102 0.78907,-14.29102 l 0,-14.28906 -17.99024,0 -17.99023,0 z" transform="translate(-111.01695,244.49153)" />
@@ -100,7 +106,7 @@
       <path id="flat3_corridor" d="m 117.73,385.63 0,-2.65 -3.7,0 c -3.35,0 -3.7,0.1 -3.7,1.06 0,1.02 -0.35,1.06 -10.32,1.06 l -10.32,0 0,-17.46 0,-17.46 26.72,0 26.72,0 0,2.7 c 0,2.25 0.17,2.74 1.06,2.97 1.03,0.27 1.06,0.72 1.06,15.03 l 0,14.75 -1.85,0 c -1.62,0 -1.85,0.16 -1.85,1.32 l 0,1.32 -11.9,0 -11.9,0 0,-2.65 z" />
       <path id="flat3_room" d="m 108.37,312 c 0.19,-19.25 0.49,-35.14 0.66,-35.32 0.17,-0.17 18.59,-0.39 40.93,-0.48 l 40.61,-0.16 0.35,15.5 c 0.19,8.53 0.35,20.31 0.35,26.19 l 0,10.68 -1.93,0.16 -1.93,0.16 0.11,9.13 0.11,9.13 -39.8,0 -39.8,0 0.34,-35 0,0 z" />
       <path id="flat3_kitchen" d="m 88.1,342.22 c 0,-16.67 -9.28,-31.76 -23.94,-38.92 -2.79,-1.36 -3.04,-1.63 -3.04,-3.23 l 0,-1.74 -7.67,0 -7.67,0 0,-20.11 0,-20.11 29.37,0 29.37,0 0,8.47 c 0,5.29 0.2,8.47 0.53,8.47 0.35,0 0.53,12.35 0.53,35.98 l 0,35.98 -8.73,0 -8.73,0 0,-4.78 z" />
-      <rect id="staircase_right" ng-click="state.outputs.bulb_stairsright=!state.outputs.bulb_stairsright" width="63.492062" height="26.455027" x="47.184105" y="388.93594" style="opacity:0;fill:#cccccc" />
+      <rect id="staircase_right" width="63.492062" height="26.455027" x="47.184105" y="388.93594" style="opacity:0;fill:#cccccc" />
       <rect id="staircase_left" ng-click="state.outputs.bulb_stairsleft=!state.outputs.bulb_stairsleft" width="63.492062" height="26.455027" x="-18.424356" y="388.40689" style="opacity:0;fill:#cccccc" />
       <rect id="staircase_enterance" ng-click="state.outputs.bulb_enterance=!state.outputs.bulb_enterance" width="37.566135" height="93.650795" x="26.549189" y="427.5603" style="opacity:0;fill:#cccccc" />
    </g>
@@ -135,52 +141,76 @@
    </g>
    <g id="bulbs" transform="matrix(1.5986498,0,0,1.5771648,176.84094,-386.03043)">
       <g id="bulb_4room" transform="matrix(0.0434451,0,0,0.04487424,93.275737,459.66227)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_4room==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_4room==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_4room_left==true)&&(state.outputs.bulb_4room_right==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_4room_left==false)&&(state.outputs.bulb_4room_right==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_4room_left==true)&&(state.outputs.bulb_4room_right==false)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_4room_left==false)&&(state.outputs.bulb_4room_right==false)"  />
       </g>
       <g id="bulb_2room" transform="matrix(0.0434451,0,0,0.04487424,-72.11893,284.66447)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_2room==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_2room==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_2room_left==true)&&(state.outputs.bulb_2room_right==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_2room_left==false)&&(state.outputs.bulb_2room_right==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_2room_left==true)&&(state.outputs.bulb_2room_right==false)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_2room_left==false)&&(state.outputs.bulb_2room_right==false)"  />
       </g>
       <g id="bulb_3room" transform="matrix(0.0434451,0,0,0.04487424,137.25857,296.23471)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_3room==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_3room==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_3room_left==true)&&(state.outputs.bulb_3room_right==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_3room_left==false)&&(state.outputs.bulb_3room_right==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_3room_left==true)&&(state.outputs.bulb_3room_right==false)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_3room_left==false)&&(state.outputs.bulb_3room_right==false)"  />
       </g>
       <g id="bulb_1room" transform="matrix(0.0434451,0,0,0.04487424,-24.724263,459.66227)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_1room==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_1room==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_1room_left==true)&&(state.outputs.bulb_1room_right==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_1room_left==false)&&(state.outputs.bulb_1room_right==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_1room_left==true)&&(state.outputs.bulb_1room_right==false)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_1room_left==false)&&(state.outputs.bulb_1room_right==false)"  />
       </g>
       <g id="bulb_4kitchen" transform="matrix(0.0434451,0,0,0.04487424,157.27574,459.66227)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_4kitchen==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_4kitchen==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_4kitchen_desk==true)&&(state.outputs.bulb_4kitchen_center==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_4kitchen_desk==true)&&(state.outputs.bulb_4kitchen_center==false)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_4kitchen_desk==false)&&(state.outputs.bulb_4kitchen_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_4kitchen_desk==false)&&(state.outputs.bulb_4kitchen_center==false)"  />
       </g>
       <g id="bulb_1kitchen" transform="matrix(0.0434451,0,0,0.04487424,-90.724263,459.66227)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_1kitchen==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_1kitchen==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_1kitchen_desk==true)&&(state.outputs.bulb_1kitchen_center==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_1kitchen_desk==true)&&(state.outputs.bulb_1kitchen_center==false)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_1kitchen_desk==false)&&(state.outputs.bulb_1kitchen_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_1kitchen_desk==false)&&(state.outputs.bulb_1kitchen_center==false)"  />
       </g>
       <g id="bulb_2kitchen" transform="matrix(0.0434451,0,0,0.04487424,-11.113697,276.4668)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_2kitchen==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_2kitchen==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_2kitchen_desk==true)&&(state.outputs.bulb_2kitchen_center==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_2kitchen_desk==true)&&(state.outputs.bulb_2kitchen_center==false)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_2kitchen_desk==false)&&(state.outputs.bulb_2kitchen_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_2kitchen_desk==false)&&(state.outputs.bulb_2kitchen_center==false)"  />
       </g>
       <g id="bulb_3kitchen" transform="matrix(0.0434451,0,0,0.04487424,68.682274,276.85247)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_3kitchen==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_3kitchen==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_3kitchen_desk==true)&&(state.outputs.bulb_3kitchen_center==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_3kitchen_desk==true)&&(state.outputs.bulb_3kitchen_center==false)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_3kitchen_desk==false)&&(state.outputs.bulb_3kitchen_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_3kitchen_desk==false)&&(state.outputs.bulb_3kitchen_center==false)"  />
       </g>
       <g id="bulb_4toilet" transform="matrix(0.0434451,0,0,0.04487424,167.27574,401.66227)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_4toilet==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_4toilet==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_4toilet_mirror==true)&&(state.outputs.bulb_4toilet_center==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_4toilet_mirror==true)&&(state.outputs.bulb_4toilet_center==false)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_4toilet_mirror==false)&&(state.outputs.bulb_4toilet_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_4toilet_mirror==false)&&(state.outputs.bulb_4toilet_center==false)"  />
       </g>
       <g id="bulb_3toilet" transform="matrix(0.0434451,0,0,0.04487424,159.23702,358.08103)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_3toilet==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_3toilet==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_3toilet_mirror==true)&&(state.outputs.bulb_3toilet_center==true)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_3toilet_mirror==true)&&(state.outputs.bulb_3toilet_center==false)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_3toilet_mirror==false)&&(state.outputs.bulb_3toilet_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_3toilet_mirror==false)&&(state.outputs.bulb_3toilet_center==false)"  />
       </g>
       <g id="bulb_2toilet" transform="matrix(0.0434451,0,0,0.04487424,-87.101757,358.46671)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_2toilet==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_2toilet==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_2toilet_mirror==true)&&(state.outputs.bulb_2toilet_center==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_2toilet_mirror==true)&&(state.outputs.bulb_2toilet_center==false)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_2toilet_mirror==false)&&(state.outputs.bulb_2toilet_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_2toilet_mirror==false)&&(state.outputs.bulb_2toilet_center==false)"  />
       </g>
       <g id="bulb_1toilet" transform="matrix(0.0434451,0,0,0.04487424,-98.72426,401.66227)">
-         <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_1toilet==true"  />
-         <use xlink:href="#bulb_off" ng-if="state.outputs.bulb_1toilet==false"  />
+         <use xlink:href="#bulb_on" ng-if="(state.outputs.bulb_1toilet_mirror==true)&&(state.outputs.bulb_1toilet_center==true)"  />
+         <use xlink:href="#bulb_left_on" ng-if="(state.outputs.bulb_1toilet_mirror==true)&&(state.outputs.bulb_1toilet_center==false)"  />
+         <use xlink:href="#bulb_right_on" ng-if="(state.outputs.bulb_1toilet_mirror==false)&&(state.outputs.bulb_1toilet_center==true)"  />
+         <use xlink:href="#bulb_off" ng-if="(state.outputs.bulb_1toilet_mirror==false)&&(state.outputs.bulb_1toilet_center==false)"  />
       </g>
       <g id="bulb_4corridor" transform="matrix(0.0434451,0,0,0.04487424,131.27574,395.66227)">
          <use xlink:href="#bulb_on" ng-if="state.outputs.bulb_4corridor==true"  />
@@ -218,49 +248,49 @@
          <use xlink:href="#key" ng-if="state.inputs.key_main_door==true"  />
       </g>
       <g id="motion_4room" transform="matrix(0.25275859,0,0,-0.26066797,89.379801,437.45321)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_4room==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_4room==true"  />
       </g>
       <g id="motion_1room" transform="matrix(0.25275859,0,0,-0.26066797,-10.63709,437.45321)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_1room==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_1room==true"  />
       </g>
       <g id="motion_1kitchen" transform="matrix(0.25275859,0,0,-0.26066797,-90.689995,450.13421)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_1kitchen==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_1kitchen==true"  />
       </g>
       <g id="motion_4kitchen" transform="matrix(0.25275859,0,0,-0.26066797,169.46228,451.40231)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_4kitchen==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_4kitchen==true"  />
       </g>
       <g id="motion_4corridor" transform="matrix(0.25275859,0,0,-0.26066797,149.4962,400.67831)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_4corridor==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_4corridor==true"  />
       </g>
       <g id="motion_1corridor" transform="matrix(0.25275859,0,0,-0.26066797,-70.655887,400.67831)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_1corridor==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_1corridor==true"  />
       </g>
       <g id="motion_3corridor" transform="matrix(0.25275859,0,0,0.26066797,125.38917,375.31891)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_3corridor==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_3corridor==true"  />
       </g>
       <g id="motion_3room" transform="matrix(0.25275859,0,0,0.26066797,159.18475,333.47161)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_3room==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_3room==true"  />
       </g>
       <g id="motion_3kitchen" transform="matrix(0.25275859,0,0,0.26066797,90.418882,333.47161)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_2kitchen==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_2kitchen==true"  />
       </g>
       <g id="motion_2corridor" transform="matrix(0.25275859,0,0,0.26066797,-48.423129,376.58701)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_2corridor==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_2corridor==true"  />
       </g>
       <g id="motion_2room" transform="matrix(0.25275859,0,0,0.26066797,-88.482121,333.47161)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_2room==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_2room==true"  />
       </g>
       <g id="motion_2kitchen" transform="matrix(0.25275859,0,0,0.26066797,-16.606578,333.47161)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_2kitchen==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_2kitchen==true"  />
       </g>
       <g id="motion_enterance" transform="matrix(0.25275859,0,0,-0.26066797,29.379801,437.45321)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_enterance==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_enterance==true"  />
       </g>
       <g id="motion_stairsleft" transform="matrix(0.25275859,0,0,0.26066797,2.8024979,404.48521)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_stairsleft==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_stairsleft==true"  />
       </g>
       <g id="motion_stairsright" transform="matrix(0.25275859,0,0,0.26066797,74.802498,404.48521)">
-         <use xlink:href="#motion" ng-if="state.outputs.motion_stairsright==true"  />
+         <use xlink:href="#motion" ng-if="state.inputs.motion_stairsright==true"  />
       </g>
       <g id="door_enterance" transform="matrix(0.05791373,0,0,0.0471743,30.605273,495.79719)">
          <use xlink:href="#doors" ng-if="state.outputs.door_enterance==true"  />

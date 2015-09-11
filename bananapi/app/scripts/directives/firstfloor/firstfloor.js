@@ -13,6 +13,7 @@ angular.module('smartBuildingApp')
         restrict: 'E',
         scope: {
         'state': '=',
+        'negate': '&'
   		}
     }
   });
