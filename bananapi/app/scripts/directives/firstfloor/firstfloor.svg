@@ -1,4 +1,3 @@
-{{state.outputs}}
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -14,7 +13,7 @@
    version="1.1"
    id="svg3336"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="building.svg">
+   sodipodi:docname="firstfloor.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -25,16 +24,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1015"
+     inkscape:window-height="1135"
      id="namedview3554"
      showgrid="false"
      inkscape:zoom="1.644"
-     inkscape:cx="188.05752"
-     inkscape:cy="248.03378"
-     inkscape:window-x="-9"
+     inkscape:cx="245.82352"
+     inkscape:cy="199.37198"
+     inkscape:window-x="1015"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg3336" />
+     inkscape:current-layer="bulbs" />
   <metadata
      id="metadata3338">
     <rdf:RDF>
@@ -511,6 +510,46 @@
          height="100%" />
     </g>
     <g
+       id="bulb_2room"
+       transform="matrix(0.0434451,0,0,0.04487424,-72.11893,284.66447)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_2room==true"
+         id="use4143"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_2room==false"
+         id="use4145"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="bulb_3room"
+       transform="matrix(0.0434451,0,0,0.04487424,137.25857,296.23471)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_3room==true"
+         id="use4284"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_3room==false"
+         id="use4286"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
        id="bulb_1room"
        transform="matrix(0.0434451,0,0,0.04487424,-24.724263,459.66227)">
       <use
@@ -571,6 +610,46 @@
          height="100%" />
     </g>
     <g
+       id="bulb_2kitchen"
+       transform="matrix(0.0434451,0,0,0.04487424,-11.113697,276.4668)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_2kitchen==true"
+         id="use4437"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_2kitchen==false"
+         id="use4439"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="bulb_3kitchen"
+       transform="matrix(0.0434451,0,0,0.04487424,68.682274,276.85247)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_3kitchen==true"
+         id="use4584"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_3kitchen==false"
+         id="use4586"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
        id="bulb_4toilet"
        transform="matrix(0.0434451,0,0,0.04487424,167.27574,401.66227)">
       <use
@@ -585,6 +664,46 @@
          xlink:href="#bulb_off"
          ng-if="state.outputs.bulb_4toilet==false"
          id="use3502"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="bulb_3toilet"
+       transform="matrix(0.0434451,0,0,0.04487424,159.23702,358.08103)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_3toilet==true"
+         id="use4737"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_3toilet==false"
+         id="use4739"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="bulb_2toilet"
+       transform="matrix(0.0434451,0,0,0.04487424,-87.101757,358.46671)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_2toilet==true"
+         id="use4890"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_2toilet==false"
+         id="use4892"
          x="0"
          y="0"
          width="100%"
@@ -625,6 +744,46 @@
          xlink:href="#bulb_off"
          ng-if="state.outputs.bulb_4corridor==false"
          id="use3512"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="bulb_3corridor"
+       transform="matrix(0.0434451,0,0,0.04487424,106.60262,354.78076)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_3corridor==true"
+         id="use3463"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_3corridor==false"
+         id="use3465"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="bulb_2corridor"
+       transform="matrix(0.0434451,0,0,0.04487424,-40.286422,356.32346)">
+      <use
+         xlink:href="#bulb_on"
+         ng-if="state.outputs.bulb_2corridor==true"
+         id="use3622"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#bulb_off"
+         ng-if="state.outputs.bulb_2corridor==false"
+         id="use3624"
          x="0"
          y="0"
          width="100%"
@@ -743,12 +902,156 @@
          height="100%" />
     </g>
     <g
+       id="motion_4room"
+       transform="matrix(0.25275859,0,0,-0.26066797,89.379801,437.45321)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_4room==true"
+         id="use3543"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_1room"
+       transform="matrix(0.25275859,0,0,-0.26066797,-10.63709,437.45321)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_1room==true"
+         id="use4291"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_1kitchen"
+       transform="matrix(0.25275859,0,0,-0.26066797,-90.689995,450.13421)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_1kitchen==true"
+         id="use4617"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_4kitchen"
+       transform="matrix(0.25275859,0,0,-0.26066797,169.46228,451.40231)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_4kitchen==true"
+         id="use4783"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_4corridor"
+       transform="matrix(0.25275859,0,0,-0.26066797,149.4962,400.67831)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_4corridor==true"
+         id="use4951"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_1corridor"
+       transform="matrix(0.25275859,0,0,-0.26066797,-70.655887,400.67831)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_1corridor==true"
+         id="use5121"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_3corridor"
+       transform="matrix(0.25275859,0,0,0.26066797,125.38917,375.31891)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_3corridor==true"
+         id="use3546"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_3room"
+       transform="matrix(0.25275859,0,0,0.26066797,159.18475,333.47161)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_3room==true"
+         id="use3847"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_3kitchen"
+       transform="matrix(0.25275859,0,0,0.26066797,90.418882,333.47161)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_2kitchen==true"
+         id="use4207"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_2corridor"
+       transform="matrix(0.25275859,0,0,0.26066797,-48.423129,376.58701)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_2corridor==true"
+         id="use3673"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_2room"
+       transform="matrix(0.25275859,0,0,0.26066797,-88.482121,333.47161)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_2room==true"
+         id="use4027"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
+       id="motion_2kitchen"
+       transform="matrix(0.25275859,0,0,0.26066797,-16.606578,333.47161)">
+      <use
+         xlink:href="#motion"
+         ng-if="state.outputs.motion_2kitchen==true"
+         id="use4389"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </g>
+    <g
        id="motion_enterance"
        transform="matrix(0.25275859,0,0,-0.26066797,29.379801,437.45321)">
       <use
          xlink:href="#motion"
          ng-if="state.outputs.motion_enterance==true"
-         id="use3543"
+         id="use4294"
          x="0"
          y="0"
          width="100%"
@@ -760,7 +1063,7 @@
       <use
          xlink:href="#motion"
          ng-if="state.outputs.motion_stairsleft==true"
-         id="use3546"
+         id="use3503"
          x="0"
          y="0"
          width="100%"
