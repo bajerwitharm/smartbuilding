@@ -1,0 +1,1 @@
+INSERT INTO device_data(device, value) VALUES ('{1}','{2}');

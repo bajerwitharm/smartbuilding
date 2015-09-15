@@ -1,0 +1,17 @@
+
+    <ul class="timeline">
+        <li ng-class="({{index}} % 2) ? 'timeline-inverted' : '' ">
+            <div class="timeline-badge danger"><i class="fa {{icon}}"></i>
+            </div>
+            <div class="timeline-panel">
+                <div class="timeline-heading" ngClassEven="timeline-inverted">
+                    <h4 class="timeline-title">{{headline}}</h4>
+                    <p><small class="text-muted"><i class="fa fa-clock-o"></i>&nbsp;{{timestamp}}</small>
+                    </p>
+                </div>
+                <div class="timeline-body">
+                    <p>{{comments}}{{index}}</p>
+                </div>
+            </div>
+        </li>
+    </ul>

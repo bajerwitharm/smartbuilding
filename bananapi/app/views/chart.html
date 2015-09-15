@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Real time data</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div ng-controller="ChartCtrl">
+    <div class="row">
+        <div class="col-lg-12 col-sm-16" id="line-chart">
+            <div class="panel panel-default">
+                <div class="panel-heading">Healthiness</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="awsomes.data" labels="awsomes.labels"
+                            legend="false"
+                            click="light1.onClick" series="awsomes.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-16" id="line-chart">
+            <div class="panel panel-default">
+                <div class="panel-heading">Light wireless sensor</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="Light.data" labels="Light.labels"
+                            legend="false"
+                            click="temp1.onClick" series="Light.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-16" id="line-chart">
+            <div class="panel panel-default">
+                <div class="panel-heading">Humidity wireless sensor</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="Humidity.data" labels="Humidity.labels"
+                            legend="false"
+                            click="Humidity.onClick" series="Humidity.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-16" id="line-chart2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Temperature wireless sensor</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="Temperature.data" labels="Temperature.labels"
+                            legend="false"
+                            click="humidity1.onClick" series="Temperature.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-16" id="line-chart2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dust wireless sensor</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="Dust.data" labels="Dust.labels"
+                            legend="false"
+                            click="humidity1.onClick" series="Dust.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-16" id="line-chart">
+            <div class="panel panel-default">
+                <div class="panel-heading">Temperature in the room</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="temp1.data" labels="temp1.labels"
+                            legend="false"
+                            click="temp1.onClick" series="temp1.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-16" id="line-chart2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Humidity in the room</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line chart-xl" data="humidity1.data" labels="humidity1.labels"
+                            legend="false"
+                            click="humidity1.onClick" series="humidity1.series" options="{animation:false}"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

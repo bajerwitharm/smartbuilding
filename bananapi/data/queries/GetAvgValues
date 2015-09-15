@@ -1,0 +1,1 @@
+SELECT device, avg(value) from device_data group by device;
