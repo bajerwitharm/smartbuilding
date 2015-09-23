@@ -48,9 +48,8 @@ instance = http.createServer(app).listen(app.get('PORT'), '0.0.0.0', function(){
     console.log('Express server listening on port ' + app.get('PORT'));
 });
 
-var io = require('socket.io').listen(instance);
 var mqtt = require('./data/mqtt.js');
-mqtt.connect(database,io);
+mqtt.init(database);
 
 var RED = require("node-red");
 

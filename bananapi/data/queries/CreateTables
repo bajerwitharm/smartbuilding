@@ -15,18 +15,46 @@ LANGUAGE plpgsql VOLATILE;
 /* 
  * Create types
  */
-SELECT create_type_enum_if_not_exists('device_name',$$'temp1','humidity1','light1','awesomes'$$);
-
+SELECT create_type_enum_if_not_exists('TOPIC_NAME',$$'smartbuidling/firstfloor/control'$$);
+SELECT create_type_enum_if_not_exists('ICON_NAME',$$'fa-lightbulb-o'$$);
 
 /*
  * Create tables
  */
-CREATE TABLE IF NOT EXISTS device_data (
+CREATE TABLE IF NOT EXISTS event_types (
 	id serial primary key, 
-	timestamp timestamp not null default CURRENT_TIMESTAMP, 
-	device device_name,
-	value float(1)
+	topic TOPIC_NAME,
+	content JSON,
+	icon ICON_NAME,
+    description VARCHAR(64)
 );
+
+CREATE TABLE IF NOT EXISTS events (
+	id SERIAL PRIMARY KEY,
+	timestamp TIMESTAMP,
+	event_id INTEGER NOT NULL,
+	FOREIGN KEY(event_id) REFERENCES event_types(id)
+);
+
+CREATE OR REPLACE FUNCTION insert_event (topic_p TOPIC_NAME, content_p JSON)
+RETURNS JSON AS $$
+DECLARE
+	event_type_id INTEGER;
+	new_event_id INTEGER;
+	result JSON;
+BEGIN
+	if NOT EXISTS (SELECT 1 from event_types where topic=topic_p and content#>>'{}'=content_p#>>'{}') THEN
+		INSERT INTO event_types(topic, content) VALUES(topic_p, content_p);
+	END IF;
+
+	SELECT id FROM event_types WHERE topic=topic_p AND content#>>'{}'=content_p#>>'{}' INTO event_type_id;
+
+	INSERT INTO events(timestamp,event_id) VALUES(LOCALTIMESTAMP, event_type_id) RETURNING id INTO new_event_id;
+	SELECT row_to_json(r) from (select LOCALTIMESTAMP, event_types.icon, event_types.description FROM event_types INNER JOIN events ON events.event_id=event_types.id WHERE events.id=new_event_id) r INTO result;
+	RETURN result;
+END;
+$$
+LANGUAGE plpgsql VOLATILE;
 
 CREATE OR REPLACE FUNCTION create_index_if_not_exists (t_name text, i_name text) RETURNS void AS $$
 DECLARE

@@ -1,7 +1,7 @@
 var pg = require('pg');
 var fs = require('fs');
 
-var conString = "postgres://postgres:postgres@localhost/click_senzations";
+var conString = "postgres://postgres:postgres@localhost/smart_building";
 
 var sqliteDbContext = new pg.Client(conString);
 
@@ -28,10 +28,11 @@ module.exports.createDatabase = function() {
     });
 };
 
-module.exports.insertNewRecord = function(device,value) {
-    var query = format(readQuery("InsertNewRecord"), device, value);
+module.exports.insertNewEvent = function(topic,content,callback) {
+    var query = format(readQuery("InsertNewEvent"), topic, content);
+    console.log(query);
     sqliteDbContext.query(query, function(err, result) {
-	executeQuery(err, result);
+	executeQuery(err, result, callback);
     });
 };
 

@@ -12,8 +12,7 @@ angular.module('smartBuildingApp')
         //mqttProvider.emit('subscribe', {topic: 'smartbuidling/firstfloor/status'});
         $scope.state = {'outputs':{"bulb_2room":true}};
         $scope.negate = function(name) {
-           mqttProvider.emit('smartbuidling/firstfloor/control','"actuator":{"output_toggle":{"'+name+'":true}}')
-            $scope.state.outputs[name] = !($scope.state.outputs[name]);
+           mqttProvider.emit('smartbuidling/firstfloor/control','{"output_toggle":{"'+name+'":true}}')
         };
         mqttProvider.connect(function() {
             subscriptionId = mqttProvider.subscribe('smartbuidling/firstfloor/status', function (data) {
@@ -23,6 +22,7 @@ angular.module('smartBuildingApp')
             $scope.$on("$destroy", function() {
                 mqttProvider.unsubscribe(subscriptionId);
             });
+
         })
 
     }]);

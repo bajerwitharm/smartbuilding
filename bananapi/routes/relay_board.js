@@ -1,5 +1,6 @@
 var _ = require('struct-fu');
 var com = require("serialport");
+var underscore = require('underscore');
 var mqtt;
 
 
@@ -52,7 +53,7 @@ var parsers = module.exports = {
 var isWin64 = process.env.hasOwnProperty('ProgramFiles(x86)');
 var serialPort;
 if (isWin64) {
-    serialPort = new com.SerialPort("\\\\.\\COM3", {
+    serialPort = new com.SerialPort("\\\\.\\COM4", {
         baudRate: 4800,
         dataBits: 8,
         parity: 'none',
@@ -98,8 +99,8 @@ var get_info_e = 0xEA
 var inputs = [ 'key_main_door', "KitchenSw2", "RoomSw1", "RoomSw2", "CorridorSw",
     "ToiletOutSw", "ToiletInSw", "KitchenMotion" ].reverse().concat(
         [ "RoomMotion", "CorridorMotion", "", "", "", "", "", "" ].reverse());
-var outputs = [ "bulb_4room", "bulb_1room", "bulb_4kitchen", "bulb_1kitchen", "bulb_4toilet", "bulb_1toilet", "bulb_4corridor",
-    "bulb_1corridor" ].reverse();
+var outputs = [ "bulb_outside", "bulb_enterance_main", "bulb_enterance_small", "bulb_1kitchen_desk", "bulb_1kitchen_center", "bulb_1corridor", "bulb_1toilet_mirror",
+    "bulb_1toilet_center" ].reverse();
 var states = [ "KitchenSw1", "KitchenSw2", "KitchenMotion", "RoomSw1",
     "RoomSw2", "RoomMotion", "CorridorSw", "CorritorMotion" ].reverse()
     .concat([ "", "HeardBeat", "", "", "", "", "", "" ].reverse());
@@ -381,13 +382,20 @@ serialPort.on('data', function (data) {
     // try {
     switch (data[3]) {
         case get_info_e:
-            console.log(get_info_t_res.unpack(data));
+            data = get_info_t_res.unpack(data);
+            console.log(data);
+            mqtt.relayEvent(JSON.stringify(data));
             break;
         case action_triggered_e:
             data = action_triggered_t.unpack(data);
-            cleanJson(data);
+            // cleanJson(data);
             console.log(data);
             mqtt.relayEvent(JSON.stringify(data));
+            break;
+        case trigger_action_e:
+            data = trigger_action_t.unpack(data);
+            // cleanJson(data);
+            console.log(data);
             break;
     }
 
@@ -431,28 +439,7 @@ module.exports.relayOffTelegram = function (req, res) {
 
 module.exports.relayOnTelegram = function (req, res) {
     console.log(req.toString());
-    telegram = {
-        header: {
-            start: startChar,
-            source: busMaster,
-            destination: relayBoard,
-            fc: trigger_action_e,
-            size: 9
-        },
-        actuator: {
-            output_on: {
-                bulb_4room: true,
-                bulb_1room: true,
-                bulb_4kitchen: true,
-                Room2: true,
-                Corridor: true,
-                ToiletIn: true,
-                ToiletOut: true,
-                NotUsed: true
-            }
-        },
-        crc: 171
-    }
+
     serialPort.write(trigger_action_t.pack(telegram));
     serialPort.once('data', function (data) {
         data = trigger_action_t.unpack(data);
@@ -464,5 +451,21 @@ module.exports.relayOnTelegram = function (req, res) {
 
 module.exports.init = function (mqtt_global) {
     mqtt = mqtt_global;
-
+    mqtt.relayControl(function(telegram){
+        console.log(telegram);
+        var base_telegram = {
+            header: {
+                start: startChar,
+                source: busMaster,
+                destination: relayBoard,
+                fc: trigger_action_e,
+                size: 9
+            },
+            crc: 171
+        }
+        base_telegram.actuator = JSON.parse(telegram);
+        console.log(base_telegram);
+        console.log(trigger_action_t.pack(base_telegram));
+        serialPort.write(trigger_action_t.pack(base_telegram));
+    });
 }

@@ -181,7 +181,7 @@ void usartHandleTelegram(void)
 	{
 		if ((header->fc == trigger_action_e) && (header->size == sizeof(actuator_t))) {	//add here crc check
 			activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
-			usartActivateTriggerResponse();
+			usartSendInfo();
 		}
 		if ((header->fc == get_info_e) && (header->size == 0)) {
 			usartSendInfo();

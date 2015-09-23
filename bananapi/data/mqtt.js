@@ -1,33 +1,25 @@
 var mqtt = require('mqtt');
-var mqtt_client = mqtt.connect();
+var mqtt_client = mqtt.connect('mqtt://192.168.0.102');
 var database;
 var socket;
 
-module.exports.connect = function (db, soc) {
+module.exports.init = function (db) {
     database = db;
-    socket = soc;
-    socket.on('connection', function (socket) {
-        socket.on('subscribe', function (data) {
-            socket.join(data.topic);
-            socket.on('mqtt_event', function (data) {
-                console.log('event: '+data.topic)
-                mqtt_client.publish(data.topic, data.payload, {'qos':1,'retain':true});
-            })
-            console.log('subscription:'+data.topic)
-            mqtt_client.subscribe(data.topic);
-        });
-    });
 }
 
-mqtt_client.on('message', function (topic, payload) {
-    console.log(topic);
-    socket.in(topic).emit('mqtt_event',{'topic':String(topic),'payload':String(payload)});
-});
-
 module.exports.relayEvent = function (data) {
-    console.log("Trying to publish");
     mqtt_client.publish("smartbuidling/firstfloor/status", data, {'qos':1,'retain':true}, function () {
-        console.log("Message is published");
+    });
+
+}
+
+module.exports.relayControl = function (callback) {
+    mqtt_client.subscribe("smartbuidling/firstfloor/control")
+    mqtt_client.on('message', function (topic, message) {
+        callback(message.toString());
+        database.insertNewEvent(topic,message, function (result){
+            mqtt_client.publish("smartbuidling/firstfloor/events", JSON.stringify(result[0].insert_event), {'qos':1,'retain':true}, function () {});
+        });
     });
 }
 
