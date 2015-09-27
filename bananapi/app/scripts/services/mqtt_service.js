@@ -17,7 +17,12 @@ smartBuildingApp.factory('mqttProvider', ['$rootScope',function($rootScope) {
     };
 
     function isInTopic(element, index, array) {
-        return (this.destinationName == element[0]);
+        subscribed = element[0].split('#');
+        destination = this.destinationName;
+        subscribed.forEach(function(element) {
+            if (destination.indexOf(element) == -1) return false
+        })
+        return true;
     };
 
     client.onMessageArrived = function (message) {

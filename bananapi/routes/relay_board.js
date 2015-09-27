@@ -53,7 +53,7 @@ var parsers = module.exports = {
 var isWin64 = process.env.hasOwnProperty('ProgramFiles(x86)');
 var serialPort;
 if (isWin64) {
-    serialPort = new com.SerialPort("\\\\.\\COM4", {
+    serialPort = new com.SerialPort("\\\\.\\COM6", {
         baudRate: 4800,
         dataBits: 8,
         parity: 'none',

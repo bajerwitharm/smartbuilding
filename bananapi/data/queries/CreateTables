@@ -15,7 +15,7 @@ LANGUAGE plpgsql VOLATILE;
 /* 
  * Create types
  */
-SELECT create_type_enum_if_not_exists('TOPIC_NAME',$$'smartbuidling/firstfloor/control'$$);
+SELECT create_type_enum_if_not_exists('TOPIC_NAME',$$'smartbuidling/firstfloor/control','smartbuidling/firstfloor/status'$$);
 SELECT create_type_enum_if_not_exists('ICON_NAME',$$'fa-lightbulb-o'$$);
 
 /*
@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS event_types (
 	topic TOPIC_NAME,
 	content JSON,
 	icon ICON_NAME,
+	source VARCHAR(32),
     description VARCHAR(64)
 );
 
@@ -50,7 +51,7 @@ BEGIN
 	SELECT id FROM event_types WHERE topic=topic_p AND content#>>'{}'=content_p#>>'{}' INTO event_type_id;
 
 	INSERT INTO events(timestamp,event_id) VALUES(LOCALTIMESTAMP, event_type_id) RETURNING id INTO new_event_id;
-	SELECT row_to_json(r) from (select LOCALTIMESTAMP, event_types.icon, event_types.description FROM event_types INNER JOIN events ON events.event_id=event_types.id WHERE events.id=new_event_id) r INTO result;
+	SELECT row_to_json(r) from (select LOCALTIMESTAMP, event_types.icon, event_types.source, event_types.description FROM event_types INNER JOIN events ON events.event_id=event_types.id WHERE events.id=new_event_id) r INTO result;
 	RETURN result;
 END;
 $$

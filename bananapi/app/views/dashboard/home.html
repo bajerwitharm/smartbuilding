@@ -25,48 +25,11 @@
                     <i class="fa fa-bell fa-fw"></i> Notifications Panel
                 </div>
                 <!-- /.panel-heading -->
-                <notifications></notifications>
+                <notifications events="events"></notifications>
                 <!-- /.panel-body -->
             </div>
         </div>
     </div>
     <br>
 
-    <div class="row">
-        <stats value="{{sensors.Temperature+' °C'}}" comments="Temperature wifi sensor" colour="primary"
-               type="tachometer"></stats>
-        <stats value="{{sensors.Humidity+' %RH'}}" comments="Humidity in the room" colour="primary" type="tint"></stats>
-        <stats value="{{sensors.Light}}" comments="Light wifi sensor" colour="primary" type="sun-o"></stats>
-        <stats value="{{sensors.Sound}}" comments="Noise wifi sensor" colour="primary" type="volume-up"></stats>
-    </div>
-
-    <div class="row">
-        <stats value="{{temp1}}" comments="Temperature in the room" colour="primary" type="tachometer"></stats>
-        <stats value="{{humidity1}}" comments="Humidity in the room" colour="primary" type="tint"></stats>
-        <stats value="{{sensors.SharpDust}}" comments="Dust wifi sensor" colour="primary" type="tree"></stats>
-    </div>
-
-    <!-- /.panel -->
-    <div class="row">
-        <div class="col-lg-10">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-clock-o fa-fw"></i> Events
-                </div>
-                <div class="panel-body">
-                    <div ng-repeat="event in events">
-                        <timeline ng-class="timeline-inverted" index="{{$index}}" headline="{{event.headline}}"
-                                  timestamp="{{event.timestamp}}" comments="{{event.comments}}"
-                                  icon="{{event.icon}}"></timeline>
-                    </div>
-                </div>
-                <!-- /.panel-heading -->
-
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
-        </div>
-
-    </div>
-    <!-- /.row -->
 </div>
