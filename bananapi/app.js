@@ -91,5 +91,3 @@ console.log('Windows?:'+isWin64);
     relayBoard.init(mqtt);
 
     app.get('/getRelayBoardInfo', relayBoard.requestInfo);
-    app.get('/relayOnTelegram', relayBoard.relayOnTelegram);
-    app.get('/relayOffTelegram', relayBoard.relayOffTelegram);

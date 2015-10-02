@@ -7,6 +7,7 @@ module.exports.init = function (db) {
     database = db;
 }
 
+
 var cleanJson = function (obj) {
     var isArray = obj instanceof Array;
     for (var k in obj) {
@@ -29,16 +30,22 @@ var cleanJson = function (obj) {
     }
 }
 
-module.exports.relayEvent = function (data) {
-    mqtt_client.publish("smartbuidling/firstfloor/status", data, {'qos':1,'retain':true}, function () {
+
+module.exports.stateInfo = function (data) {
+    mqtt_client.publish("smartbuidling/firstfloor/status", JSON.stringify(data), {'qos':1,'retain':true}, function () {
     });
-    data = JSON.parse(data)
+}
+
+module.exports.insertEvent = function (data) {
+    //console.log("aaa"+JSON.stringify(data));
+    mqtt_client.publish("smartbuidling/firstfloor/status", JSON.stringify(data), {'qos':1,'retain':true}, function () {
+    });
     cleanJson(data);
-    console.log("aaa"+JSON.stringify({'activator':data.activator,'actuator':data.actuator}));
     database.insertNewEvent("smartbuidling/firstfloor/status",JSON.stringify({'activator':data.activator,'actuator':data.actuator}), function (result){
         mqtt_client.publish("smartbuidling/firstfloor/event", JSON.stringify(result[0].insert_event), {'qos':1,'retain':true}, function () {});
     });
 }
+
 
 module.exports.relayControl = function (callback) {
     mqtt_client.subscribe("smartbuidling/firstfloor/control")

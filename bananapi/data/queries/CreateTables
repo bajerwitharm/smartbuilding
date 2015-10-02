@@ -16,7 +16,7 @@ LANGUAGE plpgsql VOLATILE;
  * Create types
  */
 SELECT create_type_enum_if_not_exists('TOPIC_NAME',$$'smartbuidling/firstfloor/control','smartbuidling/firstfloor/status'$$);
-SELECT create_type_enum_if_not_exists('ICON_NAME',$$'fa-lightbulb-o'$$);
+SELECT create_type_enum_if_not_exists('ICON_NAME',$$'fa-lightbulb-o','fa-toggle-on'$$);
 
 /*
  * Create tables

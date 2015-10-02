@@ -30,7 +30,6 @@ module.exports.createDatabase = function() {
 
 module.exports.insertNewEvent = function(topic,content,callback) {
     var query = format(readQuery("InsertNewEvent"), topic, content);
-    console.log(query);
     sqliteDbContext.query(query, function(err, result) {
 	executeQuery(err, result, callback);
     });

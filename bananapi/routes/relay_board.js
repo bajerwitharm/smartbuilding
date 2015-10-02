@@ -72,6 +72,7 @@ if (isWin64) {
     });
 }
 
+
 var busMaster = 0x0A
 var relayBoard = 0x0B
 var startChar = 0x7E
@@ -96,13 +97,14 @@ var get_info_e = 0xEA
 // _.uint8('state_toggle')]),
 // ]);
 
-var inputs = [ 'key_main_door', "KitchenSw2", "RoomSw1", "RoomSw2", "CorridorSw",
-    "ToiletOutSw", "ToiletInSw", "KitchenMotion" ].reverse().concat(
-        [ "RoomMotion", "CorridorMotion", "", "", "", "", "", "" ].reverse());
-var outputs = [ "bulb_outside", "bulb_enterance_main", "bulb_enterance_small", "bulb_1kitchen_desk", "bulb_1kitchen_center", "bulb_1corridor", "bulb_1toilet_mirror",
-    "bulb_1toilet_center" ].reverse();
-var states = [ "KitchenSw1", "KitchenSw2", "KitchenMotion", "RoomSw1",
-    "RoomSw2", "RoomMotion", "CorridorSw", "CorritorMotion" ].reverse()
+var inputs = [ 'switch_lamp_kitchen', "switch_room_lamp", "switch_corridor", "switch_toilet_mirror", "switch_toilet_main",
+    "motion_kitchen", "motion_room", "motion_corridor" ].reverse().concat(
+        [ "", "", "", "", "", "", "", "" ].reverse());
+var outputs = ["bulb_1room_right", "bulb_1room_left" , "bulb_1kitchen_center", "bulb_1toilet_center", "bulb_1corridor", "bulb_1toilet_mirror", "","bulb_1kitchen_desk"  ].reverse();
+
+
+var states = [ "", "", "", "",
+    "", "", "", "" ].reverse()
     .concat([ "", "HeardBeat", "", "", "", "", "", "" ].reverse());
 
 var genereteBitStruct = function (elements) {
@@ -383,71 +385,25 @@ serialPort.on('data', function (data) {
     switch (data[3]) {
         case get_info_e:
             data = get_info_t_res.unpack(data);
-            console.log(data);
-            mqtt.relayEvent(JSON.stringify(data));
+            //console.log(data);
+            mqtt.stateInfo(data);
             break;
         case action_triggered_e:
             data = action_triggered_t.unpack(data);
             // cleanJson(data);
-            console.log(data);
-            mqtt.relayEvent(JSON.stringify(data));
+            // console.log(data);
+            mqtt.insertEvent(data);
             break;
         case trigger_action_e:
             data = trigger_action_t.unpack(data);
             // cleanJson(data);
-            console.log(data);
+            //console.log(data);
             break;
     }
 
     // } catch (err) {
     // }
 });
-
-
-module.exports.relayOffTelegram = function (req, res) {
-    console.log(req.toString());
-    telegram = {
-        header: {
-            start: startChar,
-            source: busMaster,
-            destination: relayBoard,
-            fc: trigger_action_e,
-            size: 9
-        },
-        actuator: {
-            output_off: {
-                bulb_4room: true,
-                bulb_1room: true,
-                bulb_4kitchen: true,
-                Room2: true,
-                Corridor: true,
-                ToiletIn: true,
-                ToiletOut: true,
-                NotUsed: true
-            }
-        },
-        crc: 171
-    }
-    serialPort.write(trigger_action_t.pack(telegram));
-    serialPort.once('data', function (data) {
-        data = trigger_action_t.unpack(data);
-        cleanJson(data);
-        res.send(data);
-    });
-}
-
-
-module.exports.relayOnTelegram = function (req, res) {
-    console.log(req.toString());
-
-    serialPort.write(trigger_action_t.pack(telegram));
-    serialPort.once('data', function (data) {
-        data = trigger_action_t.unpack(data);
-        cleanJson(data);
-        res.send(data);
-    });
-
-}
 
 module.exports.init = function (mqtt_global) {
     mqtt = mqtt_global;
@@ -464,7 +420,6 @@ module.exports.init = function (mqtt_global) {
             crc: 171
         }
         base_telegram.actuator = JSON.parse(telegram);
-        console.log(base_telegram);
         console.log(trigger_action_t.pack(base_telegram));
         serialPort.write(trigger_action_t.pack(base_telegram));
     });
