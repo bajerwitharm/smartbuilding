@@ -1,6 +1,10 @@
 #include "Arduino.h"
+#include "telegrams.h"
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
 
-
+const char* ssid     = "TP-LINK_ANIA";
+const char* password = "KochamAnie1";
 const char* mqtt_server = "broker.mqtt-dashboard.com";
 const char* mqtt_control_topic = "broker.mqtt-dashboard.com";
 const char* mqtt_status_topic = "broker.mqtt-dashboard.com";
@@ -29,6 +33,19 @@ void setup_wifi() {
 
 }
 
+void mqtt_callback(char* topic, unsigned char* payload, unsigned int length) {
+#if defined(DEBUG) 
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+#endif
+  decode_telegram(payload); 
+}
+
 void setup_mqtt() {
   setup_wifi(); 
   client.setServer(mqtt_server, 1883);
@@ -47,8 +64,6 @@ void reconnect() {
 #if defined(DEBUG) 
       Serial.println("Connected");
 #endif
-      // Once connected, publish an announcement...
-      client.publish(mqtt_status_topic, "hello world");
       // ... and resubscribe
       client.subscribe(mqtt_control_topic);
     } else {
@@ -70,17 +85,7 @@ void mqtt_loop() {
   client.loop();
 }
 
-void mqtt_callback(char* topic, unsigned char* payload, unsigned int length) {
-#if defined(DEBUG) 
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-  }
-  Serial.println();
-#endif
-  decode_telegram(payload);
-
-  
+void publish_debug(uint8_t* message, uint8_t length) {
+  client.publish("broker.mqtt-dashboard.com", message, length);
 }
+

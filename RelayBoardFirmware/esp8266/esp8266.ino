@@ -7,9 +7,8 @@
 #include <ArduinoJson.h>
 #include "telegrams.h"
 #include "serial.h"
-
-const char* ssid     = "Salwatorska6admin";
-const char* password = "Admin@wifi6";
+#include "mqtt.h"
+#define DEBUG
 
 
 
