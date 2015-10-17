@@ -86,6 +86,6 @@ void mqtt_loop() {
 }
 
 void publish_debug(uint8_t* message, uint8_t length) {
-  client.publish("broker.mqtt-dashboard.com", message, length);
+  client.publish("broker.mqtt-dashboard", message, length);
 }
 

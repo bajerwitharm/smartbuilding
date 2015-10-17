@@ -76,6 +76,7 @@ typedef struct {
   telegram_header_t header;
   trigger_t trigger;
   info_t info;
+  uint8_t crc;
 } action_triggered_t;
 
 typedef struct {
@@ -88,18 +89,20 @@ typedef struct {
 typedef struct {
   telegram_header_t header;
   actuator_t actuator;
+  uint8_t crc;
 } trigger_action_t;
 
 //Test telegram: 0x7E 0xFA 0xFB 0xEA 0x00 0xAB
 typedef struct {
   telegram_header_t header;
   info_t info;
+  uint8_t crc;
 } get_info_t;
 
 
-void encode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[20] ) {
+void encode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
 
-    for (size_t i = 0; i < sizeof(elements) / sizeof(elements[0]); i++)
+    for (size_t i = 0; elements[i]!=NULL; i++)
     {
         const char* element = elements[i];
         json[element] = out_telegram[i];
@@ -107,14 +110,14 @@ void encode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements
           Serial.print("Setting:");
           Serial.print(element);
           Serial.print("=");
-          Serial.print(out_telegram[i]);
+          Serial.println(out_telegram[i]);
 #endif          
     }
 }
 
-void encode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elements[20] ) {
+void encode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elements[] ) {
 
-    for (size_t i = 0; i < sizeof(elements) / sizeof(elements[0]); i++)
+    for (size_t i = 0; elements[i]!=NULL; i++)
     {
         const char* element = elements[i];
         json[element] = out_telegram[i];
@@ -122,14 +125,14 @@ void encode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elemen
           Serial.print("Setting:");
           Serial.print(element);
           Serial.print("=");
-          Serial.print(out_telegram[i]);
+          Serial.println(out_telegram[i]);
 #endif          
     }
 }
 
-void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[20] ) {
+void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
 
-    for (size_t i = 0; i < sizeof(elements) / sizeof(elements[0]); i++)
+    for (size_t i = 0; elements[i]!=NULL; i++)
     {
         const char* element = elements[i];
 
@@ -221,17 +224,14 @@ void decode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
           if (it->value.as<bool>()) {
             if (i < 8) {
               out_telegram[0] |= (1 << i);
-              Serial.println(i);
             }
             else {
               out_telegram[1] |= (1 << (i - 8));
-              Serial.println(i);
             } 
           } 
         }
     }
   }
-  Serial.println(out_telegram[0]);
 }
 
 void decode_header(JsonObject& json, telegram_header_t* out_telegram) {
@@ -274,9 +274,9 @@ void decode_info(JsonObject& json, info_t* out_telegram) {
 }
 
 void encode_info(JsonObject& json, info_t* out_telegram) {
-  decode_bools(json.createNestedObject("inputs"),(uint8_t*)&out_telegram->inputs,inputs);
-  decode_bools(json.createNestedObject("outputs"),(uint8_t*)&out_telegram->outputs,outputs);
-  decode_bools(json.createNestedObject("states"),(uint8_t*)&out_telegram->states,states);
+  encode_bools(json.createNestedObject("inputs"),(uint8_t*)&out_telegram->inputs,inputs);
+  encode_bools(json.createNestedObject("outputs"),(uint8_t*)&out_telegram->outputs,outputs);
+  encode_bools(json.createNestedObject("states"),(uint8_t*)&out_telegram->states,states);
 }
 
 void decode_trigger(JsonObject& json, trigger_t* out_telegram) {
@@ -293,20 +293,43 @@ void decode_info_response(JsonObject& json, get_info_t* out_telegram) {
 void encode_info_response(JsonObject& json, get_info_t* out_telegram) {
   encode_header(json.createNestedObject("header"),&out_telegram->header);
   encode_info(json.createNestedObject("info"),&out_telegram->info);
+  json["crc"] = out_telegram->crc;
 }
 
 void decode_action_triggered(JsonObject& json, action_triggered_t* out_telegram) {
   decode_header(json["header"],&out_telegram->header);
   decode_trigger(json,&out_telegram->trigger);
   decode_info(json["info"],&out_telegram->info);
+  uint8_t crc = json["crc"];
+  out_telegram->crc = crc;
 }
 
 void decode_trigger_action(JsonObject& json, trigger_action_t* out_telegram) {
   decode_header(json["header"],&out_telegram->header);
   decode_actuator(json["actuator"],&out_telegram->actuator);
- // uint8_t crc = json["crc"]; 
- // out_telegram->crc = crc;
+  uint8_t crc = json["crc"];
+  out_telegram->crc = crc;
 }
+
+void encode_telegram(unsigned char* buffer) {
+  StaticJsonBuffer<3000> jsonBuffer;
+  JsonObject& root = jsonBuffer.createObject(); 
+  telegram_header_t* header = (telegram_header_t*)buffer;
+  switch (header->fc) {
+        case get_info_e:
+            encode_info_response(root,(get_info_t*)buffer);
+            root.prettyPrintTo(Serial);
+            break;
+        case action_triggered_e:
+
+            break;
+        case trigger_action_e:
+
+            break;
+  }
+
+}
+
 
 void decode_telegram(unsigned char* payload) {
   DynamicJsonBuffer jsonBuffer;
@@ -332,6 +355,8 @@ void decode_telegram(unsigned char* payload) {
             decode_info_response(root,(get_info_t*)tx_buffer.data);
             tx_buffer.size = sizeof(get_info_t);
             Serial.write(tx_buffer.data,tx_buffer.size);
+            publish_debug(tx_buffer.data,tx_buffer.size);
+            encode_telegram(tx_buffer.data);
             break;
         case action_triggered_e:
         #if defined(DEBUG) 
@@ -349,26 +374,9 @@ void decode_telegram(unsigned char* payload) {
             decode_trigger_action(root,(trigger_action_t*)tx_buffer.data);
             tx_buffer.size = sizeof(trigger_action_t);
             Serial.write(tx_buffer.data,tx_buffer.size);
+            publish_debug(tx_buffer.data,tx_buffer.size);
             break;
   }
-}
-
-void encode_telegram(unsigned char* buffer) {
-  StaticJsonBuffer<3000> jsonBuffer;
-  JsonObject& root = jsonBuffer.createObject(); 
-  telegram_header_t* header = (telegram_header_t*)buffer;
-  switch (header->fc) {
-        case get_info_e:
-            encode_info_response(root,(get_info_t*)tx_buffer.data);
-            break;
-        case action_triggered_e:
-
-            break;
-        case trigger_action_e:
-
-            break;
-  }
-
 }
 
 #pragma pack()
