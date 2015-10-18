@@ -10,16 +10,16 @@
 #include "mqtt.h"
 #define DEBUG
 
-
+Mqtt mqtt;
 
 void setup() {
   setup_serial();
-  setup_mqtt();
+  mqtt.setup_mqtt();
 }
  
 void loop() {
   serial_loop();
-  mqtt_loop(); 
+  mqtt.mqtt_loop(); 
 }
 
 

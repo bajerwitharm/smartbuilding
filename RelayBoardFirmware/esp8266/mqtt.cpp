@@ -1,13 +1,14 @@
 #include "Arduino.h"
 #include "telegrams.h"
+#include "mqtt.h"
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
 const char* ssid     = "TP-LINK_ANIA";
 const char* password = "KochamAnie1";
 const char* mqtt_server = "broker.mqtt-dashboard.com";
-const char* mqtt_control_topic = "broker.mqtt-dashboard.com";
-const char* mqtt_status_topic = "broker.mqtt-dashboard.com";
+const char* mqtt_control_topic = "mqtt_control_topic";
+const char* mqtt_status_topic = "mqtt_status_topic";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -22,7 +23,9 @@ void setup_wifi() {
   WiFi.begin(ssid, password); 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
+#if defined(DEBUG)
     Serial.print(".");
+#endif
   }
   
 #if defined(DEBUG) 
@@ -46,7 +49,7 @@ void mqtt_callback(char* topic, unsigned char* payload, unsigned int length) {
   decode_telegram(payload); 
 }
 
-void setup_mqtt() {
+void Mqtt::setup_mqtt() {
   setup_wifi(); 
   client.setServer(mqtt_server, 1883);
   client.setCallback(mqtt_callback);
@@ -78,14 +81,45 @@ void reconnect() {
   }
 }
 
-void mqtt_loop() {
+void Mqtt::mqtt_loop() {
   if (!client.connected()) {
     reconnect();
   }
   client.loop();
 }
 
-void publish_debug(uint8_t* message, uint8_t length) {
-  client.publish("broker.mqtt-dashboard", message, length);
+void Mqtt::publish_status(uint8_t* message, size_t length) {
+  client.publish(mqtt_status_topic, message, length);
 }
 
+void Mqtt::publish_debug(uint8_t* message, size_t length) {
+  client.publish(mqtt_status_topic, message, length);
+}
+
+//size_t Mqtt::write(uint8_t character) { 
+// // buffer.concat(character);return 1;
+//}
+//
+//size_t Mqtt::write(const char *str) { 
+// Serial.print("test2");return 1;
+//}
+//
+//size_t Mqtt::write(const uint8_t *buffer, size_t size) { /*blahblah is the name of your class*/
+//Serial.print("asd");return size;
+//}
+//
+//void Mqtt::print(const char[]) {
+//Serial.print("test4");  
+//}
+//
+//void Mqtt::println(const char[]) {
+//Serial.print("test5");  
+//}
+//
+//void Mqtt::print(const String &) {
+//Serial.print("test6");  
+//}
+//size_t Mqtt::print(const char* message) {
+//  Serial.print("test1");
+// client.publish("broker.mqtt-dashboard", message);
+//}
