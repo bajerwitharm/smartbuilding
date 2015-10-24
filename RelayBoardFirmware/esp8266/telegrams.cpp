@@ -12,12 +12,17 @@ typedef uint8_t outputs_t;
 typedef uint16_t states_t;
 
 
-const char* outputs[20] = {"bulb_1room_right", "bulb_1room_left" , "bulb_1kitchen_center", "bulb_1toilet_center", "bulb_1corridor", "bulb_1toilet_mirror", "","bulb_1kitchen_desk", NULL};
+const char* outputs[20] = {"bulb_1room_right", "bulb_1room_left" , "bulb_1kitchen_center", "bulb_1toilet_center", "bulb_1corridor", "bulb_1toilet_mirror", "reset","bulb_1kitchen_desk", NULL};
 const char* states[20] = { "HeardBeat", NULL };
 const char* inputs[20] = { "switch_lamp_kitchen", "switch_room_lamp", "switch_corridor", "switch_toilet_mirror", "switch_toilet_main", "motion_kitchen", "motion_room", "motion_corridor", NULL};
 
 #pragma pack(1)
 
+//{"header":{"start":126,"source":11,"destination":10,"fc":222,"size":28},"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":0},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"states":{"HeardBeat":false}},"crc":0}
+//{"header":{"start":126,"source":11,"destination":10,"fc":223,"size":28},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"crc":0}
+//{"header":{"start":126,"source":11,"destination":10,"fc":234,"size":28},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":true,"bulb_1corridor":true,"bulb_1toilet_mirror":true,"reset":true,"bulb_1kitchen_desk":true},"states":{"HeardBeat":true}},"crc":10}
+//{"header":{"start":126,"source":11,"destination":10,"fc":234,"size":28},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":true,"bulb_1corridor":true,"bulb_1toilet_mirror":true,"reset":true,"bulb_1kitchen_desk":true},"states":{"HeardBeat":true}},"crc":10}{"header":{"start":126,"source":11,"destination":10,"fc":218,"size":28},"trigger_id":0,"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":0},"crc":0}
+//{"header":{"start":126,"source":11,"destination":10,"fc":219,"size":28},"trigger_id":0,"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":10},"crc":10}
 
 typedef enum __attribute__ ((__packed__)) {
   action_triggered_e = 0xDE,
@@ -28,7 +33,6 @@ typedef enum __attribute__ ((__packed__)) {
 } function_code_t;
 
 typedef struct {
-  uint8_t start;
   uint8_t source;
   uint8_t destination;
   function_code_t fc;
@@ -48,6 +52,7 @@ typedef struct {
   outputs_t output_on;
   outputs_t output_off;
   outputs_t output_toggle;
+  uint8_t padding;
   states_t state_on;
   states_t state_off;
   states_t state_toggle;
@@ -83,8 +88,8 @@ typedef struct {
 
 typedef struct {
   telegram_header_t header;
-  uint8_t trigger_id;
   trigger_t trigger;
+  uint8_t trigger_id;
   uint8_t crc;
 } set_trigger_t;
 
@@ -102,6 +107,7 @@ typedef struct {
   uint8_t crc;
 } get_info_t;
 
+#pragma pack()
 
 void encode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
 
@@ -138,29 +144,43 @@ void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
     for (size_t i = 0; elements[i]!=NULL; i++)
     {
         const char* element = elements[i];
-
-#if defined(DEBUG) 
-          Serial.print("Setting:");
-          Serial.print(element);
-          Serial.print("=");
-          Serial.println(out_telegram[i]);
-#endif          
+        
           if (i < 8) {
             if (out_telegram[0]&(1 << i)) {
               json[element] = true;  
+#if defined(DEBUG) 
+          Serial.print("Setting:");
+          Serial.print(element);
+          Serial.println("=true");
+#endif  
             }
             else
             {
-              json[element] = false;  
+              json[element] = false; 
+#if defined(DEBUG) 
+          Serial.print("Setting:");
+          Serial.print(element);
+          Serial.println("=false");
+#endif   
             }            
           }
           else {
             if (out_telegram[1]&(1 << (i-8))) {
               json[element] = true;  
+#if defined(DEBUG) 
+          Serial.print("Setting:");
+          Serial.print(element);
+          Serial.println("=true");
+#endif  
             }
             else
             {
-              json[element] = false;  
+              json[element] = false;
+#if defined(DEBUG) 
+          Serial.print("Setting:");
+          Serial.print(element);
+          Serial.println("=false");
+#endif   
             } 
           } 
     }
@@ -238,12 +258,12 @@ void decode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
 }
 
 void decode_header(JsonObject& json, telegram_header_t* out_telegram) {
-  const char* elements[] = {"start", "source", "destination", "fc", "size", NULL};
+  const char* elements[] = {"source", "destination", "fc", "size", NULL};
   decode_uint8s(json, (uint8_t*)&out_telegram[0], elements);
 }
 
 void encode_header(JsonObject& json, telegram_header_t* out_telegram) {
-  const char* elements[20] = {"start", "source", "destination", "fc", "size", NULL};
+  const char* elements[] = {"source", "destination", "fc", "size", NULL};
   encode_uint8s(json, (uint8_t*)&out_telegram[0], elements);
 }
 
@@ -320,6 +340,7 @@ void encode_trigger(JsonObject& json, trigger_t* out_telegram) {
 void decode_info_response(JsonObject& json, get_info_t* out_telegram) {
   decode_header(json["header"],&out_telegram->header);
   decode_info(json["info"],&out_telegram->info);
+  out_telegram->crc = json["crc"];
 }
 
 void encode_info_response(JsonObject& json, get_info_t* out_telegram) {
@@ -368,8 +389,8 @@ void decode_get_trigger(JsonObject& json, set_trigger_t* out_telegram) {
 
 void encode_get_trigger(JsonObject& json, set_trigger_t* out_telegram) {
   encode_header(json.createNestedObject("header"),&out_telegram->header);
-  encode_trigger(json,&out_telegram->trigger);
   json["trigger_id"] = out_telegram->trigger_id;
+  encode_trigger(json,&out_telegram->trigger);
   json["crc"] = out_telegram->crc;
 }
 
@@ -394,9 +415,9 @@ void encode_telegram(unsigned char* buffer) {
             break;        
   }
   size_t length = root.measureLength();
-  char* p = (char*)malloc(length);
-  root.printTo(p,length);
-  mqtt.publish_status((uint8_t*)p,length+1);
+  char* p = (char*)malloc(length+2);
+  root.printTo(p,length+2);
+  mqtt.publish_status(((uint8_t*)p),length);
   free(p);
 }
 
@@ -436,10 +457,11 @@ void decode_telegram(unsigned char* payload) {
             tx_buffer.size = sizeof(set_trigger_t);
             break;
   }
-  Serial.write(tx_buffer.data,tx_buffer.size);
+  send_telegram();
   mqtt.publish_debug(tx_buffer.data,tx_buffer.size);
+   //     delay(5000);
   encode_telegram(tx_buffer.data);
 }
 
-#pragma pack()
+
 

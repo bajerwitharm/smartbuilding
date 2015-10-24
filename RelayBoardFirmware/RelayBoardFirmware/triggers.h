@@ -40,6 +40,7 @@ typedef struct {
 	outputs_t output_on;
 	outputs_t output_off;
 	outputs_t output_toggle;
+	uint8_t padding;
 	states_t state_on;
 	states_t state_off;
 	states_t state_toggle;

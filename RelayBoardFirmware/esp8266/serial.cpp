@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include "telegrams.h"
 #include "serial.h"
 
 #define BAUDRATE 4800
@@ -44,6 +45,25 @@ void setup_serial() {
   Serial.begin(4800); 
 }
 
+void send_telegram() {
+  tx_buffer.index = 0;
+  Serial.write(FRAME_START_CHAR);
+  // escape characters
+  for (uint8_t j=0;j<number_char_to_excape;j++) {
+    if (tx_buffer.data[tx_buffer.index] == escape_characters[j].toEscape)
+    {
+      Serial.write(escape_characters[j].howEscape[0]);
+      tx_buffer.data[tx_buffer.index] = escape_characters[j].howEscape[1];
+      return;
+    }
+  }
+  if (tx_buffer.size == tx_buffer.index) {
+      Serial.write(FRAME_END_CHAR);
+  } else {
+    Serial.write(tx_buffer.data[tx_buffer.index++]);
+  }
+}
+
 void serialEvent() {
   while (Serial.available()) {
     uint8_t received = Serial.read(); // Fetch the received byte value into the variable "received"
@@ -77,5 +97,9 @@ void serialEvent() {
 
 void serial_loop() {
   serialEvent();
+  if (telegramInBuffer) {
+    encode_telegram(rx_buffer.data);
+    telegramInBuffer=false;
+  }
 }
 

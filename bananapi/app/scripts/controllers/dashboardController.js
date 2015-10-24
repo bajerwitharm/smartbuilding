@@ -10,11 +10,11 @@ angular.module('smartBuildingApp')
     .controller('DashboardCtrl', ['$scope', '$timeout', 'mqttProvider' , function ($scope, $timeout, mqttProvider) {
         var subscriptionId;
         //mqttProvider.emit('subscribe', {topic: 'smartbuidling/firstfloor/status'});
-        $scope.state = {'outputs':{"bulb_2room":true}};
+        $scope.state = {};
         $scope.events = [];
         $scope.negate = function(name) {
-           mqttProvider.emit('smartbuidling/firstfloor/control','{"output_toggle":{"'+name+'":true}}')
-        };
+           mqttProvider.emit('smartbuidling/firstfloor/control','{"header": {"start": 126,"source": 11,"destination": 10,"fc": 223,"size": 9},"actuator": {"output_toggle":{"'+name+'": true}},"crc":171}');
+          };
         mqttProvider.connect(function() {
             subscriptionId = mqttProvider.subscribe('smartbuidling/firstfloor/#', function (data) {
                 switch(data.destinationName) {

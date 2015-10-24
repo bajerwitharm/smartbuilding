@@ -53,7 +53,8 @@ smartBuildingApp.factory('mqttProvider', ['$rootScope',function($rootScope) {
             onFailure: function (message) {
                 connected = false;
                 console.log("Connection failed: " + message.errorMessage);
-            }
+            },
+			mqttVersion: 3
             };
             if (!connected) {
               client.connect(options);

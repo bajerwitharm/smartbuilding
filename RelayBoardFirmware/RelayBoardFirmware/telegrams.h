@@ -40,8 +40,8 @@ typedef struct {
 
 typedef struct {
 	telegram_header_t header;
-	uint8_t trigger_id;
 	trigger_t trigger;
+	uint8_t trigger_id;
 } set_trigger_t;
 
 //Test telegram: 0x7E 0xFA 0xFB 0xDF 0x06 0x00 0x00 0xFF 0x00 0x00 0x00 0xAB

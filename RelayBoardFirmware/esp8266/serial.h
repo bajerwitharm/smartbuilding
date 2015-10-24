@@ -22,6 +22,7 @@ extern rx_buffer_t rx_buffer;
 
 void setup_serial();
 void serial_loop();
+void send_telegram();
 
 
 

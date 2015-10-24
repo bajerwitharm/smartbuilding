@@ -6,9 +6,10 @@
 
 const char* ssid     = "TP-LINK_ANIA";
 const char* password = "KochamAnie1";
-const char* mqtt_server = "broker.mqtt-dashboard.com";
-const char* mqtt_control_topic = "mqtt_control_topic";
-const char* mqtt_status_topic = "mqtt_status_topic";
+const char* mqtt_server = "192.168.0.102";
+const char* mqtt_control_topic = "smartbuidling/firstfloor/control";
+const char* mqtt_status_topic = "smartbuidling/firstfloor/status";
+const char* mqtt_debug_topic = "smartbuidling/debug";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -93,7 +94,7 @@ void Mqtt::publish_status(uint8_t* message, size_t length) {
 }
 
 void Mqtt::publish_debug(uint8_t* message, size_t length) {
-  client.publish(mqtt_status_topic, message, length);
+  client.publish(mqtt_debug_topic, message, length);
 }
 
 //size_t Mqtt::write(uint8_t character) { 
