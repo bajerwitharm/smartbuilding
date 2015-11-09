@@ -23,6 +23,7 @@ int main(void)
 	while(1)
 	{		
 		if (usartIsTelegramInBuffer()) {
+			usartClearBuffer();
 			usartHandleTelegram();
 		}
 	}

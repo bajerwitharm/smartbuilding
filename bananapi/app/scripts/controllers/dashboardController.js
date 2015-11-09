@@ -13,7 +13,7 @@ angular.module('smartBuildingApp')
         $scope.state = {};
         $scope.events = [];
         $scope.negate = function(name) {
-           mqttProvider.emit('smartbuidling/firstfloor/control','{"header": {"start": 126,"source": 11,"destination": 10,"fc": 223,"size": 9},"actuator": {"output_toggle":{"'+name+'": true}},"crc":171}');
+           mqttProvider.emit('smartbuidling/firstfloor/control','{"header": {"start": 126,"source": 10,"destination": 11,"fc": 223,"size": 10},"actuator": {"output_toggle":{"'+name+'": true}},"crc":171}');
           };
         mqttProvider.connect(function() {
             subscriptionId = mqttProvider.subscribe('smartbuidling/firstfloor/#', function (data) {

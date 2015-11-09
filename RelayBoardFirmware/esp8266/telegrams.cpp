@@ -3,7 +3,7 @@
 #include "serial.h"
 #include "mqtt.h"
 #include "Stream.h"
-#define DEBUG
+//#define DEBUG
 
 extern Mqtt mqtt;
 
@@ -23,7 +23,8 @@ const char* inputs[20] = { "switch_lamp_kitchen", "switch_room_lamp", "switch_co
 //{"header":{"start":126,"source":11,"destination":10,"fc":234,"size":28},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":true,"bulb_1corridor":true,"bulb_1toilet_mirror":true,"reset":true,"bulb_1kitchen_desk":true},"states":{"HeardBeat":true}},"crc":10}
 //{"header":{"start":126,"source":11,"destination":10,"fc":234,"size":28},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":true,"bulb_1corridor":true,"bulb_1toilet_mirror":true,"reset":true,"bulb_1kitchen_desk":true},"states":{"HeardBeat":true}},"crc":10}{"header":{"start":126,"source":11,"destination":10,"fc":218,"size":28},"trigger_id":0,"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":0},"crc":0}
 //{"header":{"start":126,"source":11,"destination":10,"fc":219,"size":28},"trigger_id":0,"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":10},"crc":10}
-
+//echo -en '\x7e\x0b\x0a\xdf\x09\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\xab\x7b' > /dev/ttyS3
+//echo -en '\x7e\x0b\x0a\xde\x1c\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x01\x00\x00\x1d\x00\x00\xbb\x7b' > /dev/ttyS3
 typedef enum __attribute__ ((__packed__)) {
   action_triggered_e = 0xDE,
   trigger_action_e = 0xDF,
@@ -397,6 +398,7 @@ void encode_get_trigger(JsonObject& json, set_trigger_t* out_telegram) {
 
 void encode_telegram(unsigned char* buffer) {
   DynamicJsonBuffer jsonBuffer;
+  mqtt.publish_debug(rx_buffer.data,rx_buffer.size);
   JsonObject& root = jsonBuffer.createObject(); 
   telegram_header_t* header = (telegram_header_t*)buffer;
   switch (header->fc) {
@@ -458,9 +460,9 @@ void decode_telegram(unsigned char* payload) {
             break;
   }
   send_telegram();
-  mqtt.publish_debug(tx_buffer.data,tx_buffer.size);
+ // mqtt.publish_debug(tx_buffer.data,tx_buffer.size);
    //     delay(5000);
-  encode_telegram(tx_buffer.data);
+ // encode_telegram(tx_buffer.data);
 }
 
 

@@ -16,8 +16,8 @@
 
 #define UART_BAUD_SELECT(baudRate,xtalCpu) ((( (xtalCpu) / ( (baudRate) * 8UL ))) - 1)
 #define BAUDRATE 4800
-#define TX_BUFFER_SIZE 50
-#define RX_BUFFER_SIZE 50
+#define TX_BUFFER_SIZE 40
+#define RX_BUFFER_SIZE 40
 #define FRAME_START_CHAR 0x7E
 #define FRAME_END_CHAR 0x7B
 
@@ -89,7 +89,7 @@ void usartInit(void)
 
 void waitUntilSendingOver()
 {
-	uint8_t i = 50;
+	uint8_t i = 10;
 	while(i--){
 		if (((UCSRB & (1<<UDRIE)) == 0)&&((UCSRA & (1<<UDRE)))) {
 			break;
@@ -193,7 +193,6 @@ void usartHandleTelegram(void)
 			usartSetTrigger();
 		}
 	}
-	usartClearBuffer();
 }
 
 

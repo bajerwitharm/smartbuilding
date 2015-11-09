@@ -1,8 +1,9 @@
 #include "Arduino.h"
 #include "telegrams.h"
 #include "serial.h"
-
-#define BAUDRATE 4800
+#include "mqtt.h"
+extern Mqtt mqtt;
+#define BAUDRATE 4808
 
 #define FRAME_START_CHAR 0x7E
 #define FRAME_END_CHAR 0x7B
@@ -42,31 +43,32 @@ rx_buffer_t rx_buffer;
 
 void setup_serial() {
   delay(10);
-  Serial.begin(4800); 
+  Serial.begin(BAUDRATE); 
 }
 
 void send_telegram() {
   tx_buffer.index = 0;
   Serial.write(FRAME_START_CHAR);
   // escape characters
-  for (uint8_t j=0;j<number_char_to_excape;j++) {
-    if (tx_buffer.data[tx_buffer.index] == escape_characters[j].toEscape)
-    {
-      Serial.write(escape_characters[j].howEscape[0]);
-      tx_buffer.data[tx_buffer.index] = escape_characters[j].howEscape[1];
-      return;
+  while (tx_buffer.index<tx_buffer.size) {
+    for (uint8_t j=0;j<number_char_to_excape;j++) {
+      if (tx_buffer.data[tx_buffer.index] == escape_characters[j].toEscape)
+      {
+        Serial.write(escape_characters[j].howEscape[0]);
+        tx_buffer.data[tx_buffer.index] = escape_characters[j].howEscape[1];
+        return;
+      }
     }
-  }
-  if (tx_buffer.size == tx_buffer.index) {
-      Serial.write(FRAME_END_CHAR);
-  } else {
+    mqtt.publish_debug(&tx_buffer.data[tx_buffer.index],1);
     Serial.write(tx_buffer.data[tx_buffer.index++]);
   }
+  Serial.write(FRAME_END_CHAR);
 }
 
 void serialEvent() {
   while (Serial.available()) {
     uint8_t received = Serial.read(); // Fetch the received byte value into the variable "received"
+    mqtt.publish_debug(&received,1);
     if (received == FRAME_START_CHAR) {
       rx_buffer.index = 0;
       rx_buffer.size = 0xFF;

@@ -74,8 +74,8 @@ void ioInit(void)
 {
 	initOutputPins();
 	initInputPins();
-	MCUCSR |= 0x80;
-	MCUCSR |= (1<<7);
+//	MCUCSR |= 0x80;
+//	MCUCSR |= (1<<7);
 }
 
 /**
