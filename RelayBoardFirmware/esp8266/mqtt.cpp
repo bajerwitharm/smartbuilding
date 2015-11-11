@@ -6,7 +6,7 @@
 
 const char* ssid     = "TP-LINK_ANIA";
 const char* password = "KochamAnie1";
-const char* mqtt_server = "192.168.0.102";
+const char* mqtt_server = "mqtt.salwatorska.pl";
 const char* mqtt_control_topic = "smartbuidling/firstfloor/control";
 const char* mqtt_status_topic = "smartbuidling/firstfloor/status";
 const char* mqtt_debug_topic = "smartbuidling/debug";

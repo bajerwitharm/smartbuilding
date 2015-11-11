@@ -1,5 +1,5 @@
 var mqtt = require('mqtt');
-var mqtt_client = mqtt.connect('http://test.mosquitto.org');
+var mqtt_client = mqtt.connect('http://mqtt.salwatorska.pl');
 var database;
 var socket;
 
