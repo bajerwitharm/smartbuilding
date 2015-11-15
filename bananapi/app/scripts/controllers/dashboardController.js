@@ -12,18 +12,16 @@ angular.module('smartBuildingApp')
         //mqttProvider.emit('subscribe', {topic: 'smartbuidling/firstfloor/status'});
         $scope.state = {};
         $scope.events = [];
-        $scope.negate = function(name) {
-           mqttProvider.emit('smartbuidling/firstfloor/control','{"header": {"start": 126,"source": 10,"destination": 11,"fc": 223,"size": 10},"actuator": {"output_toggle":{"'+name+'": true}},"crc":171}');
+        $scope.negate = function(name,topic) {
+           mqttProvider.emit('salwatorska6/'+topic+'/control','{"header": {"start": 126,"source": 10,"destination": 11,"fc": 223,"size": 10},"actuator": {"output_toggle":{"'+name+'": true}},"crc":171}');
           };
         mqttProvider.connect(function() {
-            subscriptionId = mqttProvider.subscribe('smartbuidling/firstfloor/#', function (data) {
-                switch(data.destinationName) {
-                    case 'smartbuidling/firstfloor/status':
-                        $scope.state = JSON.parse(data.payloadString).info;
-                        break;
-                    case 'smartbuidling/firstfloor/event':
-                        $scope.events.push(JSON.parse(data.payloadString));
-                        break;
+            subscriptionId = mqttProvider.subscribe('salwatorska6/#', function (data) {
+                if (data.destinationName.endsWith('/status')) {
+                    $scope.state = JSON.parse(data.payloadString).info;
+                }
+                if (data.destinationName.endsWith('/event')) {
+                    $scope.events.push(JSON.parse(data.payloadString));
                 }
             });
             $scope.$on("$destroy", function() {

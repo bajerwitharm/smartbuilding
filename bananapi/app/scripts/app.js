@@ -111,6 +111,7 @@ var smartBuildingApp = angular
                                 'scripts/controllers/dashboardController.js',
                                 'scripts/directives/longpress/longpress.js',
                                 'scripts/directives/timeline/timeline.js',
+                                'scripts/directives/groundfloor/groundfloor.js',
                                 'scripts/directives/firstfloor/firstfloor.js',
                                 'scripts/directives/secondfloor/secondfloor.js',
                                 'scripts/directives/notifications/notifications.js'

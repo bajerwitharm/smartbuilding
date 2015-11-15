@@ -54,7 +54,9 @@ smartBuildingApp.factory('mqttProvider', ['$rootScope',function($rootScope) {
                 connected = false;
                 console.log("Connection failed: " + message.errorMessage);
             },
-			mqttVersion: 3
+			mqttVersion: 3,
+			userName: "Administracja",
+			password: "Administrator@main6"
             };
             if (!connected) {
               client.connect(options);

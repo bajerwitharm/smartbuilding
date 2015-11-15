@@ -1,5 +1,5 @@
 var mqtt = require('mqtt');
-var mqtt_client = mqtt.connect('http://mqtt.salwatorska.pl');
+var mqtt_client = mqtt.connect('http://mqtt.salwatorska.pl',{username:"Mieszkanie1",password:"Atlanta3"});
 var database;
 var socket;
 
@@ -32,27 +32,27 @@ var cleanJson = function (obj) {
 
 
 module.exports.stateInfo = function (data) {
-    mqtt_client.publish("smartbuidling/firstfloor/status", JSON.stringify(data), {'qos':1,'retain':true}, function () {
+    mqtt_client.publish("salwatorska6/firstfloor/status", JSON.stringify(data), {'qos':1,'retain':true}, function () {
     });
 }
 
 module.exports.insertEvent = function (data) {
     //console.log("aaa"+JSON.stringify(data));
-    mqtt_client.publish("smartbuidling/firstfloor/status", JSON.stringify(data), {'qos':1,'retain':true}, function () {
+    mqtt_client.publish("salwatorska6/firstfloor/status", JSON.stringify(data), {'qos':1,'retain':true}, function () {
     });
     cleanJson(data);
-    database.insertNewEvent("smartbuidling/firstfloor/status",JSON.stringify({'activator':data.activator,'actuator':data.actuator}), function (result){
-        mqtt_client.publish("smartbuidling/firstfloor/event", JSON.stringify(result[0].insert_event), {'qos':1,'retain':true}, function () {});
+    database.insertNewEvent("salwatorska6/firstfloor/status",JSON.stringify({'activator':data.activator,'actuator':data.actuator}), function (result){
+        mqtt_client.publish("salwatorska6/firstfloor/event", JSON.stringify(result[0].insert_event), {'qos':1,'retain':true}, function () {});
     });
 }
 
 
 module.exports.relayControl = function (callback) {
-    mqtt_client.subscribe("smartbuidling/firstfloor/control")
+    mqtt_client.subscribe("salwatorska6/firstfloor/control")
     mqtt_client.on('message', function (topic, message) {
         callback(message.toString());
         database.insertNewEvent(topic,message, function (result){
-            mqtt_client.publish("smartbuidling/firstfloor/event", JSON.stringify(result[0].insert_event), {'qos':1,'retain':true}, function () {});
+            mqtt_client.publish("salwatorska6/firstfloor/event", JSON.stringify(result[0].insert_event), {'qos':1,'retain':true}, function () {});
         });
     });
 }
