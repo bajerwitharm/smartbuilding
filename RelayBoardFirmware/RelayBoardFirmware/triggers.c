@@ -63,25 +63,30 @@ states_t getState()
 #define INPUT_10 0x0400
 #define INPUT_11 0x0010
 
-#define MOTION_LEFT INPUT_1
-#define MOTION_RIGHT INPUT_2
-#define CORRIDOR_SWITCH INPUT_3
+#define MOTION_2LEFT INPUT_1
+#define MOTION_2RIGHT INPUT_2
+#define CORRIDOR_2SWITCH INPUT_3
+#define MOTION_3 INPUT_4
+#define CORRIDOR_3SWITCH INPUT_5
 
-#define LAMP_LEFT_OUTPUT_1 RELAY_1
-#define LAMP_LEFT_OUTPUT_2 RELAY_2
-#define LAMP_RIGHT_OUTPUT_1 RELAY_3
-#define LAMP_RIGHT_OUTPUT_2 RELAY_4
+#define LAMP_2LEFT_OUTPUT_1 RELAY_1
+#define LAMP_2LEFT_OUTPUT_2 RELAY_2
+#define LAMP_2RIGHT_OUTPUT_1 RELAY_3
+#define LAMP_2RIGHT_OUTPUT_2 RELAY_4
+#define POWER_24V_OUTPUT RELAY_5
+#define LAMP_3_OUTPUT_1 RELAY_6
+#define LAMP_3_OUTPUT_2 RELAY_7
 
-#define LAMP_LEFT_MONTION_SWTICH_ON 0x01
-#define LAMP_RIGHT_MONTION_SWTICH_ON 0x02
-#define DISABLE_MONTION 0x04
-#define BRIGHT_LIGHT 0x08
-#define HEARDBEAT_STATE 0x10
+#define HEARDBEAT_STATE 0x01
+#define DISABLE_2MONTION 0x02
+#define BRIGHT_2LIGHT 0x04
+#define DISABLE_3MONTION 0x08
+#define BRIGHT_3LIGHT 0x10
 
-#define ON_AFTER_MOTION_TIME_1 60000
+#define ON_AFTER_MOTION_TIME_1 50000
 #define ON_AFTER_MOTION_TIME_2 30000
 #define MOTION_REACTION_TIME 100
-#define HEARDBEAT_TIME 25000
+#define HEARDBEAT_TIME 60000
 
 
 #define MOTION_DETECTION_ENABLED
@@ -140,7 +145,7 @@ trigger_t triggers[] = {
 	{
 		.activator = {
 			.input_on = 0x0000,
-			.input_off = CORRIDOR_SWITCH,
+			.input_off = CORRIDOR_2SWITCH,
 			.output_off = 0x00,
 			.output_on = 0x00,
 			.state_on = 0x00,
@@ -148,7 +153,7 @@ trigger_t triggers[] = {
 		},
 		.actuator = {
 			.output_off = 0x00,
-			.output_toggle = LAMP_LEFT_OUTPUT_1|LAMP_RIGHT_OUTPUT_1,
+			.output_toggle = LAMP_2LEFT_OUTPUT_1|LAMP_2RIGHT_OUTPUT_1,
 			.output_on = 0x00,
 			.state_on = 0x00,
 			.state_off = 0x00,
@@ -163,7 +168,7 @@ trigger_t triggers[] = {
 	{
 		.activator = {
 			.input_on = 0x0000,
-			.input_off = CORRIDOR_SWITCH,
+			.input_off = CORRIDOR_2SWITCH,
 			.output_off = 0x00,
 			.output_on = 0x00,
 			.state_on = 0x00,
@@ -171,7 +176,7 @@ trigger_t triggers[] = {
 		},
 		.actuator = {
 			.output_off = 0x00,
-			.output_toggle = LAMP_LEFT_OUTPUT_2|LAMP_RIGHT_OUTPUT_2,
+			.output_toggle = LAMP_2LEFT_OUTPUT_2|LAMP_2RIGHT_OUTPUT_2,
 			.output_on = 0x00,
 			.state_on = 0x00,
 			.state_off = 0x00,
@@ -182,270 +187,404 @@ trigger_t triggers[] = {
 			.time_current = 0,
 		}
 	},
-	#ifdef MOTION_DETECTION_ENABLED
-	// ON motion detector left low light
-	{
-		.activator = {
-			.input_on = MOTION_LEFT,
-			.input_off = 0x0000,
-			.output_off = 0x00,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = 0x00,
-			.output_toggle = 0x00,
-			.output_on = LAMP_LEFT_OUTPUT_1,
-			.state_on = 0x00,
-			.state_off = 0x00,
-		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
-			.time_current = 0,
-		}
-	},
-	// ON motion detector left bright light
-	{
-		.activator = {
-			.input_on = MOTION_LEFT,
-			.input_off = 0x0000,
-			.output_off = 0x00,
-			.output_on = 0x00,
-			.state_on = BRIGHT_LIGHT,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = 0x00,
-			.output_toggle = 0x00,
-			.output_on = LAMP_LEFT_OUTPUT_2,
-			.state_on = 0x00,
-			.state_off = 0x00,
-		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
-			.time_current = 0,
-		}
-	},
-	// OFF motion detector left
+	// Manual ON/OFF lamps 3
 	{
 		.activator = {
 			.input_on = 0x0000,
-			.input_off = MOTION_LEFT,
+			.input_off = CORRIDOR_3SWITCH,
 			.output_off = 0x00,
-			.output_on = LAMP_LEFT_OUTPUT_1,
-			.state_on = 0x00,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = LAMP_LEFT_OUTPUT_1,
-			.output_toggle = 0x00,
 			.output_on = 0x00,
 			.state_on = 0x00,
 			.state_off = 0x00,
 		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_1),
-			.time_current = 0,
-		}
-	},
-	// OFF motion detector left
-	{
-		.activator = {
-			.input_on = 0x0000,
-			.input_off = MOTION_LEFT,
-			.output_off = 0x00,
-			.output_on = LAMP_LEFT_OUTPUT_2,
-			.state_on = 0x00,
-			.state_off = DISABLE_MONTION,
-		},
 		.actuator = {
-			.output_off = LAMP_LEFT_OUTPUT_2,
-			.output_toggle = 0x00,
+			.output_off = 0x00,
+			.output_toggle = LAMP_3_OUTPUT_2,
 			.output_on = 0x00,
 			.state_on = 0x00,
 			.state_off = 0x00,
+			.state_toggle = 0x00,
 		},
 		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_2),
+			.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),
 			.time_current = 0,
-		}
-	},
-	
-	// ON motion detector right low light
-	{
-		.activator = {
-			.input_on = MOTION_RIGHT,
-			.input_off = 0x0000,
-			.output_off = 0x00,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = 0x00,
-			.output_toggle = 0x00,
-			.output_on = LAMP_RIGHT_OUTPUT_1,
-			.state_on = 0x00,
-			.state_off = 0x00,
-		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
-			.time_current = 0,
-		}
-	},
-	// ON motion detector left bright light
-	{
-		.activator = {
-			.input_on = MOTION_RIGHT,
-			.input_off = 0x0000,
-			.output_off = 0x00,
-			.output_on = 0x00,
-			.state_on = BRIGHT_LIGHT,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = 0x00,
-			.output_toggle = 0x00,
-			.output_on = LAMP_RIGHT_OUTPUT_2,
-			.state_on = 0x00,
-			.state_off = 0x00,
-		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
-			.time_current = 0,
-		}
-	},
-	// OFF motion detector left
-	{
-		.activator = {
-			.input_on = 0x0000,
-			.input_off = MOTION_RIGHT,
-			.output_off = 0x00,
-			.output_on = LAMP_RIGHT_OUTPUT_1,
-			.state_on = 0x00,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = LAMP_RIGHT_OUTPUT_1,
-			.output_toggle = 0x00,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
-		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_1),
-			.time_current = 0,
-		}
-	},
-	// OFF motion detector left
-	{
-		.activator = {
-			.input_on = 0x0000,
-			.input_off = MOTION_RIGHT,
-			.output_off = 0x00,
-			.output_on = LAMP_RIGHT_OUTPUT_2,
-			.state_on = 0x00,
-			.state_off = DISABLE_MONTION,
-		},
-		.actuator = {
-			.output_off = LAMP_RIGHT_OUTPUT_2,
-			.output_toggle = 0x00,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
-		},
-		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_2),
-			.time_current = 0,
-		}
-	},
-	#endif
-};
-
-const uint8_t getNumberOfTriggers()
-{
-	static const uint8_t number_of_triggers =  sizeof(triggers) / sizeof(triggers[0]);
-	return number_of_triggers;
-}
-
-bool stateOffVerified(const uint8_t trigger_index)
-{
-	return ((triggers[trigger_index].activator.state_off & ~device_state) == triggers[trigger_index].activator.state_off);
-}
-
-bool stateOnVerified(const uint8_t trigger_index)
-{
-	return ((triggers[trigger_index].activator.state_on & device_state) == triggers[trigger_index].activator.state_on);
-}
-
-bool inputOffVerified(const uint8_t trigger_index)
-{
-	return ((triggers[trigger_index].activator.input_off & ~ioGetInputs()) == triggers[trigger_index].activator.input_off);
-}
-
-bool inputOnVerified(const uint8_t trigger_index)
-{
-	return ((triggers[trigger_index].activator.input_on & ioGetInputs()) == triggers[trigger_index].activator.input_on);
-}
-
-bool outputOffVerified(const uint8_t trigger_index)
-{
-	return ((triggers[trigger_index].activator.output_off & ~ioGetOutputs()) == triggers[trigger_index].activator.output_off);
-}
-
-bool outputOnVerified(const uint8_t trigger_index)
-{
-	return ((triggers[trigger_index].activator.output_on & ioGetOutputs()) == triggers[trigger_index].activator.output_on);
-}
-
-void activateTrigger(const actuator_t* const actuator_p)
-{
-	ioSetOutput(actuator_p->output_on);
-	ioResetOutput(actuator_p->output_off);
-	ioToggleOutput(actuator_p->output_toggle);
-	setState(actuator_p->state_on);
-	resetState(actuator_p->state_off);
-	toggleState(actuator_p->state_toggle);
-}
-
-void processTrigger(const uint8_t trigger_index) {
-	static uint32_t oldState=0;
-	if (
-	inputOffVerified(trigger_index) &&
-	inputOnVerified(trigger_index) &&
-	outputOffVerified(trigger_index) &&
-	outputOnVerified(trigger_index) &&
-	stateOffVerified(trigger_index) &&
-	stateOnVerified(trigger_index)
-	) {
-		//all condition satisfied, check if action should be triggered
-		if (triggers[trigger_index].timer.time_current == triggers[trigger_index].timer.time_preload) {
-			//already count down and new state should be activated
-			activateTrigger(&triggers[trigger_index].actuator);
-			usartSendAction(&triggers[trigger_index], BUS_MASTER_ADDRESS);
-			triggers[trigger_index].timer.time_current++;
-		}
-		//check if should count down to activate new output state
-		if (triggers[trigger_index].timer.time_current < triggers[trigger_index].timer.time_preload)
+		}},
+		// Manual ON/OFF lamps 3
 		{
-			triggers[trigger_index].timer.time_current++;
-		}
-		oldState |=((uint32_t)1)<<trigger_index;
-	}
-	else
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = CORRIDOR_3SWITCH,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = LAMP_3_OUTPUT_1,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+				.state_toggle = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
+				.time_current = 0,
+			}
+		},
+		#ifdef MOTION_DETECTION_ENABLED
+		// ON motion detector left low light
+		{
+			.activator = {
+				.input_on = MOTION_2LEFT,
+				.input_off = 0x0000,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = 0x00,
+				.output_on = LAMP_2LEFT_OUTPUT_1,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
+				.time_current = 0,
+			}
+		},
+		// ON motion detector left bright light
+		{
+			.activator = {
+				.input_on = MOTION_2LEFT,
+				.input_off = 0x0000,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = BRIGHT_2LIGHT,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = 0x00,
+				.output_on = LAMP_2LEFT_OUTPUT_2,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
+				.time_current = 0,
+			}
+		},
+		// OFF motion detector left
+		{
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = MOTION_2LEFT,
+				.output_off = 0x00,
+				.output_on = LAMP_2LEFT_OUTPUT_1,
+				.state_on = 0x00,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = LAMP_2LEFT_OUTPUT_1,
+				.output_toggle = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_1),
+				.time_current = 0,
+			}
+		},
+		// OFF motion detector left
+		{
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = MOTION_2LEFT,
+				.output_off = 0x00,
+				.output_on = LAMP_2LEFT_OUTPUT_2,
+				.state_on = 0x00,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = LAMP_2LEFT_OUTPUT_2,
+				.output_toggle = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_2),
+				.time_current = 0,
+			}
+		},
+		
+		// ON motion detector right low light
+		{
+			.activator = {
+				.input_on = MOTION_2RIGHT,
+				.input_off = 0x0000,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = 0x00,
+				.output_on = LAMP_2RIGHT_OUTPUT_1,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
+				.time_current = 0,
+			}
+		},
+		// ON motion detector left bright light
+		{
+			.activator = {
+				.input_on = MOTION_2RIGHT,
+				.input_off = 0x0000,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = BRIGHT_2LIGHT,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = 0x00,
+				.output_on = LAMP_2RIGHT_OUTPUT_2,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
+				.time_current = 0,
+			}
+		},
+		// OFF motion detector left
+		{
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = MOTION_2RIGHT,
+				.output_off = 0x00,
+				.output_on = LAMP_2RIGHT_OUTPUT_1,
+				.state_on = 0x00,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = LAMP_2RIGHT_OUTPUT_1,
+				.output_toggle = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_1),
+				.time_current = 0,
+			}
+		},
+		// OFF motion detector left
+		{
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = MOTION_2RIGHT,
+				.output_off = 0x00,
+				.output_on = LAMP_2RIGHT_OUTPUT_2,
+				.state_on = 0x00,
+				.state_off = DISABLE_2MONTION,
+			},
+			.actuator = {
+				.output_off = LAMP_2RIGHT_OUTPUT_2,
+				.output_toggle = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_2),
+				.time_current = 0,
+			}
+		},
+		// ON motion detector right low light
+		{
+			.activator = {
+				.input_on = MOTION_3,
+				.input_off = 0x0000,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = DISABLE_3MONTION,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = 0x00,
+				.output_on = LAMP_3_OUTPUT_1,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
+				.time_current = 0,
+			}
+		},
+		// ON motion detector left bright light
+		{
+			.activator = {
+				.input_on = MOTION_3,
+				.input_off = 0x0000,
+				.output_off = 0x00,
+				.output_on = 0x00,
+				.state_on = BRIGHT_3LIGHT,
+				.state_off = DISABLE_3MONTION,
+			},
+			.actuator = {
+				.output_off = 0x00,
+				.output_toggle = 0x00,
+				.output_on = LAMP_3_OUTPUT_2,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(MOTION_REACTION_TIME),
+				.time_current = 0,
+			}
+		},
+		// OFF motion detector left
+		{
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = MOTION_3,
+				.output_off = 0x00,
+				.output_on = LAMP_3_OUTPUT_1,
+				.state_on = 0x00,
+				.state_off = DISABLE_3MONTION,
+			},
+			.actuator = {
+				.output_off = LAMP_3_OUTPUT_1,
+				.output_toggle = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_1),
+				.time_current = 0,
+			}
+		},
+		
+		// OFF motion detector left
+		{
+			.activator = {
+				.input_on = 0x0000,
+				.input_off = MOTION_3,
+				.output_off = 0x00,
+				.output_on = LAMP_3_OUTPUT_2,
+				.state_on = 0x00,
+				.state_off = DISABLE_3MONTION,
+			},
+			.actuator = {
+				.output_off = LAMP_3_OUTPUT_2,
+				.output_toggle = 0x00,
+				.output_on = 0x00,
+				.state_on = 0x00,
+				.state_off = 0x00,
+			},
+			.timer = {
+				.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_2),
+				.time_current = 0,
+			}
+		},
+		#endif
+	};
+
+	const uint8_t getNumberOfTriggers()
 	{
-		//condition not valid, set countdown counter to 0
-		if (!(oldState&(((uint32_t)1)<<trigger_index))) {
-			triggers[trigger_index].timer.time_current = 0;
+		static const uint8_t number_of_triggers =  sizeof(triggers) / sizeof(triggers[0]);
+		return number_of_triggers;
+	}
+
+	bool stateOffVerified(const uint8_t trigger_index)
+	{
+		return ((triggers[trigger_index].activator.state_off & ~device_state) == triggers[trigger_index].activator.state_off);
+	}
+
+	bool stateOnVerified(const uint8_t trigger_index)
+	{
+		return ((triggers[trigger_index].activator.state_on & device_state) == triggers[trigger_index].activator.state_on);
+	}
+
+	bool inputOffVerified(const uint8_t trigger_index)
+	{
+		return ((triggers[trigger_index].activator.input_off & ~ioGetInputs()) == triggers[trigger_index].activator.input_off);
+	}
+
+	bool inputOnVerified(const uint8_t trigger_index)
+	{
+		return ((triggers[trigger_index].activator.input_on & ioGetInputs()) == triggers[trigger_index].activator.input_on);
+	}
+
+	bool outputOffVerified(const uint8_t trigger_index)
+	{
+		return ((triggers[trigger_index].activator.output_off & ~ioGetOutputs()) == triggers[trigger_index].activator.output_off);
+	}
+
+	bool outputOnVerified(const uint8_t trigger_index)
+	{
+		return ((triggers[trigger_index].activator.output_on & ioGetOutputs()) == triggers[trigger_index].activator.output_on);
+	}
+
+	void activateTrigger(const actuator_t* const actuator_p)
+	{
+		ioSetOutput(actuator_p->output_on);
+		ioResetOutput(actuator_p->output_off);
+		ioToggleOutput(actuator_p->output_toggle);
+		setState(actuator_p->state_on);
+		resetState(actuator_p->state_off);
+		toggleState(actuator_p->state_toggle);
+	}
+
+	void processTrigger(const uint8_t trigger_index) {
+		static uint32_t oldState=0;
+		if (
+		inputOffVerified(trigger_index) &&
+		inputOnVerified(trigger_index) &&
+		outputOffVerified(trigger_index) &&
+		outputOnVerified(trigger_index) &&
+		stateOffVerified(trigger_index) &&
+		stateOnVerified(trigger_index)
+		) {
+			//all condition satisfied, check if action should be triggered
+			if (triggers[trigger_index].timer.time_current == triggers[trigger_index].timer.time_preload) {
+				//already count down and new state should be activated
+				activateTrigger(&triggers[trigger_index].actuator);
+				usartSendAction(&triggers[trigger_index], BUS_MASTER_ADDRESS);
+				triggers[trigger_index].timer.time_current++;
+			}
+			//check if should count down to activate new output state
+			if (triggers[trigger_index].timer.time_current < triggers[trigger_index].timer.time_preload)
+			{
+				triggers[trigger_index].timer.time_current++;
+			}
+			oldState |=((uint32_t)1)<<trigger_index;
 		}
-		oldState &=~(((uint32_t)1)<<trigger_index);
+		else
+		{
+			//condition not valid, set countdown counter to 0
+			if (!(oldState&(((uint32_t)1)<<trigger_index))) {
+				triggers[trigger_index].timer.time_current = 0;
+			}
+			oldState &=~(((uint32_t)1)<<trigger_index);
+		}
+
 	}
 
-}
-
-void processTriggers() {
-	for (uint8_t i=0;i<getNumberOfTriggers();i++) {
-		processTrigger(i);
+	void processTriggers() {
+		for (uint8_t i=0;i<getNumberOfTriggers();i++) {
+			processTrigger(i);
+		}
 	}
-}
