@@ -31,7 +31,7 @@ void resetState(const states_t bits_to_deactivate)
 
 void toggleState(const states_t bits_to_toggle)
 {
- 	device_state ^= bits_to_toggle;
+	device_state ^= bits_to_toggle;
 }
 
 states_t getState()
@@ -87,6 +87,7 @@ states_t getState()
 #define ON_AFTER_MOTION_TIME_2 50000
 #define MOTION_REACTION_TIME 100
 #define HEARDBEAT_TIME 60000
+#define OFF_TIME_24V 5000
 
 
 #define MOTION_DETECTION_ENABLED
@@ -142,7 +143,30 @@ trigger_t triggers[] = {
 			.time_current = 0,
 		}
 	},
-#ifdef MANUAL_ON_ENABLED
+	// 24V_OFF relay
+	{
+		.activator = {
+			.input_on = 0x0000,
+			.input_off = 0x0000,
+			.output_off = 0x00,
+			.output_on = POWER_24V_OUTPUT,
+			.state_on = 0x00,
+			.state_off = 0x00,
+		},
+		.actuator = {
+			.output_off = POWER_24V_OUTPUT,
+			.output_toggle = 0x0000,
+			.output_on = 0x00,
+			.state_on = 0x00,
+			.state_off = 0x00,
+			.state_toggle = 0x00,
+		},
+		.timer = {
+			.time_preload = TIMER_MS_TO_TIMER(HEARDBEAT_TIME),
+			.time_current = 0,
+		}
+	},
+	#ifdef MANUAL_ON_ENABLED
 	// Manual ON/OFF lamps 1
 	{
 		.activator = {

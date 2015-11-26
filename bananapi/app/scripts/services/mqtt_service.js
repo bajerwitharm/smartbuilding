@@ -4,7 +4,7 @@ smartBuildingApp.factory('mqttProvider', ['$rootScope',function($rootScope) {
     //by Matthew Bordignon @bordignon on twitter.
 
     var wsbroker = "salwatorska.pl";  //mqtt websocket enabled broker
-    var wsport = 80 // port for above
+    var wsport = 8000 // port for above
 
     var callbacks = [];
     var connected = false;
