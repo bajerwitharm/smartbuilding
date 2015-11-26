@@ -3,13 +3,20 @@
 #include "mqtt.h"
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-
-const char* ssid     = "TP-LINK_ANIA";
-const char* password = "KochamAnie1";
+//const char* ssid     = "TP-LINK_ANIA";
+const char* ssid     = "Salwatorska6admin";
+const char* password = "Administrator@wifi6";
+//const char* password = "KochamAnie1";
 const char* mqtt_server = "mqtt.salwatorska.pl";
+const char* mqtt_user = "secondfloor";
+const char* mqtt_password = "secondfloor";
+
+
+const char* host_name = "secondfloor";
 const char* mqtt_control_topic = "salwatorska6/secondfloor/control";
 const char* mqtt_status_topic = "salwatorska6/secondfloor/status";
 const char* mqtt_debug_topic = "salwatorska6/secondfloor/debug";
+//#define DEBUG
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -20,7 +27,7 @@ void setup_wifi() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
 #endif
-
+ // WiFi.hostname(host_name);
   WiFi.begin(ssid, password); 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -64,7 +71,7 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
 #endif
     // Attempt to connect
-    if (client.connect("ESP8266Client")) {
+    if (client.connect(host_name,mqtt_user,mqtt_password)) {
 #if defined(DEBUG) 
       Serial.println("Connected");
 #endif
@@ -90,7 +97,7 @@ void Mqtt::mqtt_loop() {
 }
 
 void Mqtt::publish_status(uint8_t* message, size_t length) {
-  client.publish(mqtt_status_topic, message, length);
+  client.publish(mqtt_status_topic, message, length, true);
 }
 
 void Mqtt::publish_debug(uint8_t* message, size_t length) {

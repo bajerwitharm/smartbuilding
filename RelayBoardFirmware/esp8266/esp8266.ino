@@ -8,7 +8,7 @@
 #include "telegrams.h"
 #include "serial.h"
 #include "mqtt.h"
-#define DEBUG
+//#define DEBUG
 
 Mqtt mqtt;
 

@@ -31,7 +31,7 @@ void resetState(const states_t bits_to_deactivate)
 
 void toggleState(const states_t bits_to_toggle)
 {
-	device_state ^= bits_to_toggle;
+ 	device_state ^= bits_to_toggle;
 }
 
 states_t getState()
@@ -63,9 +63,9 @@ states_t getState()
 #define INPUT_10 0x0400
 #define INPUT_11 0x0010
 
-#define MOTION_2LEFT INPUT_1
-#define MOTION_2RIGHT INPUT_2
-#define CORRIDOR_2SWITCH INPUT_3
+#define MOTION_2LEFT INPUT_7
+#define MOTION_2RIGHT INPUT_8
+#define CORRIDOR_2SWITCH INPUT_6
 #define MOTION_3 INPUT_4
 #define CORRIDOR_3SWITCH INPUT_5
 
@@ -84,12 +84,13 @@ states_t getState()
 #define BRIGHT_3LIGHT 0x10
 
 #define ON_AFTER_MOTION_TIME_1 50000
-#define ON_AFTER_MOTION_TIME_2 30000
+#define ON_AFTER_MOTION_TIME_2 50000
 #define MOTION_REACTION_TIME 100
 #define HEARDBEAT_TIME 60000
 
 
 #define MOTION_DETECTION_ENABLED
+#define MANUAL_ON_ENABLED
 
 #define SHORT_CLICK_TIME 200
 #define LONG_CLICK_TIME 1500
@@ -141,6 +142,7 @@ trigger_t triggers[] = {
 			.time_current = 0,
 		}
 	},
+#ifdef MANUAL_ON_ENABLED
 	// Manual ON/OFF lamps 1
 	{
 		.activator = {
@@ -232,6 +234,7 @@ trigger_t triggers[] = {
 				.time_current = 0,
 			}
 		},
+		#endif
 		#ifdef MOTION_DETECTION_ENABLED
 		// ON motion detector left low light
 		{

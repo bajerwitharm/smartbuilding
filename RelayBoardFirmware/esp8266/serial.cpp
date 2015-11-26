@@ -59,7 +59,9 @@ void send_telegram() {
         return;
       }
     }
+#if defined(DEBUG) 
     mqtt.publish_debug(&tx_buffer.data[tx_buffer.index],1);
+#endif
     Serial.write(tx_buffer.data[tx_buffer.index++]);
   }
   Serial.write(FRAME_END_CHAR);
@@ -68,7 +70,9 @@ void send_telegram() {
 void serialEvent() {
   while (Serial.available()) {
     uint8_t received = Serial.read(); // Fetch the received byte value into the variable "received"
+#if defined(DEBUG) 
     mqtt.publish_debug(&received,1);
+#endif
     if (received == FRAME_START_CHAR) {
       rx_buffer.index = 0;
       rx_buffer.size = 0xFF;

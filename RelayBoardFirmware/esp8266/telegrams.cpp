@@ -11,13 +11,24 @@ typedef uint16_t inputs_t;
 typedef uint8_t outputs_t;
 typedef uint16_t states_t;
 
+//maps physical relays on the board with logical abstraction layer outputs
+#define RELAY_1 "bulb_2stairs_right_small"
+#define RELAY_2 "bulb_2stairs_right_main"
+#define RELAY_3 "bulb_2stairs_left_small"
+#define RELAY_4 "bulb_2stairs_left_main"
+#define RELAY_5 "OFF_24"
+#define RELAY_6 "bulb_3stairs_small"
+#define RELAY_7 "bulb_3stairs_main"
+#define RELAY_8 ""
 
-//const char* outputs[20] = {"bulb_1room_right", "bulb_1room_left" , "bulb_1kitchen_center", "bulb_1toilet_center", "bulb_1corridor", "bulb_1toilet_mirror", "reset","bulb_1kitchen_desk", NULL};
-const char* outputs[20] = {"bulb_2stairs_left_small", "bulb_2stairs_left_main", "bulb_2stairs_right_small", "bulb_2stairs_right_main", "OFF_24", "bulb_3stairs_small", "bulb_3stairs_main", NULL};
-//const char* states[20] = { "HeardBeat", NULL };
-const char* states[20] = { "heard_beat_2stairs", "disable_motion_2stairs", "bright_light_2stairs", "disable_motion_3stairs", "bright_light_3stairs", NULL };
+//const char* outputs[16] = {"bulb_1room_right", "bulb_1room_left" , "bulb_1kitchen_center", "bulb_1toilet_center", "bulb_1corridor", "bulb_1toilet_mirror", "reset","bulb_1kitchen_desk", NULL};
+//const char* outputs[9] = {RELAY_3, RELAY_4, RELAY_1, RELAY_7, RELAY_5, RELAY_6, RELAY_8, RELAY_2, NULL};
+const char* outputs[9] = {RELAY_4, RELAY_3, RELAY_2, RELAY_7, RELAY_5, RELAY_6, RELAY_8, RELAY_1, NULL};
+
+//const char* states[16] = { "HeardBeat", NULL };
+const char* states[16] = { "heard_beat_2stairs", "motion_2stairs_off", "bright_light_2stairs", "motion_3stairs_off", "bright_light_3stairs", NULL };
 //const char* inputs[20] = { "switch_lamp_kitchen", "switch_room_lamp", "switch_corridor", "switch_toilet_mirror", "switch_toilet_main", "motion_kitchen", "motion_room", "motion_corridor", NULL};
-const char* inputs[20] = {"motion_2stairs_left","motion_2stairs_right","switch_2stairs", "motion_3stairs","switch_3stairs",NULL};
+const char* inputs[16] = {"","","", "motion_3stairs","switch_3stairs","switch_2stairs","motion_2stairs_right","motion_2stairs_left",NULL};
 #pragma pack(1)
 
 //{"header":{"start":126,"source":11,"destination":10,"fc":222,"size":28},"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":0},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"states":{"HeardBeat":false}},"crc":0}
@@ -147,9 +158,9 @@ void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
     for (size_t i = 0; elements[i]!=NULL; i++)
     {
         const char* element = elements[i];
-        
+        if (strcmp(element,"")!=0){
           if (i < 8) {
-            if (out_telegram[0]&(1 << i)) {
+            if ((out_telegram[0]&(1 << (i)))!=0) {
               json[element] = true;  
 #if defined(DEBUG) 
           Serial.print("Setting:");
@@ -168,7 +179,7 @@ void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
             }            
           }
           else {
-            if (out_telegram[1]&(1 << (i-8))) {
+            if ((out_telegram[1]&(1 << ((i-8))))!=0) {
               json[element] = true;  
 #if defined(DEBUG) 
           Serial.print("Setting:");
@@ -186,6 +197,7 @@ void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
 #endif   
             } 
           } 
+        }
     }
 }
 
@@ -249,10 +261,10 @@ void decode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
 #endif          
           if (it->value.as<bool>()) {
             if (i < 8) {
-              out_telegram[0] |= (1 << i);
+              out_telegram[0] |= (1 << (i));
             }
             else {
-              out_telegram[1] |= (1 << (i - 8));
+              out_telegram[1] |= (1 << (i-8));
             } 
           } 
         }

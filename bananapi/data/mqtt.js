@@ -1,5 +1,5 @@
 var mqtt = require('mqtt');
-var mqtt_client = mqtt.connect('http://mqtt.salwatorska.pl',{username:"Mieszkanie1",password:"Atlanta3"});
+var mqtt_client = mqtt.connect('http://mqtt.salwatorska.pl',{username:"Administracja",password:"Administrator@main6"});
 var database;
 var socket;
 

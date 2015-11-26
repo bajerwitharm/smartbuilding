@@ -15,6 +15,9 @@ angular.module('smartBuildingApp')
         $scope.negate = function(name,topic) {
            mqttProvider.emit('salwatorska6/'+topic+'/control','{"header": {"start": 126,"source": 10,"destination": 11,"fc": 223,"size": 10},"actuator": {"output_toggle":{"'+name+'": true}},"crc":171}');
           };
+        $scope.negate_state = function(name,topic) {
+           mqttProvider.emit('salwatorska6/'+topic+'/state','{"header": {"start": 126,"source": 10,"destination": 11,"fc": 223,"size": 10},"actuator": {"state_toggle":{"'+name+'": true}},"crc":171}');
+        };
         mqttProvider.connect(function() {
             subscriptionId = mqttProvider.subscribe('salwatorska6/#', function (data) {
                 if (data.destinationName.endsWith('/status')) {
