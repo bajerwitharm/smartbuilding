@@ -3,7 +3,7 @@ smartBuildingApp.factory('mqttProvider', ['$rootScope',function($rootScope) {
     //sample HTML/JS script that will publish/subscribe to topics in the Google Chrome Console
     //by Matthew Bordignon @bordignon on twitter.
 
-    var wsbroker = "salwatorska.pl";  //mqtt websocket enabled broker
+    var wsbroker = "mqtt.salwatorska.pl";  //mqtt websocket enabled broker
     var wsport = 8000 // port for above
 
     var callbacks = [];

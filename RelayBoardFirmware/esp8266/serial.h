@@ -24,6 +24,5 @@ void setup_serial();
 void serial_loop();
 void send_telegram();
 
-
-
 #endif
+

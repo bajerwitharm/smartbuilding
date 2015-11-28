@@ -140,7 +140,7 @@ void usartGetTriggers()
 	triggerRequest->header.size = sizeof(trigger_t);
 	for (uint8_t i=0;i<getNumberOfTriggers();i++){
 		waitUntilSendingOver();
-		_delay_ms(20);
+		_delay_ms(400);
 		triggerRequest->trigger_id=i;
 		memcpy(&triggerRequest->trigger,&triggers[i],sizeof(trigger_t));
 		tx_buffer.size = sizeof(action_triggered_t);
