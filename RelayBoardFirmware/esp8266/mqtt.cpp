@@ -31,6 +31,7 @@ void reconnect() {
     if (client.connect(HOST_NAME, MQTT_USER, MQTT_PASSWORD)) {
       client.subscribe(MQTT_CONTROL_TOPIC);
     } else {
+       delay(5000);
     }
   }
 }
