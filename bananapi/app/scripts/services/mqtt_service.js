@@ -26,7 +26,6 @@ smartBuildingApp.factory('mqttProvider', ['$rootScope',function($rootScope) {
     };
 
     client.onMessageArrived = function (message) {
-      //console.log(message.destinationName, ' -- ', message.payloadString);
       callbacks.filter(isInTopic,message).forEach(
           function(element) {
               var args = arguments;

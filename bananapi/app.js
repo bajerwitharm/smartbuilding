@@ -116,8 +116,6 @@ RED.start();
 
 console.log('Windows?:' + isWin64);
 
-var relayBoard = require('./routes/relay_board.js');
-relayBoard.init(mqtt);
 
 
 app.get('/loggedin', function (req, res) {
@@ -133,4 +131,3 @@ app.post('/logout', function (req, res) {
     res.send(200);
 });
 
-app.get('/getRelayBoardInfo', relayBoard.requestInfo);

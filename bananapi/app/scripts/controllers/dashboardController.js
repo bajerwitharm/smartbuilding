@@ -20,23 +20,25 @@ angular.module('smartBuildingApp')
         };
         mqttProvider.connect(function() {
             subscriptionId = mqttProvider.subscribe('salwatorska6/#', function (data) {
-                if (data.destinationName.endsWith('/status')) {
-                    if (JSON.stringify($scope.state.inputs)!=JSON.stringify(JSON.parse(data.payloadString).info.inputs)){
-                        console.log($scope.state.inputs);
-                        console.log(JSON.parse(data.payloadString).info.inputs);
+                try {
+                    if (data.destinationName.endsWith('/status')) {
+                        jQuery.extend($scope.state.inputs,JSON.parse(data.payloadString).info.inputs);
+                        jQuery.extend($scope.state.outputs,JSON.parse(data.payloadString).info.outputs);
+                        jQuery.extend($scope.state.states,JSON.parse(data.payloadString).info.states);
                     }
-                    jQuery.extend($scope.state.inputs,JSON.parse(data.payloadString).info.inputs);
-                    jQuery.extend($scope.state.outputs,JSON.parse(data.payloadString).info.outputs);
-                    jQuery.extend($scope.state.states,JSON.parse(data.payloadString).info.states);
+                    if (data.destinationName.endsWith('/event')) {
+                        $scope.events.push(JSON.parse(data.payloadString));
+                    }
+                } catch(err) {
+
                 }
-                if (data.destinationName.endsWith('/event')) {
-                    $scope.events.push(JSON.parse(data.payloadString));
-                }
+
             });
             $scope.$on("$destroy", function() {
                 mqttProvider.unsubscribe(subscriptionId);
             });
 
         })
+
 
     }]);

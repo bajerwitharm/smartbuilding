@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "triggers.h"
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
@@ -17,8 +18,7 @@
 #define F_CPU 1000000 // 1 Mhz
 #endif
 
-typedef uint16_t inputs_t;
-typedef uint8_t outputs_t;
-typedef uint16_t states_t;
+extern trigger_t triggers[];
+const uint8_t getNumberOfTriggers();
 
 #endif /* INCFILE1_H_ */
