@@ -44,7 +44,7 @@ module.exports.init = function(mqtt_server) {
 			try {
                 json = datagram.substring(datagram.indexOf('{'), datagram.lastIndexOf('}')+1)
 			    var alarmEntries = JSON.parse("[" + json + "]");
-			    mqtt.publish("salwatorska6/firstfloor/status", '{"SerialID":'+ json.SerialID+', "Event": '+json.Event+', "Type":'+ json.Type+',"Status":'+json.Status+'}', {'qos':1,'retain':true}, function () {});
+			    mqtt.publish("salwatorska6/firstfloor/status", '{"SerialID":'+ alarmEntries.SerialID+', "Event": '+alarmEntries.Event+', "Type":'+ alarmEntries.Type+',"Status":'+alarmEntries.Status+'}', {'qos':1,'retain':true}, function () {});
   			    if (alarmEntries[0].Status=="Start") {	
 					app.settings.forEach(function(element) {
                         if (alarmEntries[0].SerialID == element.serialId) {
