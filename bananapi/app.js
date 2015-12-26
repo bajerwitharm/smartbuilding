@@ -131,3 +131,7 @@ app.post('/logout', function (req, res) {
     res.send(200);
 });
 
+onvifCameras = require('./routes/onvif.js');
+onvifCameras.init();
+
+

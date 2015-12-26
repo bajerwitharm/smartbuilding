@@ -20,7 +20,7 @@
 
 #define HEARDBEAT_TIME 60000
 #define HEARDBEAT_STATE 0x01
-#define STAIRCASE
+//#define STAIRCASE
 //#define FIRST_FLOOR
 
 #ifdef STAIRCASE
@@ -52,23 +52,21 @@
 #else
 #define ON_AFTER_MOTION_TIME 10000
 #define KITCHEN_LAMP_SWITCH_1 INPUT_1
-#define KITCHEN_LAMP_SWITCH_2 INPUT_2
-#define ROOM_LAMP_SWITCH_1	INPUT_3
-#define ROOM_LAMP_SWITCH_2	INPUT_4
-#define CORRIDOR_LAMP_SWITCH INPUT_5
-#define TOILET_LAMP_SWITCH_1 INPUT_6
-#define TOILET_LAMP_SWITCH_2 INPUT_7
-#define KITCHEN_LAMP_MOTION INPUT_8
-#define ROOM_LAMP_MOTION	INPUT_9
-#define CORRIDOR_LAMP_MOTION INPUT_10
+#define ROOM_LAMP_SWITCH_1	INPUT_2
+#define CORRIDOR_LAMP_SWITCH INPUT_7
+#define TOILET_LAMP_SWITCH_1 INPUT_4
+#define TOILET_LAMP_SWITCH_2 INPUT_5
+#define KITCHEN_LAMP_MOTION INPUT_3
+#define ROOM_LAMP_MOTION	INPUT_8
+#define CORRIDOR_LAMP_MOTION INPUT_9
 
-#define KITCHEN_LAMP_OUTPUT_1 RELAY_1
-#define KITCHEN_LAMP_OUTPUT_2 RELAY_2
+#define KITCHEN_LAMP_OUTPUT_1 RELAY_7
+#define KITCHEN_LAMP_OUTPUT_2 RELAY_6
 #define ROOM_LAMP_OUTPUT_1 RELAY_3
-#define ROOM_LAMP_OUTPUT_2 RELAY_4
-#define CORRIDOR_LAMP_OUTPUT RELAY_5
-#define TOILET_LAMP_OUTPUT_1 RELAY_6
-#define TOILET_LAMP_OUTPUT_2 RELAY_7
+#define ROOM_LAMP_OUTPUT_2 RELAY_2
+#define CORRIDOR_LAMP_OUTPUT RELAY_8
+#define TOILET_LAMP_OUTPUT_1 RELAY_5
+#define TOILET_LAMP_OUTPUT_2 RELAY_1
 
 #define KITCHEN_LAMP_1_MANUAL_SWTICH_ON 0x01
 #define KITCHEN_LAMP_2_MANUAL_SWTICH_ON 0x02
@@ -81,7 +79,7 @@
 
 #endif
 
-#define MOTION_DETECTION_ENABLED
+//#define MOTION_DETECTION_ENABLED
 #define MANUAL_ON_ENABLED
 
 #define SHORT_CLICK_TIME 200
@@ -460,7 +458,7 @@ trigger_t triggers[] = {
 	// ON/OFF switch kitchen lamp 1
 	{
 		.activator = {
-			.input_on = KITCHEN_LAMP_SWITCH_1,			
+			.input_off = KITCHEN_LAMP_SWITCH_1,			
 		},		
 		.actuator = {
 			.output_toggle = KITCHEN_LAMP_OUTPUT_1,
@@ -473,20 +471,20 @@ trigger_t triggers[] = {
 	// ON/OFF switch kitchen lamp 2
 	{
 		.activator = {
-			.input_on = KITCHEN_LAMP_SWITCH_2,			
+			.input_off = KITCHEN_LAMP_SWITCH_1,			
 		},
 		.actuator = {
 			.output_toggle = KITCHEN_LAMP_OUTPUT_2,
 			.state_toggle = KITCHEN_LAMP_2_MANUAL_SWTICH_ON
 		},
 		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),			
+			.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),			
 		}
 	},
 	//// ON/OFF switch room lamp 1
 	{
 		.activator = {
-			.input_on = ROOM_LAMP_SWITCH_1,			
+			.input_off = ROOM_LAMP_SWITCH_1,			
 		},
 		.actuator = {
 			.output_toggle = ROOM_LAMP_OUTPUT_1,
@@ -499,20 +497,20 @@ trigger_t triggers[] = {
 	// ON/OFF switch room lamp 2
 	{
 		.activator = {
-			.input_on = ROOM_LAMP_SWITCH_2,			
+			.input_off = ROOM_LAMP_SWITCH_1,			
 		},
 		.actuator = {
 			.output_toggle = ROOM_LAMP_OUTPUT_2,
 			.state_toggle = ROOM_LAMP_2_MANUAL_SWTICH_ON,
 		},
 		.timer = {
-			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),			
+			.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),			
 		}
 	},
 	// ON/OFF switch corridor lamp
 	{
 		.activator = {
-			.input_on = CORRIDOR_LAMP_SWITCH,			
+			.input_off = CORRIDOR_LAMP_SWITCH,			
 		},
 		.actuator = {
 			.output_toggle = CORRIDOR_LAMP_OUTPUT,			
@@ -525,7 +523,7 @@ trigger_t triggers[] = {
 	// ON/OFF switch outside Toilet lamp 1
 	{
 		.activator = {
-			.input_on = TOILET_LAMP_SWITCH_1,			
+			.input_off = TOILET_LAMP_SWITCH_1,			
 		},
 		.actuator = {
 			.output_toggle = TOILET_LAMP_OUTPUT_1,			
@@ -533,76 +531,42 @@ trigger_t triggers[] = {
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),		
 		}
-	},
+	},{
 	// ON/OFF switch outside Toilet lamp 2
-	//{
-	//.activator = {
-	//.input_off = 0x0000,
-	//.input_on = TOILET_LAMP_SWITCH_1,
-	//.output_off = 0x00,
-	//.output_on = 0x00,
-	//.state_on = 0x00,
-	//.state_off = 0x00,
-	//},
-	//.actuator = {
-	//.output_off = 0x00,
-	//.output_toggle = TOILET_LAMP_OUTPUT_2,
-	//.output_on = 0x00,
-	//.state_on = 0x00,
-	//.state_off = 0x00,
-	//.state_toggle = 0x00,
-	//},
-	//.timer = {
-	//.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),
-	//.time_current = 0,
-	//}
-	//},
+	{
+	.input_off = TOILET_LAMP_SWITCH_1,
+	},
+	.actuator = {
+	.output_toggle = TOILET_LAMP_OUTPUT_2,
+	},
+	.timer = {
+	.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),
+	}
+	},
 	// ON/OFF switch inside Toilet lamp 1
 	{
 		.activator = {
-			.input_off = 0x0000,
-			.input_on = TOILET_LAMP_SWITCH_2,
-			.output_off = 0x00,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
+			.input_off = TOILET_LAMP_SWITCH_2,
 		},
 		.actuator = {
-			.output_off = 0x00,
 			.output_toggle = TOILET_LAMP_OUTPUT_2,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
-			.state_toggle = 0x00,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	//// ON/OFF switch inside Toilet lamp 2
-	//{
-	//.activator = {
-	//.input_off = 0x0000,
-	//.input_on = TOILET_LAMP_SWITCH_2,
-	//.output_off = 0x00,
-	//.output_on = 0x00,
-	//.state_on = 0x00,
-	//.state_off = 0x00,
-	//},
-	//.actuator = {
-	//.output_off = 0x00,
-	//.output_toggle = TOILET_LAMP_OUTPUT_1,
-	//.output_on = 0x00,
-	//.state_on = 0x00,
-	//.state_off = 0x00,
-	//.state_toggle = 0x00,
-	//},
-	//.timer = {
-	//.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),
-	//.time_current = 0,
-	//}
-	//},
+	{
+	.activator = {
+	.input_off = TOILET_LAMP_SWITCH_2,
+	},
+	.actuator = {
+	.output_toggle = TOILET_LAMP_OUTPUT_1,
+	},
+	.timer = {
+	.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),
+	}
+	},
 	#ifdef MOTION_DETECTION_ENABLED
 	// ON motion detector kitchen lamp
 	{
