@@ -132,6 +132,6 @@ app.post('/logout', function (req, res) {
 });
 
 onvifCameras = require('./routes/onvif.js');
-onvifCameras.init();
+onvifCameras.init(mqtt);
 
 

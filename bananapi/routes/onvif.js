@@ -44,8 +44,7 @@ module.exports.init = function(mqtt_server) {
 			try {
                 json = datagram.substring(datagram.indexOf('{'), datagram.lastIndexOf('}')+1)
 			    var alarmEntries = JSON.parse("[" + json + "]");
-                mqtt_message = '{"SerialID": "'+ alarmEntries.SerialID+'", "Event": "'+alarmEntries.Event+'", "Type": "'+ alarmEntries.Type+'", "Status":"'+alarmEntries.Status+'"}';
-                console.log(mqtt_message);
+                mqtt_message = '{"SerialID": "'+ alarmEntries[0].SerialID+'", "Event": "'+alarmEntries[0].Event+'", "Type": "'+ alarmEntries[0].Type+'", "Status":"'+alarmEntries[0].Status+'"}';
 			    mqtt.publish("salwatorska6/firstfloor/status", mqtt_message, {'qos':1,'retain':true}, function () {});
   			    if (alarmEntries[0].Status=="Start") {	
 					app.settings.forEach(function(element) {
@@ -65,9 +64,10 @@ module.exports.init = function(mqtt_server) {
 }
 
 recordCamera = function(camera) {
-    exec("ffmpeg -i "+camera.url + " -t 60 -vcodec copy -preset slow /ftp/today/`date +%#F_%H.%M.%S`_"+camera.name+".mp4",
+    exec("ffmpeg -i "+camera.url + " -t 60 -vcodec copy -preset slow /ftp/`date +%#F_%H.%M.%S`_"+camera.name+".mp4",
 	    function puts(error, stdout, stderr){
 	});
+    console.log("recording");
 }
 
 module.exports.getLiveCamera = function(req, res) {
