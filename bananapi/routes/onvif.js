@@ -5,7 +5,6 @@ var numberOfClients = 0;
 var numberOfClients2 = 0;
 var EventEmitter = require('events').EventEmitter
 var app = new EventEmitter;
-var database;
 
 module.exports = app
 
@@ -32,8 +31,9 @@ app.settings = [{
 }
 ];
 
-module.exports.init = function() {
+module.exports.init = function(mqtt_server) {
     var datagram = "";
+    var mqtt = mqtt_server.get_client();
     var server = require('net').createServer(
 	    function(stream) {
 		stream.setEncoding('utf8');
@@ -44,7 +44,7 @@ module.exports.init = function() {
 			try {
                 json = datagram.substring(datagram.indexOf('{'), datagram.lastIndexOf('}')+1)
 			    var alarmEntries = JSON.parse("[" + json + "]");
-			    console.log(alarmEntries);
+			    mqtt.publish("salwatorska6/firstfloor/status", {"SerialID": json.SerialID, "Event": json.Event, "Type": json.Type,"Status":json.Status}, {'qos':1,'retain':true}, function () {});
   			    if (alarmEntries[0].Status=="Start") {	
 					app.settings.forEach(function(element) {
                         if (alarmEntries[0].SerialID == element.serialId) {

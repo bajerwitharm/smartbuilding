@@ -7,6 +7,10 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+module.exports.get_client = function () {
+    return mqtt_client;
+}
+
 module.exports.init = function (db) {
     database = db;
     mqtt_client.subscribe("salwatorska6/+/status");
