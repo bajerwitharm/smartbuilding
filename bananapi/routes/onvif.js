@@ -1,3 +1,4 @@
+
 var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 
@@ -46,13 +47,17 @@ module.exports.init = function(mqtt_server) {
 			    var alarmEntries = JSON.parse("[" + json + "]");
                 mqtt_message = '{"SerialID": "'+ alarmEntries[0].SerialID+'", "Event": "'+alarmEntries[0].Event+'", "Type": "'+ alarmEntries[0].Type+'", "Status":"'+alarmEntries[0].Status+'"}';
 			    mqtt.publish("salwatorska6/firstfloor/status", mqtt_message, {'qos':1,'retain':true}, function () {});
-  			    if (alarmEntries[0].Status=="Start") {	
-					app.settings.forEach(function(element) {
-                        if (alarmEntries[0].SerialID == element.serialId) {
-                            recordCamera(element);
-                        }
+			app.settings.forEach(function(element) {
+                        	if (alarmEntries[0].SerialID == element.serialId) {
+					if (alarmEntries[0].Status == "Start") {
+                            			recordCamera(element);
+                        		}
+					if (alarmEntries[0].Status == "Stop") {
+						element.exec.kill();
+					}
+				}
                     });
-			    }
+			    
 			} catch (err) {
 				console.log(err);
 			}
@@ -64,7 +69,7 @@ module.exports.init = function(mqtt_server) {
 }
 
 recordCamera = function(camera) {
-    exec("ffmpeg -i "+camera.url + " -t 60 -vcodec copy -preset slow /ftp/`date +%#F_%H.%M.%S`_"+camera.name+".mp4",
+    camera.exec = exec("ffmpeg -i "+camera.url + " -t 60 -vcodec copy -preset slow /ftp/`date +%#F_%H.%M.%S`_"+camera.name+".mp4",
 	    function puts(error, stdout, stderr){
 	});
     console.log("recording");
