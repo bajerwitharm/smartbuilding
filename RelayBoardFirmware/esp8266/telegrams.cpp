@@ -4,6 +4,7 @@
 #include "mqtt.h"
 #include "Stream.h"
 #include "global.h"
+#include "config_eeprom.h"
 
 extern Mqtt mqtt;
 
@@ -11,9 +12,6 @@ typedef uint16_t inputs_t;
 typedef uint8_t outputs_t;
 typedef uint16_t states_t;
 
-const char* outputs[] = {RELAY_4, RELAY_3, RELAY_2, RELAY_7, RELAY_5, RELAY_6, RELAY_8, RELAY_1, NULL};
-const char* states[] = { STATE_1, STATE_2, STATE_3, STATE_4, STATE_5, STATE_6, STATE_7, STATE_8, STATE_9, STATE_10, STATE_11, STATE_12, STATE_13, STATE_14, STATE_15, STATE_16, NULL};
-const char* inputs[] = {INPUT_1, INPUT_2, INPUT_3, INPUT_4, INPUT_5, INPUT_11, INPUT_6, INPUT_7, INPUT_8, INPUT_9, INPUT_10, NULL};
 #pragma pack(1)
 
 //{"header":{"start":126,"source":11,"destination":10,"fc":222,"size":28},"activator":{"input_on":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"input_off":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false}},"actuator":{"output_on":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_off":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"output_toggle":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"state_on":{"HeardBeat":false},"state_off":{"HeardBeat":false},"state_toggle":{"HeardBeat":false}},"timer":{"time_preload":0,"time_current":0},"info":{"inputs":{"switch_lamp_kitchen":false,"switch_room_lamp":false,"switch_corridor":false,"switch_toilet_mirror":false,"switch_toilet_main":false,"motion_kitchen":false,"motion_room":false,"motion_corridor":false},"outputs":{"bulb_1room_right":false,"bulb_1room_left":false,"bulb_1kitchen_center":false,"bulb_1toilet_center":false,"bulb_1corridor":false,"bulb_1toilet_mirror":false,"reset":false,"bulb_1kitchen_desk":false},"states":{"HeardBeat":false}},"crc":0}
@@ -27,6 +25,8 @@ typedef enum __attribute__ ((__packed__)) {
   action_triggered_e = 0xDE,
   trigger_action_e = 0xDF,
   get_info_e = 0xEA,
+  get_config_e = 0x12,
+  set_config_e = 0x13,
   get_trigger_e = 0xDA,
   set_trigger_e = 0xDB,
 } function_code_t;
@@ -104,27 +104,27 @@ typedef struct {
 
 #pragma pack()
 
-void encode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
+void encode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[], const uint8_t count ) {
 
-  for (size_t i = 0; elements[i] != NULL; i++)
+  for (size_t i = 0; i<count; i++)
   {
     const char* element = elements[i];
     json[element] = out_telegram[i];
   }
 }
 
-void encode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elements[] ) {
+void encode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elements[], const uint8_t count ) {
 
-  for (size_t i = 0; elements[i] != NULL; i++)
+  for (size_t i = 0; i<count; i++)
   {
     const char* element = elements[i];
     json[element] = out_telegram[i];
   }
 }
 
-void encode_bools_only_true(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
+void encode_bools_only_true(JsonObject& json, uint8_t* out_telegram, const char elements[][MAX_ITEM_LEN], const uint8_t count ) {
 
-  for (size_t i = 0; elements[i] != NULL; i++)
+  for (size_t i = 0; i<count; i++)
   {
     const char* element = elements[i];
     if (strcmp(element, "") != 0) {
@@ -142,9 +142,9 @@ void encode_bools_only_true(JsonObject& json, uint8_t* out_telegram, const char*
   }
 }
 
-void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
+void encode_bools(JsonObject& json, uint8_t* out_telegram, const char elements[][MAX_ITEM_LEN], const uint8_t count ) {
 
-  for (size_t i = 0; elements[i] != NULL; i++)
+  for (size_t i = 0; i<count; i++)
   {
     const char* element = elements[i];
     if (strcmp(element, "") != 0) {
@@ -171,10 +171,10 @@ void encode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
 }
 
 
-void decode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
+void decode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements[], const uint8_t count ) {
   for (JsonObject::iterator it = json.begin(); it != json.end(); ++it)
   {
-    for (size_t i = 0; elements[i] != NULL; i++)
+    for (size_t i = 0; i<count; i++)
     {
       const char* element = elements[i];
       if (strcmp(element, it->key) == 0) {
@@ -185,10 +185,10 @@ void decode_uint8s(JsonObject& json, uint8_t* out_telegram, const char* elements
   }
 }
 
-void decode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elements[] ) {
+void decode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elements[],const uint8_t count ) {
   for (JsonObject::iterator it = json.begin(); it != json.end(); ++it)
   {
-    for (size_t i = 0; elements[i] != NULL; i++)
+    for (size_t i = 0; i<count; i++)
     {
       const char* element = elements[i];
       if (strcmp(it->key, element) == 0) {
@@ -199,9 +199,9 @@ void decode_uint16s(JsonObject& json, uint16_t* out_telegram, const char* elemen
 }
 
 
-void decode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[] ) {
+void decode_bools(JsonObject& json, uint8_t* out_telegram, const char elements[][MAX_ITEM_LEN],const uint8_t count  ) {
   out_telegram[0] = 0;
-  for (size_t i = 0; elements[i] != NULL; i++)
+  for (size_t i = 0; i<count ; i++)
   {
     if (i == 8) {
       out_telegram[1] = 0;
@@ -224,71 +224,71 @@ void decode_bools(JsonObject& json, uint8_t* out_telegram, const char* elements[
 }
 
 void decode_header(JsonObject& json, telegram_header_t* out_telegram) {
-  const char* elements[] = {"source", "destination", "fc", "size", NULL};
-  decode_uint8s(json, (uint8_t*)&out_telegram[0], elements);
+  const char* elements[] = {"source", "destination", "fc", "size"};
+  decode_uint8s(json, (uint8_t*)&out_telegram[0], elements,4);
 }
 
 void encode_header(JsonObject& json, telegram_header_t* out_telegram) {
-  const char* elements[] = {"source", "destination", "fc", "size", NULL};
-  encode_uint8s(json, (uint8_t*)&out_telegram[0], elements);
+  const char* elements[] = {"source", "destination", "fc", "size"};
+  encode_uint8s(json, (uint8_t*)&out_telegram[0], elements,4);
 }
 
 void decode_actuator(JsonObject& json, actuator_t* out_telegram) {
-  decode_bools(json["output_on"], (uint8_t*)&out_telegram->output_on, outputs);
-  decode_bools(json["output_off"], (uint8_t*)&out_telegram->output_off, outputs);
-  decode_bools(json["output_toggle"], (uint8_t*)&out_telegram->output_toggle, outputs);
-  decode_bools(json["state_on"], (uint8_t*)&out_telegram->state_on, states);
-  decode_bools(json["state_off"], (uint8_t*)&out_telegram->state_off, states);
-  decode_bools(json["state_toggle"], (uint8_t*)&out_telegram->state_toggle, states);
+  decode_bools(json["output_on"], (uint8_t*)&out_telegram->output_on, config.outputs,OUTPUTS_NR);
+  decode_bools(json["output_off"], (uint8_t*)&out_telegram->output_off, config.outputs,OUTPUTS_NR);
+  decode_bools(json["output_toggle"], (uint8_t*)&out_telegram->output_toggle, config.outputs,OUTPUTS_NR);
+  decode_bools(json["state_on"], (uint8_t*)&out_telegram->state_on, config.states,STATES_NR);
+  decode_bools(json["state_off"], (uint8_t*)&out_telegram->state_off, config.states,STATES_NR);
+  decode_bools(json["state_toggle"], (uint8_t*)&out_telegram->state_toggle, config.states,STATES_NR);
 }
 
 void encode_actuator(JsonObject& json, actuator_t* out_telegram) {
-  encode_bools_only_true(json.createNestedObject("output_on"), (uint8_t*)&out_telegram->output_on, outputs);
-  encode_bools_only_true(json.createNestedObject("output_off"), (uint8_t*)&out_telegram->output_off, outputs);
-  encode_bools_only_true(json.createNestedObject("output_toggle"), (uint8_t*)&out_telegram->output_toggle, outputs);
-  encode_bools_only_true(json.createNestedObject("state_on"), (uint8_t*)&out_telegram->state_on, states);
-  encode_bools_only_true(json.createNestedObject("state_off"), (uint8_t*)&out_telegram->state_off, states);
-  encode_bools_only_true(json.createNestedObject("state_toggle"), (uint8_t*)&out_telegram->state_toggle, states);
+  encode_bools_only_true(json.createNestedObject("output_on"), (uint8_t*)&out_telegram->output_on, config.outputs,OUTPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("output_off"), (uint8_t*)&out_telegram->output_off, config.outputs,OUTPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("output_toggle"), (uint8_t*)&out_telegram->output_toggle, config.outputs,OUTPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("state_on"), (uint8_t*)&out_telegram->state_on, config.states,STATES_NR);
+  encode_bools_only_true(json.createNestedObject("state_off"), (uint8_t*)&out_telegram->state_off, config.states,STATES_NR);
+  encode_bools_only_true(json.createNestedObject("state_toggle"), (uint8_t*)&out_telegram->state_toggle, config.states,STATES_NR);
 }
 
 void decode_activator(JsonObject& json, activator_t* out_telegram) {
-  decode_bools(json["input_on"], (uint8_t*)&out_telegram->input_on, inputs);
-  decode_bools(json["input_off"], (uint8_t*)&out_telegram->input_off, inputs);
-  decode_bools(json["output_on"], (uint8_t*)&out_telegram->output_on, outputs);
-  decode_bools(json["output_off"], (uint8_t*)&out_telegram->output_off, outputs);
-  decode_bools(json["state_on"], (uint8_t*)&out_telegram->state_on, states);
-  decode_bools(json["state_off"], (uint8_t*)&out_telegram->state_off, states);
+  decode_bools(json["input_on"], (uint8_t*)&out_telegram->input_on, config.inputs,INPUTS_NR);
+  decode_bools(json["input_off"], (uint8_t*)&out_telegram->input_off, config.inputs,INPUTS_NR);
+  decode_bools(json["output_on"], (uint8_t*)&out_telegram->output_on, config.outputs,OUTPUTS_NR);
+  decode_bools(json["output_off"], (uint8_t*)&out_telegram->output_off, config.outputs,OUTPUTS_NR);
+  decode_bools(json["state_on"], (uint8_t*)&out_telegram->state_on, config.states,STATES_NR);
+  decode_bools(json["state_off"], (uint8_t*)&out_telegram->state_off, config.states,STATES_NR);
 }
 
 void encode_activator(JsonObject& json, activator_t* out_telegram) {
-  encode_bools_only_true(json.createNestedObject("input_on"), (uint8_t*)&out_telegram->input_on, inputs);
-  encode_bools_only_true(json.createNestedObject("input_off"), (uint8_t*)&out_telegram->input_off, inputs);
-  encode_bools_only_true(json.createNestedObject("output_on"), (uint8_t*)&out_telegram->output_on, outputs);
-  encode_bools_only_true(json.createNestedObject("output_off"), (uint8_t*)&out_telegram->output_off, outputs);
-  encode_bools_only_true(json.createNestedObject("state_on"), (uint8_t*)&out_telegram->state_on, states);
-  encode_bools_only_true(json.createNestedObject("state_off"), (uint8_t*)&out_telegram->state_off, states);
+  encode_bools_only_true(json.createNestedObject("input_on"), (uint8_t*)&out_telegram->input_on, config.inputs,INPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("input_off"), (uint8_t*)&out_telegram->input_off, config.inputs,INPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("output_on"), (uint8_t*)&out_telegram->output_on, config.outputs,OUTPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("output_off"), (uint8_t*)&out_telegram->output_off, config.outputs,OUTPUTS_NR);
+  encode_bools_only_true(json.createNestedObject("state_on"), (uint8_t*)&out_telegram->state_on, config.states,STATES_NR);
+  encode_bools_only_true(json.createNestedObject("state_off"), (uint8_t*)&out_telegram->state_off, config.states,STATES_NR);
 }
 
 void decode_timer(JsonObject& json, timers_t* out_telegram) {
-  const char* elements[] = {"time_preload", "time_current", NULL};
-  decode_uint16s(json, (uint16_t*)&out_telegram[0], elements);
+  const char* elements[] = {"time_preload", "time_current"};
+  decode_uint16s(json, (uint16_t*)&out_telegram[0], elements,2);
 }
 
 void encode_timer(JsonObject& json, timers_t* out_telegram) {
-  const char* elements[] = {"time_preload", "time_current", NULL};
-  encode_uint16s(json, (uint16_t*)&out_telegram[0], elements);
+  const char* elements[] = {"time_preload", "time_current"};
+  encode_uint16s(json, (uint16_t*)&out_telegram[0], elements, 2);
 }
 
 void decode_info(JsonObject& json, info_t* out_telegram) {
-  decode_bools(json["inputs"], (uint8_t*)&out_telegram->inputs, inputs);
-  decode_bools(json["outputs"], (uint8_t*)&out_telegram->outputs, outputs);
-  decode_bools(json["states"], (uint8_t*)&out_telegram->states, states);
+  decode_bools(json["inputs"], (uint8_t*)&out_telegram->inputs, config.inputs,INPUTS_NR);
+  decode_bools(json["outputs"], (uint8_t*)&out_telegram->outputs, config.outputs,OUTPUTS_NR);
+  decode_bools(json["states"], (uint8_t*)&out_telegram->states, config.states,STATES_NR);
 }
 
 void encode_info(JsonObject& json, info_t* out_telegram) {
-  encode_bools(json.createNestedObject("inputs"), (uint8_t*)&out_telegram->inputs, inputs);
-  encode_bools(json.createNestedObject("outputs"), (uint8_t*)&out_telegram->outputs, outputs);
-  encode_bools(json.createNestedObject("states"), (uint8_t*)&out_telegram->states, states);
+  encode_bools(json.createNestedObject("inputs"), (uint8_t*)&out_telegram->inputs, config.inputs,INPUTS_NR);
+  encode_bools(json.createNestedObject("outputs"), (uint8_t*)&out_telegram->outputs, config.outputs,OUTPUTS_NR);
+  encode_bools(json.createNestedObject("states"), (uint8_t*)&out_telegram->states, config.states,STATES_NR);
 }
 
 void decode_trigger(JsonObject& json, trigger_t* out_telegram) {
@@ -360,16 +360,60 @@ void encode_get_trigger(JsonObject& json, set_trigger_t* out_telegram) {
   json["crc"] = out_telegram->crc;
 }
 
+void add_config_element(JsonObject& root,const char* element_name, char elements[][MAX_ITEM_LEN],const uint8_t count) {
+  JsonArray&  array = root.createNestedArray(element_name);
+  for (size_t i = 0; i<count; i++) {
+     array.add(elements[i]);
+  }
+}
+
+
+void decode_get_config() {  
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.createObject();
+  root.createNestedObject("header")["fc"] = get_config_e;
+  add_config_element(root,"outputs",config.outputs,OUTPUTS_NR);
+  add_config_element(root,"inputs",config.inputs,INPUTS_NR);
+  add_config_element(root,"states",config.states,STATES_NR);
+  size_t length = root.measureLength();
+  char* p = (char*)malloc(length + 2);
+  root.printTo(p, length + 2);
+  mqtt.publish_status(((uint8_t*)p), length);
+  free(p);  
+}
+
+void get_config_element(JsonObject& root,char* element_name, char* elements[],const uint8_t count) {
+  JsonArray&  array = root.createNestedArray(element_name);
+  for (size_t i = 0; i<count; i++) {
+     array.add(elements[i]);
+  }
+}
+
+void set_config_element(JsonArray& array, char elements[][MAX_ITEM_LEN],uint8_t len) {
+  for (uint8_t i=0;i<len;i++) {
+    sprintf(elements[i], array[i]);
+  }  
+}
+
+
+void decode_set_config(JsonObject& json) {  
+  set_config_element(json["outputs"], config.outputs,OUTPUTS_NR);
+  set_config_element(json["inputs"], config.inputs,INPUTS_NR);
+  set_config_element(json["states"], config.states,STATES_NR);
+  write_to_eeprom();
+}
+
+
 
 void encode_telegram(unsigned char* buffer) {
   DynamicJsonBuffer jsonBuffer;
-  mqtt.publish_debug(rx_buffer.data, rx_buffer.size);
+  //mqtt.publish_debug(rx_buffer.data, rx_buffer.size);
   JsonObject& root = jsonBuffer.createObject();
   telegram_header_t* header = (telegram_header_t*)buffer;
   switch (header->fc) {
     case get_info_e:
       encode_info_response(root, (get_info_t*)buffer);
-      break;
+      break;    
     case action_triggered_e:
       encode_action_triggered(root, (action_triggered_t*)buffer);
       break;
@@ -379,6 +423,9 @@ void encode_telegram(unsigned char* buffer) {
     case get_trigger_e:
     case set_trigger_e:
       encode_get_trigger(root, (set_trigger_t*)buffer);
+      break;
+    case get_config_e:
+    case set_config_e:
       break;
   }
   size_t length = root.measureLength();
@@ -395,6 +442,14 @@ void decode_telegram(unsigned char* payload) {
   JsonObject& root = jsonBuffer.parseObject((char*) payload);
 
   switch (root["header"]["fc"].as<uint8_t>()) {
+    case get_config_e:
+      decode_get_config();
+      return;
+      break;
+    case set_config_e:
+      decode_set_config(root);
+      return;
+      break;
     case get_info_e:
       decode_info_response(root, (get_info_t*)tx_buffer.data);
       tx_buffer.size = sizeof(get_info_t);

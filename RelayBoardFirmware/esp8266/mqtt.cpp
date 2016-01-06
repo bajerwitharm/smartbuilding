@@ -1,3 +1,7 @@
+#include <WiFiClient.h>
+#include <WiFiServer.h>
+#include <WiFiUdp.h>
+
 #include "Arduino.h"
 #include "telegrams.h"
 #include "mqtt.h"
@@ -38,6 +42,7 @@ void reconnect() {
 
 void Mqtt::mqtt_loop() {
   if (!client.connected()) {
+    publish_debug("Reconnect",12);
     reconnect();
   }
   client.loop();
@@ -47,7 +52,7 @@ void Mqtt::publish_status(uint8_t* message, size_t length) {
   client.publish(MQTT_STATUS_TOPIC, message, length, true);
 }
 
-void Mqtt::publish_debug(uint8_t* message, size_t length) {
-  client.publish(MQTT_DEBUG_TOPIC, message, length);
+void Mqtt::publish_debug(const char* message, size_t length) {
+  client.publish(MQTT_DEBUG_TOPIC, (uint8_t*)message, length);
 }
 

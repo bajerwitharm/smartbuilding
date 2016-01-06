@@ -39,7 +39,7 @@ salwatorskaControllers.controller('networkUsageSankeyController', [
 		sankey.box_width = 10;
 		sankey.stack(0, users);
 		sankey.stack(1, [ "main@salwatorska6", "parter1@salwatorska6",
-			"parter2@salwatorska6","pietro2_1@salwatorska6" ]);
+			"parter2@salwatorska6","pietro2_1@salwatorska6","pietro2_2@salwatorska6",,"pietro1_2@salwatorska6" ]);
 
 		sankey.convert_flow_values_callback = function(flow) {
 		    return flow / 30; // Pixels per TWh

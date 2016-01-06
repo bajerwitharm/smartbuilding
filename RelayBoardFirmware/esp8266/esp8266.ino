@@ -1,3 +1,6 @@
+#include <EEPROM.h>
+
+
 /*
  * esp8266
  *
@@ -13,12 +16,14 @@
 #include "telegrams.h"
 #include "serial.h"
 #include "mqtt.h"
+#include "config_eeprom.h"
 
 Mqtt mqtt;
 
 void setup() {
   setup_serial();
   mqtt.setup_mqtt();
+  read_from_eeprom();
 }
 
 void loop() {
