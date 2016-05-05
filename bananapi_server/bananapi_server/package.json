@@ -1,0 +1,24 @@
+{
+  "name": "bananapi_server",
+  "version": "0.0.0",
+  "description": "bananapi_server",
+  "main": "app.js",
+  "author": {
+    "name": "PLMABAJ",
+    "email": ""
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "errorhandler": "*",
+    "express": "*",
+    "fs": "*",
+    "method-override": "*",
+    "morgan": "*",
+    "mqtt": "*",
+    "node-red": "*",
+    "pg": "*"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

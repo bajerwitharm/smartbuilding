@@ -1,0 +1,81 @@
+
+CREATE OR REPLACE FUNCTION create_type_enum_if_not_exists (t_name text, enums text) RETURNS void AS $$
+BEGIN
+	IF NOT EXISTS (
+		SELECT 1 FROM pg_type WHERE typname = t_name
+    ) THEN
+		execute 'CREATE TYPE ' || t_name || ' AS ENUM (' || enums || ')';
+END IF;
+END
+$$
+LANGUAGE plpgsql VOLATILE;
+
+/* 
+ * Create types
+ */
+SELECT create_type_enum_if_not_exists('TOPIC_NAME',$$''$$);
+
+SELECT create_type_enum_if_not_exists('ICON_NAME',$$'fa-lightbulb-o','fa-toggle-on','fa-hand-paper-o','fa-heartbeat','fa-video-camera','fa-rss','fa-sun-o','fa-bell-o','fa-key'$$);
+
+/*
+ * Create tables
+ */
+CREATE TABLE IF NOT EXISTS event_types (
+	id serial primary key, 
+	topic TOPIC_NAME,
+	content JSON,
+	icon ICON_NAME,
+	source VARCHAR(32),
+    description VARCHAR(64)
+);
+
+CREATE TABLE IF NOT EXISTS events (
+	id SERIAL PRIMARY KEY,
+	timestamp TIMESTAMP,
+	event_id INTEGER NOT NULL,
+	FOREIGN KEY(event_id) REFERENCES event_types(id)
+);
+
+CREATE OR REPLACE FUNCTION insert_event (topic_p TOPIC_NAME, content_p JSON)
+RETURNS JSON AS $$
+DECLARE
+	event_type_id INTEGER;
+	new_event_id INTEGER;
+	result JSON;
+BEGIN
+	if NOT EXISTS (SELECT 1 from event_types where topic=topic_p and content#>>'{}'=content_p#>>'{}') THEN
+		INSERT INTO event_types(topic, content) VALUES(topic_p, content_p);
+	END IF;
+
+	SELECT id FROM event_types WHERE topic=topic_p AND content#>>'{}'=content_p#>>'{}' INTO event_type_id;
+	INSERT INTO events(timestamp,event_id) VALUES(LOCALTIMESTAMP, event_type_id) RETURNING id INTO new_event_id;
+	SELECT row_to_json(r) from (select LOCALTIMESTAMP, event_types.icon, event_types.source, event_types.description FROM event_types INNER JOIN events ON events.event_id=event_types.id WHERE events.id=new_event_id) r INTO result;
+	RETURN result;
+END;
+$$
+LANGUAGE plpgsql VOLATILE;
+
+CREATE OR REPLACE FUNCTION create_index_if_not_exists (t_name text, i_name text) RETURNS void AS $$
+DECLARE
+  full_index_name varchar;
+  schema_name varchar;
+BEGIN
+
+full_index_name = t_name || '_' || i_name;
+schema_name = 'public';
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM   pg_class c
+    JOIN   pg_namespace n ON n.oid = c.relnamespace
+    WHERE  c.relname = full_index_name
+    AND    n.nspname = schema_name
+    ) THEN
+
+    execute 'CREATE INDEX ' || full_index_name || ' ON ' || schema_name || '.' || t_name || ' (' || i_name || ')';
+END IF;
+END
+$$
+LANGUAGE plpgsql VOLATILE;
+
+

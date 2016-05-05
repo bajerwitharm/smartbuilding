@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>bananapi_server</Name>
+    <RootNamespace>bananapi_server</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>45d353d5-6ea5-4dff-b389-1b97c1642a95</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>app.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app.js" />
+    <Compile Include="data\database\database_postgres.js" />
+    <Compile Include="data\mqtt.js" />
+    <Compile Include="routes\db_routes.js" />
+    <Compile Include="routes\onvif.js" />
+    <Content Include="data\database\queries\CreateDatabase" />
+    <Content Include="data\database\queries\CreateTables" />
+    <Content Include="data\database\queries\InsertNewEvent" />
+    <Content Include="data\database\queries\InsertNewEventType" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\" />
+    <Folder Include="data\database\" />
+    <Folder Include="data\database\queries\" />
+    <Folder Include="routes\" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\bl\" />
+    <Folder Include="typings\body-parser\" />
+    <Folder Include="typings\content-type\" />
+    <Folder Include="typings\depd\" />
+    <Folder Include="typings\errorhandler\" />
+    <Folder Include="typings\escape-html\" />
+    <Folder Include="typings\express-serve-static-core\" />
+    <Folder Include="typings\express\" />
+    <Folder Include="typings\inherits\" />
+    <Folder Include="typings\method-override\" />
+    <Folder Include="typings\mime\" />
+    <Folder Include="typings\minimatch\" />
+    <Folder Include="typings\morgan\" />
+    <Folder Include="typings\mqtt\" />
+    <Folder Include="typings\node\" />
+    <Folder Include="typings\on-finished\" />
+    <Folder Include="typings\passport-local\" />
+    <Folder Include="typings\passport-strategy\" />
+    <Folder Include="typings\passport\" />
+    <Folder Include="typings\pg\" />
+    <Folder Include="typings\serve-static\" />
+    <Folder Include="typings\socket.io\" />
+    <Folder Include="typings\underscore\" />
+    <Folder Include="typings\ws\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="typings\bl\bl.d.ts" />
+    <TypeScriptCompile Include="typings\bl\bl.d.ts" />
+    <TypeScriptCompile Include="typings\bl\bl.d.ts" />
+    <TypeScriptCompile Include="typings\bl\bl.d.ts" />
+    <TypeScriptCompile Include="typings\bl\bl.d.ts" />
+    <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
+    <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
+    <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
+    <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
+    <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
+    <TypeScriptCompile Include="typings\content-type\content-type.d.ts" />
+    <TypeScriptCompile Include="typings\content-type\content-type.d.ts" />
+    <TypeScriptCompile Include="typings\content-type\content-type.d.ts" />
+    <TypeScriptCompile Include="typings\content-type\content-type.d.ts" />
+    <TypeScriptCompile Include="typings\content-type\content-type.d.ts" />
+    <TypeScriptCompile Include="typings\depd\depd.d.ts" />
+    <TypeScriptCompile Include="typings\depd\depd.d.ts" />
+    <TypeScriptCompile Include="typings\depd\depd.d.ts" />
+    <TypeScriptCompile Include="typings\depd\depd.d.ts" />
+    <TypeScriptCompile Include="typings\depd\depd.d.ts" />
+    <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
+    <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
+    <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
+    <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
+    <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
+    <TypeScriptCompile Include="typings\escape-html\escape-html.d.ts" />
+    <TypeScriptCompile Include="typings\escape-html\escape-html.d.ts" />
+    <TypeScriptCompile Include="typings\escape-html\escape-html.d.ts" />
+    <TypeScriptCompile Include="typings\escape-html\escape-html.d.ts" />
+    <TypeScriptCompile Include="typings\escape-html\escape-html.d.ts" />
+    <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\inherits\inherits.d.ts" />
+    <TypeScriptCompile Include="typings\inherits\inherits.d.ts" />
+    <TypeScriptCompile Include="typings\inherits\inherits.d.ts" />
+    <TypeScriptCompile Include="typings\inherits\inherits.d.ts" />
+    <TypeScriptCompile Include="typings\inherits\inherits.d.ts" />
+    <TypeScriptCompile Include="typings\method-override\method-override.d.ts" />
+    <TypeScriptCompile Include="typings\method-override\method-override.d.ts" />
+    <TypeScriptCompile Include="typings\method-override\method-override.d.ts" />
+    <TypeScriptCompile Include="typings\method-override\method-override.d.ts" />
+    <TypeScriptCompile Include="typings\method-override\method-override.d.ts" />
+    <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\minimatch\minimatch.d.ts" />
+    <TypeScriptCompile Include="typings\minimatch\minimatch.d.ts" />
+    <TypeScriptCompile Include="typings\minimatch\minimatch.d.ts" />
+    <TypeScriptCompile Include="typings\minimatch\minimatch.d.ts" />
+    <TypeScriptCompile Include="typings\minimatch\minimatch.d.ts" />
+    <TypeScriptCompile Include="typings\morgan\morgan.d.ts" />
+    <TypeScriptCompile Include="typings\morgan\morgan.d.ts" />
+    <TypeScriptCompile Include="typings\morgan\morgan.d.ts" />
+    <TypeScriptCompile Include="typings\morgan\morgan.d.ts" />
+    <TypeScriptCompile Include="typings\morgan\morgan.d.ts" />
+    <TypeScriptCompile Include="typings\mqtt\mqtt.d.ts" />
+    <TypeScriptCompile Include="typings\mqtt\mqtt.d.ts" />
+    <TypeScriptCompile Include="typings\mqtt\mqtt.d.ts" />
+    <TypeScriptCompile Include="typings\mqtt\mqtt.d.ts" />
+    <TypeScriptCompile Include="typings\mqtt\mqtt.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\on-finished\on-finished.d.ts" />
+    <TypeScriptCompile Include="typings\on-finished\on-finished.d.ts" />
+    <TypeScriptCompile Include="typings\on-finished\on-finished.d.ts" />
+    <TypeScriptCompile Include="typings\on-finished\on-finished.d.ts" />
+    <TypeScriptCompile Include="typings\on-finished\on-finished.d.ts" />
+    <TypeScriptCompile Include="typings\passport-local\passport-local.d.ts" />
+    <TypeScriptCompile Include="typings\passport-local\passport-local.d.ts" />
+    <TypeScriptCompile Include="typings\passport-local\passport-local.d.ts" />
+    <TypeScriptCompile Include="typings\passport-local\passport-local.d.ts" />
+    <TypeScriptCompile Include="typings\passport-local\passport-local.d.ts" />
+    <TypeScriptCompile Include="typings\passport-strategy\passport-strategy.d.ts" />
+    <TypeScriptCompile Include="typings\passport-strategy\passport-strategy.d.ts" />
+    <TypeScriptCompile Include="typings\passport-strategy\passport-strategy.d.ts" />
+    <TypeScriptCompile Include="typings\passport-strategy\passport-strategy.d.ts" />
+    <TypeScriptCompile Include="typings\passport-strategy\passport-strategy.d.ts" />
+    <TypeScriptCompile Include="typings\passport\passport.d.ts" />
+    <TypeScriptCompile Include="typings\passport\passport.d.ts" />
+    <TypeScriptCompile Include="typings\passport\passport.d.ts" />
+    <TypeScriptCompile Include="typings\passport\passport.d.ts" />
+    <TypeScriptCompile Include="typings\passport\passport.d.ts" />
+    <TypeScriptCompile Include="typings\pg\pg.d.ts" />
+    <TypeScriptCompile Include="typings\pg\pg.d.ts" />
+    <TypeScriptCompile Include="typings\pg\pg.d.ts" />
+    <TypeScriptCompile Include="typings\pg\pg.d.ts" />
+    <TypeScriptCompile Include="typings\pg\pg.d.ts" />
+    <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
+    <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
+    <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
+    <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
+    <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\ws\ws.d.ts" />
+    <TypeScriptCompile Include="typings\ws\ws.d.ts" />
+    <TypeScriptCompile Include="typings\ws\ws.d.ts" />
+    <TypeScriptCompile Include="typings\ws\ws.d.ts" />
+    <TypeScriptCompile Include="typings\ws\ws.d.ts" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+</Project>
