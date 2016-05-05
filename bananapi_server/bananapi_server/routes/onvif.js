@@ -83,12 +83,12 @@ module.exports.init = function (mqtt_server) {
 
 function publishMqttStartRecord(camera) {
     var mqtt_message = '{"SerialID": "' + camera.serialId + '", "Event": "Start", "Type": "Alarm"}';
-    mqtt.publish("salwatorska6/" + camera.name + "/status", mqtt_message, { 'qos': 1, 'retain': true }, function () { });
+    mqtt.publish("salwatorska6/" + camera.name, mqtt_message, { 'qos': 1, 'retain': true }, function () { });
 }
 
 function publishMqttEndRecord(camera) {
     var mqtt_message = '{"SerialID": "' + camera.serialId + '", "Event": "Stop", "Type": "Alarm"}';
-    mqtt.publish("salwatorska6/" + camera.name + "/status", mqtt_message, { 'qos': 1, 'retain': true }, function () { });
+    mqtt.publish("salwatorska6/" + camera.name, mqtt_message, { 'qos': 1, 'retain': true }, function () { });
 }
 
 recordCamera = function (camera) {
