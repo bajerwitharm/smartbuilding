@@ -93,8 +93,8 @@ function publishMqttEndRecord(camera) {
 
 recordCamera = function (camera) {
     if (camera.exec == 0) {
-        publishMqttEndRecord(camera);
-        camera.exec = exec("ffmpeg -i " + camera.url + " -t 300 -vcodec copy -preset slow /ftp/`date +%#F_%H.%M.%S`_" + camera.name + ".mp4",
+        publishMqtStartRecord(camera);
+        camera.exec = exec("ffmpeg -i " + camera.url + " -t 30 -vcodec copy -preset slow /ftp/`date +%#F_%H.%M.%S`_" + camera.name + ".mp4",
             function puts(error, stdout, stderr) {
                 console.log(error);
             }
