@@ -15,6 +15,7 @@ module.exports.init = function (db) {
     database = db;
     mqtt_client.subscribe("salwatorska6/+/status");
     mqtt_client.subscribe("salwatorska6/+/control");
+    mqtt_client.subscribe("salwatorska6/+");
     mqtt_client.on('message', function (topic, message) {
         try {
             var json_message = JSON.parse(message);
