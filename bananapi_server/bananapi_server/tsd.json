@@ -1,0 +1,84 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "node/node.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "body-parser/body-parser.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "method-override/method-override.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "errorhandler/errorhandler.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "passport-local/passport-local.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "mime/mime.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "morgan/morgan.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "pg/pg.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "underscore/underscore.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "socket.io/socket.io.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "mqtt/mqtt.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "express/express.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "passport/passport.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "depd/depd.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "content-type/content-type.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "bl/bl.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "inherits/inherits.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "passport-strategy/passport-strategy.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "escape-html/escape-html.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "ws/ws.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "minimatch/minimatch.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "on-finished/on-finished.d.ts": {
+      "commit": "e05e1f6f83c6ac84e9d7ff8284e8089d53a788a6"
+    },
+    "jwt-simple/jwt-simple.d.ts": {
+      "commit": "741430a178043bfca40e3a343b8b6f7610104093"
+    }
+  }
+}

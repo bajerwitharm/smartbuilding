@@ -36,6 +36,17 @@ CREATE TABLE IF NOT EXISTS events (
 	FOREIGN KEY(event_id) REFERENCES event_types(id)
 );
 
+SELECT create_type_enum_if_not_exists('USER_RULE',$$'Administracja','Mieszkanie1','Mieszkanie2','Mieszkanie3','Mieszkanie4','Mieszkanie5','Mieszkanie6','Mieszkanie7','Mieszkanie8','Mieszkanie9','Mieszkanie10','Mieszkanie11','Mieszkanie12'$$);
+
+CREATE TABLE IF NOT EXISTS users (
+	id SERIAL PRIMARY KEY,
+	username VARCHAR(32),
+	password VARCHAR(32),
+	rule USER_RULE,
+	constraint u_constrainte unique (username)
+);
+
+
 CREATE OR REPLACE FUNCTION insert_event (topic_p TOPIC_NAME, content_p JSON)
 RETURNS JSON AS $$
 DECLARE

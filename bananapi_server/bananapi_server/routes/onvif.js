@@ -10,36 +10,7 @@ var mqtt;
 module.exports = app
 
 // defaults
-app.settings = [
-    {
-        url: 'rtsp://192.168.1.51:554/streaming/video0',
-        name: 'KameraWejscie',
-        serialId: '0012123972ab',
-        exec: 0,
-        timeout: 0
-    },
-    {
-        url: 'rtsp://192.168.1.52:554/streaming/video0',
-        name: 'KameraParter',
-        serialId: '0012123972cd',
-        exec: 0,
-        timeout: 0
-    },
-    {
-        url: 'rtsp://192.168.1.53:554/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream',
-        name: 'KameraPietro1',
-        serialId: '0012123972ca',
-        exec: 0,
-        timeout: 0
-    },
-    {
-        url: 'rtsp://192.168.1.54:554/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream',
-        name: 'KameraPietro2',
-        serialId: '001212399c78',
-        exec: 0,
-        timeout: 0
-    }
-];
+app.settings = require('../config/onvis.js')();
 
 function waitForDatagram(slice, callback) {
     slice = slice.substring(slice.indexOf("{"));
@@ -66,7 +37,7 @@ function findCamera(json_datagram, callback) {
     }
 }
 
-module.exports.init = function (mqtt_server) {
+module.exports = function (mqtt_server) {
     var datagram = "";
     mqtt = mqtt_server.get_client();
     var server = require('net').createServer(
