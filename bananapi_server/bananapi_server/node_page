@@ -34,6 +34,7 @@ logFile="/var/log/node_page.log"
 
 command="node"
 nodeApp="app.js"
+nodeAppPath="/home/smartbuilding/bananapi_server/bananapi_server"
 foreverApp="forever"
 
 start() {
@@ -46,20 +47,20 @@ start() {
    PATH=/usr/local/bin:$PATH
    #export NODE_ENV=/var/log/salwatorska.log
    #PORT=80
-   cd /home/smartbuilding/bananapi_server/bananapi_server
-   $foreverApp start --pidFile $pidFile -l $logFile -a -d -c "$command" $nodeApp
+   cd $nodeAppPath
+   $foreverApp start --pidFile $pidFile -l $logFile -a -d -c "$command" $nodeAppPath/$nodeApp
    RETVAL=$?
 }
 
 restart() {
 	echo -n "Restarting $nodeApp"
-	$foreverApp restart $nodeApp
+	$foreverApp restart $nodeAppPath/$nodeApp
 	RETVAL=$?
 }
 
 stop() {
 	echo -n "Shutting down $nodeApp"
-   $foreverApp stop $nodeApp
+   $foreverApp stop $nodeAppPath/$nodeApp
    RETVAL=$?
 }
 
