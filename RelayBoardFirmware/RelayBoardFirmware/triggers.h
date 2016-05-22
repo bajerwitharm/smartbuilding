@@ -36,7 +36,6 @@
 
 #pragma pack(1)
 
-
 typedef uint16_t inputs_t;
 typedef uint8_t outputs_t;
 typedef uint16_t states_t;

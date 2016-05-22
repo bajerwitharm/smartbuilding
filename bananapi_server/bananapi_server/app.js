@@ -16,8 +16,8 @@ var database = new Database();
 var Mqtt = require('./data/mqtt.js');
 var mqtt = new Mqtt(database);
 
-//var OnvifCameras = require('./routes/onvif.js');
-//var onvifCameras = OnvifCameras(mqtt);
+var OnvifCameras = require('./routes/onvif.js');
+var onvifCameras = OnvifCameras(mqtt);
 
 var Authorization = require('./routes/auth')
 var authorization = new Authorization(database);

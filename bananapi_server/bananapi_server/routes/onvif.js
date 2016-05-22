@@ -10,9 +10,10 @@ var mqtt;
 module.exports = app
 
 // defaults
-app.settings = require('../config/onvis.js')();
+app.settings = require('../config/onvif.js')();
 
 function waitForDatagram(slice, callback) {
+    console.log(slice);
     slice = slice.substring(slice.indexOf("{"));
     waitForDatagram.datagram = waitForDatagram.datagram + slice;
     if (slice.length < 3472) {

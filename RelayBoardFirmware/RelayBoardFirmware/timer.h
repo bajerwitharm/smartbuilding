@@ -12,5 +12,6 @@
 #define TIMER_MS_TO_TIMER(x) x/100
 
 void timerInit();
+extern bool timerTriggered;
 
 #endif /* TIMER_H_ */

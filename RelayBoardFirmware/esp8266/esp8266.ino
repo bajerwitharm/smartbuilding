@@ -23,7 +23,7 @@ Mqtt mqtt;
 void setup() {
   setup_serial();
   mqtt.setup_mqtt();
-  read_from_eeprom();
+  //read_from_eeprom();
 }
 
 void loop() {

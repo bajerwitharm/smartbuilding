@@ -13,6 +13,7 @@
 #include "global.h"
 #include "triggers.h"
 
+bool timerTriggered = false;
 
 /**
  * Init timer
@@ -29,5 +30,5 @@ void timerInit(){
 ISR (TIMER0_OVF_vect)  // timer0 overflow interrupt
 {
 	TCNT0 = TIMER_PRELOAD_100ms;
-	processTriggers();
+	timerTriggered = true;//
 }

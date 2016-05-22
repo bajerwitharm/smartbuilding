@@ -6,8 +6,8 @@
 #define STATES_NR 16
 #define INPUTS_NR 11
 
-#define WIFI_SSID "Salwatorska6admin"
-#define WIFI_PASSWORD "Administrator@wifi6"
+#define WIFI_SSID "TP-LINK_ANIA"
+#define WIFI_PASSWORD "KochamAnie1"
 #define MQTT_SERVER_HOST "mqtt.salwatorska.pl"
 #define MQTT_SERVER_PORT 1883
 
@@ -22,7 +22,7 @@
 *               (Input7 PD2)   (Input8 PD3)     (Input9 PD4)        (Input10 PD5)   (Input11 PC5)
 */
 
-#define FLAT_10
+#define FLAT_9
 
 #ifdef GROUNDFLOOR
 
@@ -170,6 +170,54 @@
 #define STATE_16 ""
 
 #endif
+#ifdef FLAT_9
+
+#define MQTT_USER "Mieszkanie9"
+#define MQTT_PASSWORD "Indianapolis19"
+#define HOST_NAME "Mieszkanie9"
+#define MQTT_CONTROL_TOPIC "salwatorska6/Mieszkanie9/control"
+#define MQTT_STATUS_TOPIC "salwatorska6/Mieszkanie9/status"
+#define MQTT_DEBUG_TOPIC "salwatorska6/Mieszkanie9/debug"
+
+#define RELAY_1 "bulb_9toilet_mirror"
+#define RELAY_2 "bulb_9room_right"
+#define RELAY_3 "bulb_9room_left"
+#define RELAY_4 ""
+#define RELAY_5 "bulb_9toilet_center"
+#define RELAY_6 "bulb_9kitchen_center"
+#define RELAY_7 "bulb_9kitchen_desk"
+#define RELAY_8 "bulb_9corridor"
+
+#define INPUT_1 "switch_9kitchen"
+#define INPUT_2 "switch_9room"
+#define INPUT_3 ""
+#define INPUT_4 "switch_9toilet_outside"
+#define INPUT_5 "switch_9toilet_mirror"
+#define INPUT_6 ""
+#define INPUT_7 "switch_9corridor"
+#define INPUT_8 "motion_9corridor"
+#define INPUT_9 "motion_9room"
+#define INPUT_10 "motion_9kitchen"
+#define INPUT_11 ""
+
+#define STATE_1 "heard_beat_9flat"
+#define STATE_2 "auto_on_9kitchen_lamp1"
+#define STATE_3 "auto_on_9kitchen_lamp2"
+#define STATE_4 "auto_on_9room_lamp1"
+#define STATE_5 "auto_on_9room_lamp2"
+#define STATE_6 "auto_on_9corridor"
+#define STATE_7 "auto_off_9kitchen_lamp1"
+#define STATE_8 "auto_off_9kitchen_lamp2"
+#define STATE_9 "auto_off_9room_lamp1"
+#define STATE_10 "auto_off_9room_lamp2"
+#define STATE_11 "auto_off_9corridor"
+#define STATE_12 ""
+#define STATE_13 ""
+#define STATE_14 ""
+#define STATE_15 ""
+#define STATE_16 ""
+
+#endif
 
 #ifdef FLAT_10
 
@@ -201,17 +249,17 @@
 #define INPUT_10 "motion_10kitchen"
 #define INPUT_11 ""
 
-#define STATE_1 "auto_on_10kitchen_lamp1"
-#define STATE_2 "auto_on_10kitchen_lamp2"
-#define STATE_3 "auto_on_10room_lamp1"
-#define STATE_4 "auto_on_10room_lamp2"
-#define STATE_5 "auto_on_10corridor"
-#define STATE_6 "auto_off_10kitchen_lamp1"
-#define STATE_7 "auto_off_10kitchen_lamp2"
-#define STATE_8 "auto_off_10room_lamp1"
-#define STATE_9 "auto_off_10room_lamp2"
-#define STATE_10 "auto_off_10corridor"
-#define STATE_11 ""
+#define STATE_1 "heard_beat_10flat"
+#define STATE_2 "auto_on_10kitchen_lamp1"
+#define STATE_3 "auto_on_10kitchen_lamp2"
+#define STATE_4 "auto_on_10room_lamp1"
+#define STATE_5 "auto_on_10room_lamp2"
+#define STATE_6 "auto_on_10corridor"
+#define STATE_7 "auto_off_10kitchen_lamp1"
+#define STATE_8 "auto_off_10kitchen_lamp2"
+#define STATE_9 "auto_off_10room_lamp1"
+#define STATE_10 "auto_off_10room_lamp2"
+#define STATE_11 "auto_off_10corridor"
 #define STATE_12 ""
 #define STATE_13 ""
 #define STATE_14 ""

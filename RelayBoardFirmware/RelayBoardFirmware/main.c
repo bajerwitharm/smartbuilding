@@ -12,8 +12,6 @@
 #include <avr/interrupt.h>
 #include "usart.h"
 
-
-
 int main(void)
 {
 	ioInit();
@@ -25,6 +23,10 @@ int main(void)
 		if (usartIsTelegramInBuffer()) {
 			usartClearBuffer();
 			usartHandleTelegram();
+		}
+		if (timerTriggered) {
+			timerTriggered = false;
+			processTriggers();
 		}
 	}
 }

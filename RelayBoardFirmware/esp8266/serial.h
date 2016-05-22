@@ -1,8 +1,8 @@
 #ifndef SERIAL_H_
 #define SERIAL_H_
 
-#define TX_BUFFER_SIZE 50
-#define RX_BUFFER_SIZE 50
+#define TX_BUFFER_SIZE 40
+#define RX_BUFFER_SIZE 40
 
 typedef struct {
   uint8_t index;

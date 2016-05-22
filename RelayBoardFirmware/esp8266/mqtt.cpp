@@ -56,3 +56,13 @@ void Mqtt::publish_debug(const char* message, size_t length) {
   client.publish(MQTT_DEBUG_TOPIC, (uint8_t*)message, length);
 }
 
+void Mqtt::publish_debug(uint8_t* message, size_t length) {
+  client.publish(MQTT_DEBUG_TOPIC, message, length);
+}
+
+void Mqtt::publish_debug(uint8_t data) {
+  char tmp[4];
+  sprintf(tmp, "%02x", data);
+  client.publish(MQTT_DEBUG_TOPIC, tmp, 2);
+}
+

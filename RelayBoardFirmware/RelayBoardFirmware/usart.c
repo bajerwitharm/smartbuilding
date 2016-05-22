@@ -8,14 +8,14 @@
 */
 #include "global.h"
 #include <string.h>
-#include <util/delay.h> 
+#include <util/delay.h>
 #include "timer.h"
 #include "telegrams.h"
 #include "usart.h"
 #include "io_pins.h"
 
-#define UART_BAUD_SELECT(baudRate,xtalCpu) ((( (xtalCpu) / ( (baudRate) * 8UL ))) - 1)
-#define BAUDRATE 4800
+#define UART_BAUD_SELECT(baudRate,xtalCpu) ((( (xtalCpu) / ( (baudRate) * 8UL )))-1)
+#define BAUDRATE (9600)
 #define TX_BUFFER_SIZE 40
 #define RX_BUFFER_SIZE 40
 #define FRAME_START_CHAR 0x7E
@@ -24,6 +24,7 @@
 #define FRAME_OVERHEAD 5 // src_addr + dst_addr + size + fc + crc = 5
 #define FRAME_LENGTH_FIELD_INDEX 3 //src_addr=1;dst_addr=2;len=3
 static bool telegramInBuffer=false;
+
 
 bool usartIsTelegramInBuffer(){
 	return telegramInBuffer;
@@ -39,15 +40,15 @@ const static struct
 	uint8_t howEscape[2];
 	} escape_characters[] = {
 	{
-		.toEscape = 0x7E,	//0x7E telegram start
+		.toEscape = FRAME_START_CHAR,	//0x7E telegram start
 		.howEscape = {0x7D, 0x5E}
 	},
 	{
 		.toEscape = 0x7D,
 		.howEscape = {0x7D, 0x5D}
-	},	
+	},
 	{
-		.toEscape = 0x7B,	//0x7B telegram end
+		.toEscape = FRAME_END_CHAR,	//0x7B telegram end
 		.howEscape = {0x7A, 0x5B}
 	},
 	{
@@ -84,12 +85,12 @@ void usartInit(void)
 	// enable interrupt on the RXC Flag, enable Receiver and Transmitter
 	UCSRB = (1<<RXEN) | (1<<TXEN) | (1<<RXCIE);
 	// set frame format: 8 data, 1 stop bit
-	UCSRC = (1<<URSEL)|(3<<UCSZ0);
+	UCSRC = (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);
 }
 
 void waitUntilSendingOver()
 {
-	uint8_t i = 10;
+	uint8_t i = 100;
 	while(i--){
 		if (((UCSRB & (1<<UDRIE)) == 0)&&((UCSRA & (1<<UDRE)))) {
 			break;
@@ -98,19 +99,42 @@ void waitUntilSendingOver()
 	}
 }
 
+/*
+ *	Base on Optimized Dallas (now Maxim) iButton 8-bit CRC calculation.
+ */
+uint8_t calcCRC(const uint8_t *data, uint8_t len) {
+	uint8_t crc = 0x00;
+	while (len--) {
+		uint8_t extract = *data++;
+		for (uint8_t tempI = 8; tempI; tempI--) {
+			uint8_t sum = (crc ^ extract) & 0x01;
+			crc >>= 1;
+			if (sum) {
+				crc ^= 0x8C;
+			}
+			extract >>= 1;
+		}
+	}
+	return crc;
+}
+
 void addCrc()
 {
-	tx_buffer.data[tx_buffer.size++] = 0xBB;//TODO: add crc implementation here
+	uint8_t crc = calcCRC(tx_buffer.data, tx_buffer.size);
+	tx_buffer.data[tx_buffer.size++] = crc;
+}
+
+bool crcIsCorrect()
+{
+	uint8_t crc = calcCRC(rx_buffer.data,rx_buffer.size-1);
+	return (crc == rx_buffer.data[rx_buffer.size-1]);
 }
 
 void initSending()
 {
-	while(!(UCSRA & (1<<UDRE)));
 	addCrc();
 	tx_buffer.index = 0;
-	
 	UDR = FRAME_START_CHAR;
-	
 	/* Enable UDR Empty interrupt */
 	UCSRB |= (1<<UDRIE);
 }
@@ -137,13 +161,13 @@ void usartGetTriggers()
 	triggerRequest->header.destination = BUS_MASTER_ADDRESS;
 	triggerRequest->header.source = THIS_DEVICE_ADDRESS;
 	triggerRequest->header.fc = get_triggers_e;
-	triggerRequest->header.size = sizeof(trigger_t);
+	triggerRequest->header.size = sizeof(trigger_t)+1;
 	for (uint8_t i=0;i<getNumberOfTriggers();i++){
 		waitUntilSendingOver();
 		_delay_ms(400);
 		triggerRequest->trigger_id=i;
 		memcpy(&triggerRequest->trigger,&triggers[i],sizeof(trigger_t));
-		tx_buffer.size = sizeof(action_triggered_t);
+		tx_buffer.size = sizeof(set_trigger_t);
 		_delay_ms(20);
 		initSending();
 	}
@@ -151,17 +175,30 @@ void usartGetTriggers()
 
 void usartSetTrigger()
 {
-		set_trigger_t* setTriggerRequest = (set_trigger_t*) rx_buffer.data;
-		memcpy(&triggers[setTriggerRequest->trigger_id],&setTriggerRequest->trigger,sizeof(trigger_t));
-		set_trigger_t* setTriggerResponse = (set_trigger_t*) tx_buffer.data;
-		setTriggerResponse->header.destination = BUS_MASTER_ADDRESS;
-		setTriggerResponse->header.source = THIS_DEVICE_ADDRESS;
-		setTriggerResponse->header.fc = set_trigger_e;
-		setTriggerResponse->trigger_id = setTriggerRequest->trigger_id;
-		setTriggerResponse->header.size = sizeof(trigger_t);
-		tx_buffer.size = sizeof(set_trigger_t);
-		memcpy(&setTriggerResponse->trigger,&setTriggerRequest->trigger,sizeof(trigger_t));
-		initSending();
+	set_trigger_t* setTriggerRequest = (set_trigger_t*) rx_buffer.data;
+	memcpy(&triggers[setTriggerRequest->trigger_id],&setTriggerRequest->trigger,sizeof(trigger_t));
+	set_trigger_t* setTriggerResponse = (set_trigger_t*) tx_buffer.data;
+	waitUntilSendingOver();
+	setTriggerResponse->header.destination = BUS_MASTER_ADDRESS;
+	setTriggerResponse->header.source = THIS_DEVICE_ADDRESS;
+	setTriggerResponse->header.fc = set_trigger_e;
+	setTriggerResponse->trigger_id = setTriggerRequest->trigger_id;
+	setTriggerResponse->header.size = sizeof(trigger_t)+1;
+	tx_buffer.size = sizeof(set_trigger_t);
+	memcpy(&setTriggerResponse->trigger,&setTriggerRequest->trigger,sizeof(trigger_t));
+	initSending();
+}
+
+void usartSendError(error_code_t error) {
+	error_telegram_t* telegram = (error_telegram_t*) tx_buffer.data;
+	waitUntilSendingOver();
+	telegram->header.destination = BUS_MASTER_ADDRESS;
+	telegram->header.source = THIS_DEVICE_ADDRESS;
+	telegram->header.fc = error_e;
+	telegram->error = error;
+	telegram->header.size=sizeof(error_code_t);
+	tx_buffer.size = sizeof(error_telegram_t);
+	initSending();
 }
 
 void usartActivateTriggerResponse()
@@ -181,18 +218,25 @@ void usartHandleTelegram(void)
 	telegram_header_t* header = (telegram_header_t*) rx_buffer.data;
 	if (header->destination == THIS_DEVICE_ADDRESS)
 	{
-		if ((header->fc == trigger_action_e) && (header->size == sizeof(actuator_t))) {	//add here crc check
-			activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
-			usartSendInfo();
+		if (crcIsCorrect()) {
+			if ((header->fc == trigger_action_e) && (header->size == sizeof(actuator_t))) {
+				usartSendInfo();
+				activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
+			}
+			if ((header->fc == get_info_e) && (header->size == 0)) {
+				usartSendInfo();
+			}
+			if ((header->fc == get_triggers_e) && (header->size == 0)) {
+				usartGetTriggers();
+			}
+			if ((header->fc == set_trigger_e) ) {
+				usartSetTrigger();
+			}
 		}
-		if ((header->fc == get_info_e) && (header->size == 0)) {
-			usartSendInfo();
-		}
-		if ((header->fc == get_triggers_e)) {
-			usartGetTriggers();
-		}
-		if ((header->fc == set_trigger_e)) {
-			usartSetTrigger();
+		else
+		{
+			//usartSendError(telegram_crc_error_e);
+			usartSendError(calcCRC(rx_buffer.data,rx_buffer.size-1));
 		}
 	}
 }
@@ -218,12 +262,22 @@ ISR(USART_RXC_vect)
 		// save length of telegram
 		if (rx_buffer.index == FRAME_LENGTH_FIELD_INDEX) {
 			rx_buffer.size = received + FRAME_OVERHEAD;
+			if (rx_buffer.size > RX_BUFFER_SIZE) {
+				usartSendError(telegram_too_long_e);
+				rx_buffer.size = RX_BUFFER_SIZE;
+			}
+		}
+		if ((received == FRAME_END_CHAR)&&(rx_buffer.index < rx_buffer.size)) {
+			usartSendError(telegram_too_short_e);
+			telegramInBuffer=false;
+			rx_buffer.index = 0;
 		}
 		rx_buffer.data[rx_buffer.index++] = received;
 		if (rx_buffer.index == rx_buffer.size)
 		{
 			telegramInBuffer=true;
 		}
+
 	}
 }
 
@@ -240,8 +294,8 @@ ISR(USART_UDRE_vect)
 		}
 	}
 	if (tx_buffer.size == tx_buffer.index) {
-			UDR = FRAME_END_CHAR;
-			UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
+		UDR = FRAME_END_CHAR;
+		UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
 	} else {
 		UDR = tx_buffer.data[tx_buffer.index++];
 	}
@@ -250,14 +304,13 @@ ISR(USART_UDRE_vect)
 void usartSendAction(trigger_t* trigger, uint8_t destination)
 {
 	waitUntilSendingOver();
-
 	action_triggered_t* telegram = (action_triggered_t*)tx_buffer.data;
 	tx_buffer.size = sizeof(action_triggered_t);
+	memcpy(&telegram->trigger,trigger,sizeof(*trigger));
 	telegram->header.fc = action_triggered_e;
 	telegram->header.source = THIS_DEVICE_ADDRESS;
 	telegram->header.destination = destination;
 	telegram->header.size = sizeof(*trigger)+sizeof(info_t);
-	memcpy(&telegram->trigger,trigger,sizeof(*trigger));
 	telegram->info.inputs = ioGetInputs();
 	telegram->info.outputs = ioGetOutputs();
 	telegram->info.states = getState();

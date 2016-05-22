@@ -3,7 +3,7 @@
 #include "serial.h"
 #include "mqtt.h"
 extern Mqtt mqtt;
-#define BAUDRATE 4808
+#define BAUDRATE (9600)
 
 #define FRAME_START_CHAR 0x7E
 #define FRAME_END_CHAR 0x7B
@@ -46,8 +46,37 @@ void setup_serial() {
   Serial.begin(BAUDRATE);
 }
 
+crc_t calcCRC(const uint8_t *data, uint8_t len) {
+  crc_t crc = 0x00;
+  while (len--) {
+    uint8_t extract = *data++;
+    for (uint8_t tempI = 8; tempI; tempI--) {
+      uint8_t sum = (crc ^ extract) & 0x01;
+      crc >>= 1;
+      if (sum) {
+        crc ^= 0x8C;
+      }
+      extract >>= 1;
+    }
+  }
+  return crc;
+}
+
+void addCRC()
+{
+   tx_buffer.data[tx_buffer.size-1] = calcCRC(tx_buffer.data,tx_buffer.size-1); 
+}
+
+bool crcIsCorrect()
+{
+  crc_t recCrc = rx_buffer.data[rx_buffer.size-1];
+  crc_t calcCrc = calcCRC(rx_buffer.data,rx_buffer.size-1);
+  return (recCrc == calcCrc);
+}
+
 void send_telegram() {
   tx_buffer.index = 0;
+  addCRC();
   Serial.write(FRAME_START_CHAR);
   // escape characters
   while (tx_buffer.index < tx_buffer.size) {
@@ -84,11 +113,22 @@ void serialEvent() {
       // save length of telegram
       if (rx_buffer.index == FRAME_LENGTH_FIELD_INDEX) {
         rx_buffer.size = received + FRAME_OVERHEAD;
+        if (rx_buffer.size > RX_BUFFER_SIZE) {
+          encode_error_telegram((error_code_t)received);
+          rx_buffer.size = RX_BUFFER_SIZE;
+        }
       }
       rx_buffer.data[rx_buffer.index++] = received;
       if (rx_buffer.index == rx_buffer.size)
       {
-        telegramInBuffer = true;
+         if (!crcIsCorrect()) {
+          encode_error_telegram(telegram_crc_error_e);
+          rx_buffer.index = 0;
+        }
+        else {
+          telegramInBuffer = true;
+          rx_buffer.index = 0;
+       }
       }
     }
   }

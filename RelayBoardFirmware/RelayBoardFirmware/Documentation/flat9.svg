@@ -1,0 +1,342 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="744" height="1052">
+<style>
+.s0{
+	line-height:125;
+}
+.s1{
+	line-height:125;
+	text-align:center;
+}
+.s2{
+	line-height:125;
+	text-align:start;
+}
+.s3{
+	line-height:125;
+	text-align:end;
+}
+
+</style>  <rect width="100" height="100" fill="none"/>
+  <g class="currentLayer">
+    <path fill="white" stroke="#000" stroke-width="6" d="M9 3h724v507H9z" class="selected"/>
+    <path fill="white" stroke="#000" stroke-width="5" d="M93 210h100v69H93z" transform="matrix(.83622 0 0 .83867 -60.448 103.783)"/>
+    <text x="101" y="262" transform="matrix(.83622 0 0 .83867 -60.448 103.23)" font-size="40" line-height="125">
+      <tspan x="101" y="262">
+        USB
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M391 108h54v56h-54z"/>
+    <text x="408" y="147" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="408" y="147">
+        1
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M479 108h54v56h-54z"/>
+    <text x="496" y="148" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="496" y="148">
+        2
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M561 108h54v56H561z"/>
+    <text x="578" y="148" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="578" y="148">
+        3
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M645 110h54v56H645z"/>
+    <text x="662" y="149" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="662" y="149">
+        4
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M391 396h54V452H391zm88 1h54v56H479z"/>
+    <text x="496" y="435" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="496" y="435">
+        6
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M561 396h54v56h-54z"/>
+    <text x="578" y="435" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="578" y="435">
+        7
+      </tspan>
+    </text>
+    <text x="420" y="179" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+      <tspan x="420" y="179">
+        KUCHNIA
+      </tspan>
+      <tspan x="420" y="199">
+        LAMPA 
+      </tspan>
+      <tspan x="420" y="220">
+        BLAT
+      </tspan>
+    </text>
+    <text x="507" y="179" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+      <tspan x="507" y="179">
+        KUCHNIA
+      </tspan>
+      <tspan x="507" y="200">
+        LAMPA
+      </tspan>
+      <tspan x="507" y="220">
+        STOL
+      </tspan>
+    </text>
+    <text x="591" y="179" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+      <tspan x="591" y="179">
+        POKOJ
+      </tspan>
+      <tspan x="591" y="200">
+        LAMPA
+      </tspan>
+      <tspan x="591" y="220">
+        1
+      </tspan>
+    </text>
+    <text x="678" y="180" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+      <tspan x="678" y="180">
+        POKOJ
+      </tspan>
+      <tspan x="681" y="200">
+        LAMPA
+      </tspan>
+      <tspan x="678" y="220">
+        2
+      </tspan>
+    </text>
+    <text  x="420" y="468" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+	  <tspan x="420" y="468">
+        KORYTARZ
+      </tspan>
+      <tspan x="420" y="488">
+        LAMPA
+      </tspan>
+    </text>
+    <text x="589" y="468" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+	  <tspan x="510" y="468">
+        TOALETA
+      </tspan>
+      <tspan x="510" y="488">
+        SUFIT
+      </tspan>      
+    </text>
+    <text x="506" y="467" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="middle" class="s1">
+	  <tspan x="590" y="467">
+        TOALETA
+      </tspan>
+      <tspan x="590" y="488">
+        LUSTRO
+      </tspan>      
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M215 165h9v9H215zm-1-17h9v10h-8z"/>
+    <text x="233" y="168" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="233" y="168">
+        KORYTARZ RUCH (9)
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M213 123h9v9h-8zm-1-17h9v10h-9z"/>
+    <text x="231" y="125" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="231" y="125">
+        (10)
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M216 247h9v9H216zm-1-17h9v10h-8z"/>
+    <text x="234" y="247" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="234" y="247">
+        KUCHNIA RUCH (7)
+      </tspan>
+    </text>
+    <text x="230" y="255" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="210" y="255">
+        PD2
+      </tspan>
+    </text>
+    <text x="233" y="239" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="211" y="239">
+        GND
+      </tspan>
+    </text>
+    <text x="227" y="173" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="207" y="173">
+        PD4
+      </tspan>
+    </text>
+    <text x="231" y="157" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="208" y="157">
+        GND
+      </tspan>
+    </text>
+    <text x="226" y="130" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="207" y="130">
+        PD5
+      </tspan>
+    </text>
+    <text x="230" y="114" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="208" y="114">
+        GND
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M212 82h9v9H212zm-1-17h9v9h-9z"/>
+    <text x="229" y="85" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="229" y="85">
+        (11)
+      </tspan>
+    </text>
+    <text x="224" y="90" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="206" y="90">
+        PC5
+      </tspan>
+    </text>
+    <text x="228" y="74" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="205" y="74">
+        GND
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M211 42h9v9H211zm-1-17h9v9h-9z"/>
+    <text x="229" y="50" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="206" y="50">
+        GND
+      </tspan>
+    </text>
+    <text x="204" y="33" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="204" y="33">
+        5V
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M143 247h9v10h-9zm-1-17h9v9h-9z"/>
+    <g >
+      <text x="118" y="247" font-size="14" transform="matrix(.99854 0 0 1.00146 0 -.552)" class="s2">
+        <tspan x="20" y="247">
+          KUCHNIA WŁ (1) 
+        </tspan>
+      </text>
+      <text x="156" y="257" font-size="11" transform="matrix(.99854 0 0 1.00146 0 -.552)" line-height="125">
+        <tspan x="156" y="257">
+          PC0
+        </tspan>
+      </text>
+      <text x="156" y="239" font-size="11" transform="matrix(.99854 0 0 1.00146 0 -.552)" line-height="125">
+        <tspan x="156" y="239">
+          GND
+        </tspan>
+      </text>
+    </g>
+    <path fill="white" stroke="#000" stroke-width="3" d="M144 207h9v9h-9zm-1-17h9v10h-9z"/>
+    <text x="120" y="207" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="40" y="207">
+        POKOJ WŁ (2)
+      </tspan>
+    </text>
+    <text x="158" y="217" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="158" y="217">
+        PC1
+      </tspan>
+    </text>
+    <text x="159" y="199" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="159" y="199">
+        GND
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M143 165h9v9h-8zm-1-17h9v10h-9z"/>
+    <text x="118" y="165" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="15" y="165">
+        KORYTARZ WŁ (3)
+      </tspan>
+    </text>
+    <text x="156" y="174" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="156" y="174">
+        PC2
+      </tspan>
+    </text>
+    <text x="156" y="157" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="156" y="157">
+        GND
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M143 123h9v9h-8zm-1-17h9v10h-9z"/>
+    <text x="118" y="123" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="45" y="123">
+        T. LUSTRO (4)
+      </tspan>
+    </text>
+    <text x="156" y="132" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="156" y="132">
+        PC3
+      </tspan>
+    </text>
+    <text x="156" y="115" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="156" y="115">
+        GND
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M143 82h9v9h-9zm0-17h9v9H142z"/>
+    <text x="133" y="83" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" text-anchor="end" class="s3">
+      <tspan x="133" y="83">
+        T. SUFIT (5)
+      </tspan>
+    </text>
+    <text x="155" y="92" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="155" y="92">
+        PC4
+      </tspan>
+    </text>
+    <text x="155" y="74" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="155" y="74">
+        GND
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M141 42h9v9H141zm0-17h9v9h-9z"/>
+    <text x="114" y="42" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="14" class="s2">
+      <tspan x="114" y="42">
+        (6)
+      </tspan>
+    </text>
+    <text x="155" y="52" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="155" y="52">
+        PC6
+      </tspan>
+    </text>
+    <text x="155" y="34" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="11" line-height="125">
+      <tspan x="155" y="34">
+        5V
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="5" d="M93 210h100v69H93z" transform="matrix(.83622 0 0 .83867 -60.732 254.34)"/>
+    <text x="101" y="262" transform="matrix(.83622 0 0 .83867 -60.732 253.787)" font-size="40" line-height="125">
+      <tspan x="101" y="262">
+        24V
+      </tspan>
+    </text>
+    <path fill="white" stroke="#000" stroke-width="3" d="M216 206h9v9H216zm-1-17h9v9h-8z"/>
+    <text x="235" y="208" transform="matrix(.99854 0 0 1.00146 -2 0)" font-size="14" class="s2">
+      <tspan x="235" y="208">
+        POKOJ RUCH (8)
+      </tspan>
+    </text>
+    <text x="232" y="214" transform="matrix(.99854 0 0 1.00146 -2 0)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="213" y="214">
+        PD3
+      </tspan>
+    </text>
+    <text x="234" y="198" transform="matrix(.99854 0 0 1.00146 -2 0)" font-size="11" text-anchor="end" class="s3">
+      <tspan x="211" y="198">
+        GND
+      </tspan>
+    </text>
+    <g >
+      <text x="408" y="435" font-size="34" transform="matrix(.99854 0 0 1.00146 0 -.552)" line-height="125">
+        <tspan x="408" y="435">
+          5
+        </tspan>
+      </text>
+
+    </g>
+    <path fill="white" stroke="#000" stroke-width="3" d="M649 397h54v56h-54z"/>
+    <text x="666" y="436" transform="matrix(.99854 0 0 1.00146 0 -.552)" font-size="34" line-height="125">
+      <tspan x="666" y="436">
+        8
+      </tspan>
+    </text>
+  </g>
+</svg>

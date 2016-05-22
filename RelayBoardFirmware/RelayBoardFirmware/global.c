@@ -71,16 +71,16 @@
 #define TOILET_LAMP_OUTPUT_1 RELAY_5
 #define TOILET_LAMP_OUTPUT_2 RELAY_1
 
-#define KITCHEN_LAMP_1_AUTO_ON 0x01
-#define KITCHEN_LAMP_2_AUTO_ON 0x02
-#define ROOM_LAMP_1_AUTO_ON 0x04
-#define ROOM_LAMP_2_AUTO_ON 0x08
-#define CORRIDOR_LAMP_AUTO_ON 0x10
-#define KITCHEN_LAMP_1_AUTO_OFF 0x20
-#define KITCHEN_LAMP_2_AUTO_OFF 0x40
-#define ROOM_LAMP_1_AUTO_OFF 0x80
-#define ROOM_LAMP_2_AUTO_OFF 0x100
-#define CORRIDOR_LAMP_AUTO_OFF 0x200
+#define KITCHEN_LAMP_1_AUTO_ON 0x02
+#define KITCHEN_LAMP_2_AUTO_ON 0x04
+#define ROOM_LAMP_1_AUTO_ON 0x08
+#define ROOM_LAMP_2_AUTO_ON 0x10
+#define CORRIDOR_LAMP_AUTO_ON 0x20
+#define KITCHEN_LAMP_1_AUTO_OFF 0x40
+#define KITCHEN_LAMP_2_AUTO_OFF 0x80
+#define ROOM_LAMP_1_AUTO_OFF 0x100
+#define ROOM_LAMP_2_AUTO_OFF 0x200
+#define CORRIDOR_LAMP_AUTO_OFF 0x400
 #endif
 
 #define MOTION_DETECTION_ENABLED
@@ -173,71 +173,41 @@ trigger_t triggers[] = {
 	// Manual ON/OFF lamps 3
 	{
 		.activator = {
-			.input_on = 0x0000,
 			.input_off = CORRIDOR_2SWITCH,
-			.output_off = 0x00,
-			.output_on = 0x00,
 			.state_on = DISABLE_MONTION,
-			.state_off = 0x00,
 		},
 		.actuator = {
-			.output_off = 0x00,
-			.output_toggle = 0x00,
 			.output_on = LAMP_UP_OUTPUT_1,
-			.state_on = 0x00,
-			.state_off = 0x00,
-			.state_toggle = 0x00,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	#endif
 	// Manual ON/OFF lamps 1
 	{
 		.activator = {
-			.input_on = 0x0000,
 			.input_off = CORRIDOR_SWITCH,
-			.output_off = 0x00,
-			.output_on = 0x00,
 			.state_on = DISABLE_MONTION,
-			.state_off = 0x00,
 		},
 		.actuator = {
-			.output_off = 0x00,
 			.output_toggle = LAMP_LEFT_OUTPUT_1|LAMP_RIGHT_OUTPUT_1,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
-			.state_toggle = 0x00,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// Manual ON/OFF lamps 2
 	{
 		.activator = {
-			.input_on = 0x0000,
 			.input_off = CORRIDOR_SWITCH,
-			.output_off = 0x00,
-			.output_on = 0x00,
 			.state_on = DISABLE_MONTION,
-			.state_off = 0x00,
 		},
 		.actuator = {
-			.output_off = 0x00,
 			.output_toggle = LAMP_LEFT_OUTPUT_2|LAMP_RIGHT_OUTPUT_2,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
-			.state_toggle = 0x00,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	#ifndef FIRST_FLOOR
@@ -365,7 +335,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME_1),
-			.time_current = 0,
 		}
 	},
 	// OFF motion detector left
@@ -385,19 +354,13 @@ trigger_t triggers[] = {
 	// Toggle DISABLE_MOTION
 	{
 		.activator = {
-			.input_on = 0x0000,
 			.input_off = CORRIDOR_SWITCH,
-			.output_off = 0x00,
-			.output_on = 0x00,
-			.state_on = 0x00,
-			.state_off = 0x00,
 		},
 		.actuator = {
 			.state_toggle = DISABLE_MONTION,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	#ifndef FIRST_FLOOR
@@ -581,7 +544,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// ON motion detector kitchen lamp
@@ -595,7 +557,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// toggling state control Kitchen auto_on
@@ -609,7 +570,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(LONGER_VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// OFF motion detector kitchen lamp
@@ -623,7 +583,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME),
-			.time_current = 0,
 		}
 	},
 	// OFF motion detector kitchen lamp
@@ -637,7 +596,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME),
-			.time_current = 0,
 		}
 	},
 	// toggling state control Kitchen auto_off
@@ -651,7 +609,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// ON motion detector room lamp
@@ -665,7 +622,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// ON motion detector room lamp
@@ -679,7 +635,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// toggling state control room auto_on
@@ -693,7 +648,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(LONGER_VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// OFF motion detector kitchen lamp
@@ -707,7 +661,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME),
-			.time_current = 0,
 		}
 	},
 	// OFF motion detector kitchen lamp
@@ -721,7 +674,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME),
-			.time_current = 0,
 		}
 	},
 	// toggling state control room auto_off
@@ -735,7 +687,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// ON motion detector corridor lamp
@@ -749,7 +700,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(SHORT_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// toggling state control room auto_on
@@ -763,7 +713,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(LONGER_VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	// OFF motion detector corridor lamp
@@ -777,7 +726,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(ON_AFTER_MOTION_TIME),
-			.time_current = 0,
 		}
 	},
 	// toggling state control room auto_off
@@ -791,7 +739,6 @@ trigger_t triggers[] = {
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(VERY_LONG_CLICK_TIME),
-			.time_current = 0,
 		}
 	},
 	#endif
@@ -803,3 +750,4 @@ const uint8_t getNumberOfTriggers()
 	static const uint8_t number_of_triggers =  sizeof(triggers) / sizeof(triggers[0]);
 	return number_of_triggers;
 }
+

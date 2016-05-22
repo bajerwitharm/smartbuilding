@@ -5,3 +5,15 @@ node_modules
 /app.pid
 /sqlite3.exe
 /app.log
+/.idea
+/.metadata
+/.vs/banana_server/v14
+/bananapi_server/.vs
+/bananapi_server/bananapi_server/obj/Debug
+/bananapi_server/bananapi_server/typings
+/OpenWRT
+/OpenWrtBridge
+/RelayBoardFirmware/RelayBoardFirmware/Debug
+/RelayBoardFirmware/RelayBoardFirmware/doxygen
+/WWW/build
+/RemoteSystemsTempFiles
