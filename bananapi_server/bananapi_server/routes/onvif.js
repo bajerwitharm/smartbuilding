@@ -51,6 +51,18 @@ module.exports = function (mqtt_server) {
             });
         });
     server.listen(15002, '0.0.0.0');
+    var express = require('express');
+    var router = express.Router();
+    router.use(function timeLog(req, res, next) {
+        console.log('Time: ', Date.now());
+        next();
+    });
+    router.all('/', function (req, res) {
+        console.log(req.message)
+        findCamera(JSON.parse(req.headers.message), recordCamera)
+    });
+
+    return router
 }
 
 function publishMqttStartRecord(camera) {

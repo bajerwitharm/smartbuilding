@@ -42,11 +42,13 @@ app.use(bodyParser.json());
 //    }
 //});
 app.post('/login', authorization.login);
+app.use('/cameras', onvifCameras);
 // Auth Middleware - This will check if the token is valid
 // Only the requests that start with /api/v1/* will be checked for the token.
 // Any URL's that do not follow the below pattern should be avoided unless you 
 // are sure that authentication is not needed
 app.all('/api/v1/*', middleware.validate);
+
 
 app.use('/', require('./routes'));
  
