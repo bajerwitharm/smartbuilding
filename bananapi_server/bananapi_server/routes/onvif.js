@@ -29,6 +29,7 @@ function waitForDatagram(slice, callback) {
 waitForDatagram.datagram = '';
 
 function findCamera(json_datagram, callback) {
+    console.log(json_datagram);
     if (json_datagram[0].Status == "Start") {
         app.settings.forEach(function (element) {
             if (json_datagram[0].SerialID == element.serialId) {
@@ -63,8 +64,6 @@ module.exports = function (mqtt_server) {
         next();
     });
     router.all('/', function (req, res) {
-          console.log(req.query);
-	  console.log(req.query.Message.replaceAll("'","\""));
         findCamera(JSON.parse(req.query.Message.replaceAll("'","\"")), recordCamera)
     });
 
@@ -84,7 +83,7 @@ function publishMqttEndRecord(camera) {
 recordCamera = function (camera) {
     if (camera.exec == 0) {
         publishMqttStartRecord(camera);
-        camera.exec = exec("ffmpeg -i " + camera.url + " -t 30 -vcodec copy -preset slow /ftp/`date +%#F_%H.%M.%S`_" + camera.name + ".mp4",
+        camera.exec = exec("mkdir -p /ftp/`date +%#F` && ffmpeg -i " + camera.url + " -t 30 -vcodec copy -v 0 -preset slow /ftp/`date +%#F`/`date +%#F %H:%M.%S` " + camera.name + ".mp4",
             function puts(error, stdout, stderr) {
                 console.log(error);
             }

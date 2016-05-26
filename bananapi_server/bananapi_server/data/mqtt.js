@@ -20,7 +20,7 @@ module.exports = function Mqtt(database) {
                 json_message = { 'actuator': json_message.actuator };
             }
             cleanJson(json_message);
-            console.log(json_message);
+ //           console.log(json_message);
             database.insertNewEvent(topic, JSON.stringify(json_message), function (result) {
                 mqtt_client.publish("salwatorska6/firstfloor/event", JSON.stringify(result[0].insert_event), { 'qos': 1, 'retain': true }, function () { });
             });
