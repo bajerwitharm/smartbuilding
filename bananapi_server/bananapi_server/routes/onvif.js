@@ -38,6 +38,11 @@ function findCamera(json_datagram, callback) {
     }
 }
 
+String.prototype.replaceAll = function(str1, str2, ignore) 
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+} 
+
 module.exports = function (mqtt_server) {
     var datagram = "";
     mqtt = mqtt_server.get_client();
@@ -54,12 +59,13 @@ module.exports = function (mqtt_server) {
     var express = require('express');
     var router = express.Router();
     router.use(function timeLog(req, res, next) {
-        console.log('Time: ', Date.now());
+        //console.log('Time: ', Date.now());
         next();
     });
     router.all('/', function (req, res) {
-        console.log(req.message)
-        findCamera(JSON.parse(req.headers.message), recordCamera)
+          console.log(req.query);
+	  console.log(req.query.Message.replaceAll("'","\""));
+        findCamera(JSON.parse(req.query.Message.replaceAll("'","\"")), recordCamera)
     });
 
     return router
