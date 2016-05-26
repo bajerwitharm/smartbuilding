@@ -17,14 +17,14 @@
         {
             url: 'rtsp://192.168.1.53:554/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream',
             name: 'KameraPietro1',
-            serialId: '0012123972ca',
+            serialId: '25720f0b405f034b',
             exec: 0,
             timeout: 0
         },
         {
             url: 'rtsp://192.168.1.54:554/user=admin_password=FaWsG5QU_channel=1_stream=0.sdp?real_stream',
             name: 'KameraPietro2',
-            serialId: '001212399c78',
+            serialId: '4f8ad71abb0420c8',
             exec: 0,
             timeout: 0
         }
