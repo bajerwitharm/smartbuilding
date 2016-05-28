@@ -18,8 +18,7 @@ function waitForDatagram(slice, callback) {
     waitForDatagram.datagram = waitForDatagram.datagram + slice;
     if (slice.length < 3472) {
         try {
-            var json_text = "[" + waitForDatagram.datagram.substring(waitForDatagram.datagram.indexOf('{'), waitForDatagram.datagram.lastIndexOf('}') + 1) + "]";
-            callback(JSON.parse(json_text));
+           callback(JSON.parse(waitForDatagram.datagram));
         } catch (err) {
             console.log(err);
         }
@@ -28,14 +27,26 @@ function waitForDatagram(slice, callback) {
 }
 waitForDatagram.datagram = '';
 
-function findCamera(json_datagram, callback) {
-    console.log(json_datagram);
-    if (json_datagram[0].Status == "Start") {
-        app.settings.forEach(function (element) {
-            if (json_datagram[0].SerialID == element.serialId) {
-                callback(element);
-            }
-        });
+function findCamera(message, callback) {
+    try {
+        var json_datagram = JSON.parse("[" + message.substring(waitForDatagram.datagram.indexOf('{'), message.lastIndexOf('}') + 1) + "]");
+        if (json_datagram[0].Status == "Start") {
+            app.settings.forEach(function (element) {
+                if (json_datagram[0].SerialID == element.serialId) {
+                    callback(element);
+                }
+            });
+        }
+    } catch (e) {
+        if (message.indexOf("Info:md alarm") > -1) {
+            var found = message.match(/IP:(.*) Info/gi)[0];
+            var serialId = found.substring(3, found.search("Info"));
+            app.settings.forEach(function (element) {
+                if (element.serialId == serialId) {
+                    callback(element);
+                }
+            });
+        }
     }
 }
 

@@ -10,7 +10,7 @@
         {
             url: 'rtsp://192.168.1.52:554/streaming/video0',
             name: 'Parter',
-            serialId: '0012123972cd',
+            serialId: '192.168.1.52',
             exec: 0,
             timeout: 0
         },
