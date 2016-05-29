@@ -16,63 +16,76 @@ var smartBuildingApp = angular.module('smartbuidling', ['ionic', 'smartbuidling.
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
+  .state('app', {
+    url: "/app",
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: "templates/menu.html",
+    controller: 'AppCtrl'
   })
 
-  // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
+  .state('app.search', {
+    url: "/search",
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-search': {
+        templateUrl: "templates/search.html"
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
+  .state('app.browse', {
+    url: "/browse",
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-browse': {
+        templateUrl: "templates/browse.html"
       }
     }
-  });
+  })
 
+  .state('app.playlists', {
+    url: "/playlists",
+    views: {
+      'tab-playlists': {
+        templateUrl: "templates/playlists.html",
+        controller: 'PlaylistsCtrl'
+      }
+    }
+  })
+
+    .state('app.single', {
+      url: "/playlists/:playlistId",
+      views: {
+        'tab-playlists': {
+          templateUrl: "templates/playlist.html",
+          controller: 'PlaylistCtrl'
+        }
+      }
+    });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
-
+  $urlRouterProvider.otherwise('/app/playlists');
 });
+
+angular.module('starter.controllers', [])
+
+.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+
+})
+
+.controller('PlaylistsCtrl', function($scope) {
+  $scope.playlists = [
+    { title: 'Reggae', id: 1 },
+    { title: 'Chill', id: 2 },
+    { title: 'Dubstep', id: 3 },
+    { title: 'Indie', id: 4 },
+    { title: 'Rap', id: 5 },
+    { title: 'Cowbell', id: 6 }
+  ];
+})
+
+.controller('PlaylistCtrl', function($scope, $stateParams) {
+});
+
+

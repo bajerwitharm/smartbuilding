@@ -14,11 +14,10 @@ app.settings = require('../config/onvif.js')();
 
 function waitForDatagram(slice, callback) {
     console.log(slice);
-    slice = slice.substring(slice.indexOf("{"));
     waitForDatagram.datagram = waitForDatagram.datagram + slice;
     if (slice.length < 3472) {
         try {
-           callback(JSON.parse(waitForDatagram.datagram));
+           callback(waitForDatagram.datagram);
         } catch (err) {
             console.log(err);
         }
@@ -29,7 +28,7 @@ waitForDatagram.datagram = '';
 
 function findCamera(message, callback) {
     try {
-        var json_datagram = JSON.parse("[" + message.substring(waitForDatagram.datagram.indexOf('{'), message.lastIndexOf('}') + 1) + "]");
+        var json_datagram = JSON.parse("[" + message.substring.message.indexOf('{'), message.lastIndexOf('}') + 1) + "]");
         if (json_datagram[0].Status == "Start") {
             app.settings.forEach(function (element) {
                 if (json_datagram[0].SerialID == element.serialId) {
