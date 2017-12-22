@@ -8,8 +8,9 @@
 
 #ifndef TRIGGERS_H_
 #define TRIGGERS_H_
-
+#include "conf_board.h"
 #include "timer.h"
+
 
 //maps physical relays on the board with logical abstraction layer outputs
 #define RELAY_1 0x04
@@ -37,26 +38,38 @@
 #pragma pack(1)
 
 typedef uint16_t inputs_t;
+#ifndef RELAY_16_BOARD
 typedef uint8_t outputs_t;
+#else
+typedef uint16_t outputs_t;
+#endif
 typedef uint16_t states_t;
 
 typedef struct {
+#ifndef RELAY_16_BOARD
 	inputs_t input_on;
 	inputs_t input_off;
+#endif
 	outputs_t output_on;
 	outputs_t output_off;
+#ifndef NO_TRIGGERS
 	states_t state_on;
 	states_t state_off;
+#endif
 } activator_t;
 
 typedef struct {
 	outputs_t output_on;
 	outputs_t output_off;
 	outputs_t output_toggle;
+#ifndef RELAY_16_BOARD
 	uint8_t padding;
+#endif
+#ifndef NO_TRIGGERS
 	states_t state_on;
 	states_t state_off;
 	states_t state_toggle;
+#endif
 } actuator_t;
 
 typedef struct {
@@ -69,9 +82,13 @@ typedef struct {
 } trigger_t;
 
 typedef struct {
+#ifndef RELAY_16_BOARD
 	inputs_t inputs;
+#endif
 	outputs_t outputs;
+#ifndef NO_TRIGGERS
 	states_t states;
+#endif
 } info_t;
 
 #pragma pack()
@@ -79,6 +96,6 @@ const uint8_t getNumberOfTriggers();
 void activateTrigger(const actuator_t* const actuator_p);
 void processTriggers();
 states_t getState();
-
+extern trigger_t triggers[];
 
 #endif /* TRIGGERS_H_ */

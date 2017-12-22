@@ -12,7 +12,7 @@
 * Timer - if activator condition is satisfied count down starts, if during count down activator will be not satisfied count down resets to time_preload
 */
 
-#include "global.h"
+#include "conf_board.h"
 #include "triggers.h"
 #include "io_pins.h"
 #include "usart.h"
@@ -40,7 +40,7 @@ states_t getState()
 }
 
 
-
+#ifndef NO_TRIGGERS
 bool stateOffVerified(const uint8_t trigger_index)
 {
 	return ((triggers[trigger_index].activator.state_off & ~device_state) == triggers[trigger_index].activator.state_off);
@@ -70,18 +70,23 @@ bool outputOnVerified(const uint8_t trigger_index)
 {
 	return ((triggers[trigger_index].activator.output_on & ioGetOutputs()) == triggers[trigger_index].activator.output_on);
 }
+#endif
 
 void activateTrigger(const actuator_t* const actuator_p)
 {
 	ioSetOutput(actuator_p->output_on);
 	ioResetOutput(actuator_p->output_off);
 	ioToggleOutput(actuator_p->output_toggle);
+#ifndef NO_TRIGGERS
 	setState(actuator_p->state_on);
 	resetState(actuator_p->state_off);
 	toggleState(actuator_p->state_toggle);
+#endif
 }
 
+
 void processTrigger(const uint8_t trigger_index) {
+#ifndef NO_TRIGGERS
 	static uint32_t oldState=0;
 	if (
 	inputOffVerified(trigger_index) &&
@@ -113,11 +118,14 @@ void processTrigger(const uint8_t trigger_index) {
 		}
 		oldState &=~(((uint32_t)1)<<trigger_index);
 	}
-
+#endif
 }
 
+
 void processTriggers() {
+#ifndef NO_TRIGGERS
 	for (uint8_t i=0;i<getNumberOfTriggers();i++) {
 		processTrigger(i);
 	}
+#endif
 }

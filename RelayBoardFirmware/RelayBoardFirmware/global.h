@@ -9,16 +9,21 @@
 #include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "triggers.h"
+
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
+#include "conf_board.h"
+#include "triggers.h"
+
 
 #ifndef F_CPU
 #define F_CPU 1000000 // 1 Mhz
 #endif
 
-extern trigger_t triggers[];
+#ifndef NO_TRIGGERS
+
 const uint8_t getNumberOfTriggers();
+#endif
 
 #endif /* INCFILE1_H_ */

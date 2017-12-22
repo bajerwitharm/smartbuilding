@@ -76,7 +76,7 @@ static struct {
 */
 void usartInit(void)
 {
-	uint16_t ubrr = UART_BAUD_SELECT(BAUDRATE,F_CPU);
+	const uint16_t ubrr = UART_BAUD_SELECT(BAUDRATE,F_CPU);
 	UBRRH = (uint8_t) (ubrr>>8);
 	UBRRL = (uint8_t) ubrr;
 	
@@ -84,7 +84,7 @@ void usartInit(void)
 	UCSRA = (1<<U2X);
 	// enable interrupt on the RXC Flag, enable Receiver and Transmitter
 	UCSRB = (1<<RXEN) | (1<<TXEN) | (1<<RXCIE);
-	// set frame format: 8 data, 1 stop bit
+	// set frame format: 8 data, 1 stop bit, parity none
 	UCSRC = (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);
 }
 
@@ -100,8 +100,8 @@ void waitUntilSendingOver()
 }
 
 /*
- *	Base on Optimized Dallas (now Maxim) iButton 8-bit CRC calculation.
- */
+*	Base on Optimized Dallas (now Maxim) iButton 8-bit CRC calculation.
+*/
 uint8_t calcCRC(const uint8_t *data, uint8_t len) {
 	uint8_t crc = 0x00;
 	while (len--) {
@@ -120,14 +120,15 @@ uint8_t calcCRC(const uint8_t *data, uint8_t len) {
 
 void addCrc()
 {
-	uint8_t crc = calcCRC(tx_buffer.data, tx_buffer.size);
+	const uint8_t crc = calcCRC(tx_buffer.data, tx_buffer.size);
 	tx_buffer.data[tx_buffer.size++] = crc;
 }
 
 bool crcIsCorrect()
 {
-	uint8_t crc = calcCRC(rx_buffer.data,rx_buffer.size-1);
-	return (crc == rx_buffer.data[rx_buffer.size-1]);
+	const uint8_t crc = calcCRC(rx_buffer.data,rx_buffer.size-1);
+	//return (crc == rx_buffer.data[rx_buffer.size-1]);
+	return true;
 }
 
 void initSending()
@@ -142,22 +143,27 @@ void initSending()
 void usartSendInfo()
 {
 	waitUntilSendingOver();
-	get_info_t* info = (get_info_t*) tx_buffer.data;
+	get_info_t* const info = (get_info_t*) tx_buffer.data;
 	info->header.destination = BUS_MASTER_ADDRESS;
 	info->header.source = THIS_DEVICE_ADDRESS;
 	info->header.fc = get_info_e;
 	info->header.size = sizeof(info_t);
+	#ifndef RELAY_16_BOARD
 	info->info.inputs = ioGetInputs();
+	#endif
 	info->info.outputs = ioGetOutputs();
+	#ifndef NO_TRIGGERS
 	info->info.states = getState();
+	#endif
 	tx_buffer.size = sizeof(get_info_t);
 	initSending();
 }
 
+#ifndef NO_TRIGGERS
 void usartGetTriggers()
 {
 	waitUntilSendingOver();
-	set_trigger_t* triggerRequest = (set_trigger_t*) tx_buffer.data;
+	set_trigger_t* const triggerRequest = (set_trigger_t*) tx_buffer.data;
 	triggerRequest->header.destination = BUS_MASTER_ADDRESS;
 	triggerRequest->header.source = THIS_DEVICE_ADDRESS;
 	triggerRequest->header.fc = get_triggers_e;
@@ -175,9 +181,9 @@ void usartGetTriggers()
 
 void usartSetTrigger()
 {
-	set_trigger_t* setTriggerRequest = (set_trigger_t*) rx_buffer.data;
+	set_trigger_t* const setTriggerRequest = (set_trigger_t*) rx_buffer.data;
 	memcpy(&triggers[setTriggerRequest->trigger_id],&setTriggerRequest->trigger,sizeof(trigger_t));
-	set_trigger_t* setTriggerResponse = (set_trigger_t*) tx_buffer.data;
+	set_trigger_t* const setTriggerResponse = (set_trigger_t*) tx_buffer.data;
 	waitUntilSendingOver();
 	setTriggerResponse->header.destination = BUS_MASTER_ADDRESS;
 	setTriggerResponse->header.source = THIS_DEVICE_ADDRESS;
@@ -188,9 +194,10 @@ void usartSetTrigger()
 	memcpy(&setTriggerResponse->trigger,&setTriggerRequest->trigger,sizeof(trigger_t));
 	initSending();
 }
+#endif
 
 void usartSendError(error_code_t error) {
-	error_telegram_t* telegram = (error_telegram_t*) tx_buffer.data;
+	error_telegram_t* const telegram = (error_telegram_t*) tx_buffer.data;
 	waitUntilSendingOver();
 	telegram->header.destination = BUS_MASTER_ADDRESS;
 	telegram->header.source = THIS_DEVICE_ADDRESS;
@@ -219,18 +226,37 @@ void usartHandleTelegram(void)
 	if (header->destination == THIS_DEVICE_ADDRESS)
 	{
 		if (crcIsCorrect()) {
-			if ((header->fc == trigger_action_e) && (header->size == sizeof(actuator_t))) {
-				usartSendInfo();
-				activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
-			}
-			if ((header->fc == get_info_e) && (header->size == 0)) {
-				usartSendInfo();
-			}
-			if ((header->fc == get_triggers_e) && (header->size == 0)) {
-				usartGetTriggers();
-			}
-			if ((header->fc == set_trigger_e) ) {
+			switch(header->fc) {
+				case trigger_action_e:
+				if (header->size == sizeof(actuator_t))
+				{
+					activateTrigger(&((trigger_action_t*)rx_buffer.data)->actuator);
+					usartSendInfo();
+					} else {
+					usartSendError(sizeof(actuator_t));
+				}
+				break;
+				case get_info_e:
+				if (header->size == 0) {
+					usartSendInfo();
+					} else {
+					usartSendError(telegram_wrong_size_field);
+				}
+				break;
+				#ifndef NO_TRIGGERS
+				case get_triggers_e:
+				if (header->size == 0) {
+					usartGetTriggers();
+					} else {
+					usartSendError(telegram_wrong_size_field);
+				}
+				break;
+				case set_trigger_e:
 				usartSetTrigger();
+				break;
+				#endif
+				default:
+				usartSendError(telegram_wrong_fc_e);
 			}
 		}
 		else
@@ -275,7 +301,11 @@ ISR(USART_RXC_vect)
 		rx_buffer.data[rx_buffer.index++] = received;
 		if (rx_buffer.index == rx_buffer.size)
 		{
-			telegramInBuffer=true;
+			if (received == FRAME_END_CHAR) {
+				usartSendError(telegram_too_long_e);
+			} else {
+				telegramInBuffer=true;
+			}
 		}
 
 	}
@@ -296,12 +326,12 @@ ISR(USART_UDRE_vect)
 	if (tx_buffer.size == tx_buffer.index) {
 		UDR = FRAME_END_CHAR;
 		UCSRB &= ~(1<<UDRIE);                           // Stop UDR empty interrupt : TX End
-	} else {
+		} else {
 		UDR = tx_buffer.data[tx_buffer.index++];
 	}
 }
 
-void usartSendAction(trigger_t* trigger, uint8_t destination)
+void usartSendAction(trigger_t* const trigger, const uint8_t destination)
 {
 	waitUntilSendingOver();
 	action_triggered_t* telegram = (action_triggered_t*)tx_buffer.data;
@@ -311,9 +341,13 @@ void usartSendAction(trigger_t* trigger, uint8_t destination)
 	telegram->header.source = THIS_DEVICE_ADDRESS;
 	telegram->header.destination = destination;
 	telegram->header.size = sizeof(*trigger)+sizeof(info_t);
+	#ifndef RELAY_16_BOARD
 	telegram->info.inputs = ioGetInputs();
+	#endif
 	telegram->info.outputs = ioGetOutputs();
+	#ifndef NO_TRIGGERS
 	telegram->info.states = getState();
+	#endif
 	initSending();
 }
 

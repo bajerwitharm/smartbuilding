@@ -1,5 +1,3 @@
-#include "timer.h"
-#include "global.h"
 /*
  * usart.h
  *
@@ -17,7 +15,7 @@
 #define THIS_DEVICE_ADDRESS 0x0B//adress of this device on the bus
 
 void usartInit(void);
-void usartSendAction(trigger_t* trigger, uint8_t destination);
+void usartSendAction(trigger_t* const trigger, const uint8_t destination);
 bool usartIsTelegramInBuffer();
 void usartClearBuffer();
 void usartHandleTelegram(void);

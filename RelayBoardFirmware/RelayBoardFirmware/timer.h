@@ -5,7 +5,7 @@
  *  Author: Marcin Bajer
  */ 
 
-
+#include "global.h"
 #ifndef TIMER_H_
 #define TIMER_H_
 

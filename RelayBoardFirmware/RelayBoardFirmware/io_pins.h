@@ -12,10 +12,10 @@
 #define IO_PINS_
 
 void ioInit(void);
-void ioSetOutput(outputs_t outputs);
-void ioResetOutput(outputs_t outputs);
-void ioToggleOutput(outputs_t outputs);
-uint16_t ioGetInputs();
-uint8_t ioGetOutputs();
+void ioSetOutput(const outputs_t outputs);
+void ioResetOutput(const outputs_t outputs);
+void ioToggleOutput(const outputs_t outputs);
+inputs_t ioGetInputs();
+outputs_t ioGetOutputs();
 
 #endif /* IO_PINS_ */

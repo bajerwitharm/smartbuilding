@@ -83,14 +83,15 @@
 #define CORRIDOR_LAMP_AUTO_OFF 0x400
 #endif
 
-#define MOTION_DETECTION_ENABLED
-#define MANUAL_ON_ENABLED
+//#define MOTION_DETECTION_ENABLED
+//#define MANUAL_ON_ENABLED
 
 #define SHORT_CLICK_TIME 200
 #define LONG_CLICK_TIME 1000
 #define VERY_LONG_CLICK_TIME 25000
 #define LONGER_VERY_LONG_CLICK_TIME 30000
 
+#ifndef NO_TRIGGERS
 trigger_t triggers[] = {
 	// Heardbeat1
 	{
@@ -99,6 +100,7 @@ trigger_t triggers[] = {
 		},
 		.actuator = {
 			.state_toggle = HEARDBEAT_STATE,
+			.output_toggle = RELAY_1,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(HEARDBEAT_TIME),
@@ -111,6 +113,7 @@ trigger_t triggers[] = {
 		},
 		.actuator = {
 			.state_toggle = HEARDBEAT_STATE,
+			.output_toggle = RELAY_2,
 		},
 		.timer = {
 			.time_preload = TIMER_MS_TO_TIMER(HEARDBEAT_TIME),
@@ -750,4 +753,4 @@ const uint8_t getNumberOfTriggers()
 	static const uint8_t number_of_triggers =  sizeof(triggers) / sizeof(triggers[0]);
 	return number_of_triggers;
 }
-
+#endif

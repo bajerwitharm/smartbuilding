@@ -8,7 +8,7 @@
 #include "io_pins.h"
 #include "usart.h"
 #include "timer.h"
-#include "triggers.h"
+
 #include <avr/interrupt.h>
 #include "usart.h"
 
@@ -24,9 +24,11 @@ int main(void)
 			usartClearBuffer();
 			usartHandleTelegram();
 		}
+#ifndef NO_TRIGGERS
 		if (timerTriggered) {
 			timerTriggered = false;
 			processTriggers();
 		}
+#endif
 	}
 }

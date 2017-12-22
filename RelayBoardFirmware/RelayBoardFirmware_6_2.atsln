@@ -1,0 +1,20 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "RelayBoardFirmware", "RelayBoardFirmware\RelayBoardFirmware_6_2.cproj", "{3D6F5FF7-D05E-40B0-97F2-5D3B1E3A3392}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D6F5FF7-D05E-40B0-97F2-5D3B1E3A3392}.Debug|AVR.ActiveCfg = Debug|AVR
+		{3D6F5FF7-D05E-40B0-97F2-5D3B1E3A3392}.Debug|AVR.Build.0 = Debug|AVR
+		{3D6F5FF7-D05E-40B0-97F2-5D3B1E3A3392}.Release|AVR.ActiveCfg = Release|AVR
+		{3D6F5FF7-D05E-40B0-97F2-5D3B1E3A3392}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
